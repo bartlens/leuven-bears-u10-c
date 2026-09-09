@@ -1,0 +1,145 @@
+import { SectionHeader } from '../components/SectionHeader'
+import {
+  trainings,
+  whatToBring,
+  coachNotes,
+  getUpcomingDatedTrainings,
+} from '../data/trainings'
+import { team } from '../data/team'
+import { attendanceCopy, links } from '../data/links'
+
+function formatTrainingDate(iso: string) {
+  return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
+export function Trainingen() {
+  const upcomingDated = getUpcomingDatedTrainings()
+
+  return (
+    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+      <SectionHeader
+        eyebrow="Schedule"
+        title="Trainingen"
+        subtitle={`Vaste planning seizoen ${team.seasonShort}: maandag Heilig-Hart Heverlee, donderdag Campus Redingenhof.`}
+      />
+
+      <a
+        href={links.attendanceSpreadsheet}
+        target="_blank"
+        rel="noreferrer"
+        className="card-lift mb-8 flex flex-col gap-2 rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
+            Aanwezigheid
+          </p>
+          <p className="mt-1 font-display text-lg font-bold text-cream">
+            Spreadsheet wedstrijden + trainingen
+          </p>
+          <p className="mt-1 max-w-2xl text-sm text-muted">
+            {attendanceCopy.blurb}
+          </p>
+        </div>
+        <span className="shrink-0 self-start rounded-full bg-hoop px-4 py-2 text-sm font-bold text-white sm:self-center">
+          Openen →
+        </span>
+      </a>
+
+      <section className="mb-10">
+        <h2 className="mb-4 font-display text-xl font-bold text-cream">
+          Aankomende trainingen ({upcomingDated.length})
+        </h2>
+        {upcomingDated.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-white/15 bg-ink-soft px-5 py-6 text-sm text-muted">
+            Geen gedateerde trainingen meer in de spreadsheet — daarna geldt het
+            vaste Ma/Do-schema hieronder.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {upcomingDated.map((t, i) => (
+              <article
+                key={t.id}
+                className="card-lift animate-in flex flex-col gap-2 rounded-2xl border border-white/10 bg-panel px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+                style={{ animationDelay: `${i * 0.03}s` }}
+              >
+                <div>
+                  <p className="font-display text-lg font-bold text-cream">
+                    {formatTrainingDate(t.dateIso)}
+                  </p>
+                  <p className="text-sm text-muted">
+                    {t.time} · {t.location}
+                  </p>
+                </div>
+                <span className="self-start rounded-full bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright sm:self-center">
+                  {t.day}
+                </span>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        {trainings.map((t, i) => (
+          <article
+            key={t.id}
+            className="card-lift animate-in rounded-3xl border border-white/10 bg-panel p-6"
+            style={{ animationDelay: `${i * 0.06}s` }}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-display text-2xl font-bold text-cream">
+                {t.day}
+              </h2>
+              <span className="rounded-full bg-hoop/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright">
+                Wekelijks
+              </span>
+            </div>
+            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
+            <p className="mt-1 text-muted">{t.location}</p>
+            <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
+              Focus: {t.focus}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <section className="rounded-3xl border border-hoop/25 bg-hoop/5 p-6">
+          <h3 className="font-display text-lg font-bold text-hoop-bright">
+            Wat meebrengen?
+          </h3>
+          <ul className="mt-4 space-y-2">
+            {whatToBring.map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-cream/90">
+                <span className="text-hoop-bright" aria-hidden>
+                  ✓
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="rounded-3xl border border-white/10 bg-bear/30 p-6">
+          <h3 className="font-display text-lg font-bold text-warm">
+            Coach notes
+          </h3>
+          <ul className="mt-4 space-y-3">
+            {coachNotes.map((note) => (
+              <li key={note} className="text-sm leading-relaxed text-cream/90">
+                → {note}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-muted">
+            Thuiszaal: {team.hall.name}, {team.hall.address}, {team.hall.city}
+          </p>
+        </section>
+      </div>
+    </div>
+  )
+}

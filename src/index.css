@@ -1,0 +1,1632 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Outfit", ui-sans-serif, sans-serif;
+  --color-hoop: #f38019;
+  --color-hoop-bright: #ff7e1f;
+  --color-bear: #31404b;
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #111416;
+  --color-panel: #1a2127;
+  --color-cream: #fff8f0;
+  --color-muted: #9aa3ab;
+  --color-warm: #e8c4a0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  background: var(--color-ink);
+  color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-hoop);
+  color: white;
+}
+
+@keyframes float-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes badge-pop {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.08) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(243, 128, 25, 0.45); }
+  50% { box-shadow: 0 0 28px 6px rgba(243, 128, 25, 0.25); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float-bounce 3s ease-in-out infinite;
+}
+
+.animate-badge {
+  animation: badge-pop 1.6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+.animate-in {
+  animation: slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+.card-lift:hover,
+.card-lift:focus-within,
+.card-lift:active {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -12px rgba(243, 128, 25, 0.35);
+}
+
+.grain {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(243, 128, 25, 0.22), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(49, 64, 75, 0.45), transparent),
+    radial-gradient(ellipse 50% 30% at 50% 100%, rgba(255, 126, 31, 0.08), transparent);
+}
+
+.mesh-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* —— Spelers mannetjes —— */
+.player-card {
+  perspective: 900px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.player-card:hover,
+.player-card:focus-within,
+.player-card:active {
+  transform: translateY(-10px) rotateX(5deg) rotateY(-3deg);
+  box-shadow:
+    0 28px 56px -16px rgba(243, 128, 25, 0.5),
+    0 0 0 1px rgba(243, 128, 25, 0.28),
+    0 0 40px -8px rgba(243, 128, 25, 0.25);
+  border-color: rgba(243, 128, 25, 0.6);
+}
+
+.player-figure {
+  transform-origin: 50% 90%;
+  overflow: visible;
+}
+
+/*
+  CRITICAL: use view-box so transform-origin px values match the SVG viewBox.
+  fill-box + absolute px origins made limbs orbit far outside the silhouette
+  (ragdoll / explode look).
+*/
+.player-figure .pf-char,
+.player-figure .pf-ball,
+.player-figure .pf-arm-r,
+.player-figure .pf-arm-l,
+.player-figure .pf-body,
+.player-figure .pf-legs,
+.player-figure .pf-leg-l,
+.player-figure .pf-leg-r,
+.player-figure .pf-head,
+.player-figure .pf-hair,
+.player-figure .pf-jersey-hem,
+.player-figure .pf-eyes,
+.player-figure .pf-glow,
+.player-figure .pf-shadow,
+.player-figure .pf-rim,
+.player-figure .pf-spark {
+  transform-box: view-box;
+}
+
+.player-figure .pf-char { transform-origin: 70px 146px; }
+.player-figure .pf-ball { transform-origin: 118px 116px; }
+.player-figure .pf-arm-r { transform-origin: 106px 78px; }
+.player-figure .pf-arm-l { transform-origin: 34px 78px; }
+.player-figure .pf-body { transform-origin: 70px 90px; }
+.player-figure .pf-legs { transform-origin: 70px 128px; }
+.player-figure .pf-leg-l { transform-origin: 58px 116px; }
+.player-figure .pf-leg-r { transform-origin: 82px 116px; }
+.player-figure .pf-head { transform-origin: 70px 50px; }
+.player-figure .pf-hair { transform-origin: 70px 30px; }
+.player-figure .pf-jersey-hem { transform-origin: 70px 118px; }
+.player-figure .pf-eyes { transform-origin: 70px 52px; }
+.player-figure .pf-glow { transform-origin: 70px 152px; }
+.player-figure .pf-shadow { transform-origin: 70px 150px; }
+.player-figure .pf-rim { transform-origin: 78px 14px; }
+.player-figure .pf-spark { transform-origin: 108px 36px; }
+
+/* idle breathe — alive before hover */
+.player-figure .pf-char {
+  animation: pf-idle 3.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.player-figure .pf-shadow {
+  animation: pf-shadow-idle 3.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.player-card .pf-glow {
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0.5;
+}
+
+
+.player-card:hover .pf-glow,
+.player-card:focus-within .pf-glow,
+.player-card:active .pf-glow {
+  opacity: 1;
+}
+
+/* secondary motion on hover — hair, hem, eyes stay attached */
+.player-card:hover .pf-hair,
+.player-card:focus-within .pf-hair,
+.player-card:active .pf-hair {
+  animation: pf-hair-bob 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+
+.player-card:hover .pf-jersey-hem,
+.player-card:focus-within .pf-jersey-hem,
+.player-card:active .pf-jersey-hem {
+  animation: pf-hem-sway 0.85s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.player-card:hover .pf-eyes,
+.player-card:focus-within .pf-eyes,
+.player-card:active .pf-eyes {
+  animation: pf-eyes-focus 1.1s ease-in-out infinite;
+}
+
+.player-card:hover .pf-lid,
+.player-card:focus-within .pf-lid,
+.player-card:active .pf-lid {
+  animation: pf-blink 2.6s ease-in-out infinite;
+}
+
+.player-card:hover .pf-eye-shine,
+.player-card:focus-within .pf-eye-shine,
+.player-card:active .pf-eye-shine {
+  animation: pf-shine-twinkle 1.2s ease-in-out infinite;
+}
+
+.player-card:hover .pf-smile,
+.player-card:focus-within .pf-smile,
+.player-card:active .pf-smile {
+  stroke-width: 2.5;
+}
+
+.player-card:hover .pf-spark,
+.player-card:focus-within .pf-spark,
+.player-card:active .pf-spark {
+  animation: pf-twinkle 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+}
+
+.player-card:hover .pf-shadow,
+.player-card:focus-within .pf-shadow,
+.player-card:active .pf-shadow {
+  animation: pf-shadow-active 0.9s ease-in-out infinite;
+}
+
+/* ========== PER-MOVE HOVER (coherent sticker silhouettes) ==========
+   Rule: animate pf-char for whole-body motion; limbs only hinge (rotate)
+   at shoulder/hip — no large translate that tears arms/legs off. Ball may
+   move independently but stays near hand / floor of the action.
+   Easing: snappy cubic-bezier, anticipation + follow-through, ~0.85–1.4s.
+   Mix: freestyle show skills + a few classic game moves.
+*/
+
+/* --- 1. Arm-roll: ball rolls L forearm → shoulders → R arm --- */
+.player-card[data-move="arm-roll"]:hover .pf-char,
+.player-card[data-move="arm-roll"]:focus-within .pf-char,
+.player-card[data-move="arm-roll"]:active .pf-char {
+  animation: move-armroll-char 1.35s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="arm-roll"]:hover .pf-ball,
+.player-card[data-move="arm-roll"]:focus-within .pf-ball,
+.player-card[data-move="arm-roll"]:active .pf-ball {
+  animation: move-armroll-ball 1.35s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="arm-roll"]:hover .pf-arm-l,
+.player-card[data-move="arm-roll"]:focus-within .pf-arm-l,
+.player-card[data-move="arm-roll"]:active .pf-arm-l {
+  animation: move-armroll-arm-l 1.35s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="arm-roll"]:hover .pf-arm-r,
+.player-card[data-move="arm-roll"]:focus-within .pf-arm-r,
+.player-card[data-move="arm-roll"]:active .pf-arm-r {
+  animation: move-armroll-arm-r 1.35s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="arm-roll"]:hover .pf-head,
+.player-card[data-move="arm-roll"]:focus-within .pf-head,
+.player-card[data-move="arm-roll"]:active .pf-head {
+  animation: move-armroll-head 1.35s ease-in-out infinite;
+}
+.player-card[data-move="arm-roll"]:hover .pf-glow,
+.player-card[data-move="arm-roll"]:focus-within .pf-glow,
+.player-card[data-move="arm-roll"]:active .pf-glow {
+  animation: pf-glow-pulse 1.35s ease-in-out infinite;
+}
+
+@keyframes move-armroll-char {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  12% { transform: translateY(2px) rotate(-3deg) scale(1.02, 0.97); }
+  45% { transform: translateY(-2px) rotate(0deg) scale(0.99, 1.02); }
+  78% { transform: translateY(1px) rotate(3deg) scale(1.02, 0.97); }
+}
+@keyframes move-armroll-ball {
+  /* path: left hand → left forearm → L shoulder → neck → R shoulder → R forearm → R hand */
+  0% { transform: translate(-86px, -8px) rotate(0deg) scale(0.92); }
+  12% { transform: translate(-78px, -28px) rotate(50deg) scale(0.9); }
+  28% { transform: translate(-68px, -52px) rotate(110deg) scale(0.88); }
+  42% { transform: translate(-48px, -70px) rotate(180deg) scale(0.86); }
+  58% { transform: translate(-26px, -68px) rotate(250deg) scale(0.88); }
+  72% { transform: translate(-10px, -42px) rotate(310deg) scale(0.9); }
+  88% { transform: translate(-2px, -14px) rotate(350deg) scale(0.94); }
+  100% { transform: translate(0, 0) rotate(400deg) scale(1); }
+}
+@keyframes move-armroll-arm-l {
+  0%, 12% { transform: rotate(-28deg); } /* offer ball */
+  42% { transform: rotate(-8deg); }
+  72%, 100% { transform: rotate(6deg); }
+}
+@keyframes move-armroll-arm-r {
+  0%, 28% { transform: rotate(8deg); }
+  58% { transform: rotate(-18deg); }
+  78% { transform: rotate(22deg); } /* catch */
+  100% { transform: rotate(10deg); }
+}
+@keyframes move-armroll-head {
+  0%, 100% { transform: rotate(0deg); }
+  28% { transform: rotate(-4deg); }
+  72% { transform: rotate(5deg); }
+}
+
+/* --- 2. Finger-spin + toss to other hand --- */
+.player-card[data-move="finger-spin"]:hover .pf-char,
+.player-card[data-move="finger-spin"]:focus-within .pf-char,
+.player-card[data-move="finger-spin"]:active .pf-char {
+  animation: move-fspin-char 1.4s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="finger-spin"]:hover .pf-ball,
+.player-card[data-move="finger-spin"]:focus-within .pf-ball,
+.player-card[data-move="finger-spin"]:active .pf-ball {
+  animation: move-fspin-ball 1.4s cubic-bezier(0.33, 0.1, 0.25, 1) infinite;
+}
+.player-card[data-move="finger-spin"]:hover .pf-arm-r,
+.player-card[data-move="finger-spin"]:focus-within .pf-arm-r,
+.player-card[data-move="finger-spin"]:active .pf-arm-r {
+  animation: move-fspin-arm-r 1.4s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="finger-spin"]:hover .pf-arm-l,
+.player-card[data-move="finger-spin"]:focus-within .pf-arm-l,
+.player-card[data-move="finger-spin"]:active .pf-arm-l {
+  animation: move-fspin-arm-l 1.4s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="finger-spin"]:hover .pf-head,
+.player-card[data-move="finger-spin"]:focus-within .pf-head,
+.player-card[data-move="finger-spin"]:active .pf-head {
+  animation: move-fspin-head 1.4s ease-in-out infinite;
+}
+.player-card[data-move="finger-spin"]:hover .pf-glow,
+.player-card[data-move="finger-spin"]:focus-within .pf-glow,
+.player-card[data-move="finger-spin"]:active .pf-glow {
+  animation: pf-glow-pulse 0.7s ease-in-out infinite;
+}
+
+@keyframes move-fspin-char {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  10% { transform: translateY(2px) scale(1.03, 0.96); }
+  35% { transform: translateY(-3px) scale(0.99, 1.02); }
+  62% { transform: translateY(-2px) scale(1, 1); }
+  78% { transform: translateY(1px) scale(1.02, 0.98); }
+}
+@keyframes move-fspin-ball {
+  /* rise to raised R index, spin in place, arc toss to L hand */
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  12% { transform: translate(-6px, -28px) rotate(90deg) scale(0.94); }
+  22% { transform: translate(-10px, -56px) rotate(200deg) scale(0.88); }
+  32% { transform: translate(-8px, -58px) rotate(360deg) scale(0.86); }
+  42% { transform: translate(-10px, -56px) rotate(540deg) scale(0.86); }
+  52% { transform: translate(-8px, -58px) rotate(720deg) scale(0.88); } /* stall spin */
+  62% { transform: translate(-28px, -72px) rotate(800deg) scale(0.9); } /* toss apex */
+  78% { transform: translate(-62px, -36px) rotate(900deg) scale(0.92); }
+  92% { transform: translate(-82px, -8px) rotate(980deg) scale(0.94); }
+  100% { transform: translate(-86px, -6px) rotate(1040deg) scale(0.96); }
+}
+@keyframes move-fspin-arm-r {
+  0% { transform: rotate(8deg); }
+  12% { transform: rotate(-28deg); }
+  22%, 52% { transform: rotate(-62deg); } /* finger up */
+  62% { transform: rotate(-48deg); } /* flick toss */
+  78% { transform: rotate(-12deg); }
+  100% { transform: rotate(6deg); }
+}
+@keyframes move-fspin-arm-l {
+  0%, 52% { transform: rotate(-6deg); }
+  62% { transform: rotate(8deg); }
+  78% { transform: rotate(28deg); } /* catch */
+  100% { transform: rotate(14deg); }
+}
+@keyframes move-fspin-head {
+  0%, 50% { transform: rotate(0deg); }
+  22%, 42% { transform: rotate(4deg); } /* watch the spin */
+  78% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* --- 3. Between-the-legs --- */
+.player-card[data-move="between-legs"]:hover .pf-char,
+.player-card[data-move="between-legs"]:focus-within .pf-char,
+.player-card[data-move="between-legs"]:active .pf-char {
+  animation: move-btl-char 0.9s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-ball,
+.player-card[data-move="between-legs"]:focus-within .pf-ball,
+.player-card[data-move="between-legs"]:active .pf-ball {
+  animation: move-btl-ball 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-leg-l,
+.player-card[data-move="between-legs"]:focus-within .pf-leg-l,
+.player-card[data-move="between-legs"]:active .pf-leg-l {
+  animation: move-btl-leg-l 0.9s ease-in-out infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-leg-r,
+.player-card[data-move="between-legs"]:focus-within .pf-leg-r,
+.player-card[data-move="between-legs"]:active .pf-leg-r {
+  animation: move-btl-leg-r 0.9s ease-in-out infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-arm-r,
+.player-card[data-move="between-legs"]:focus-within .pf-arm-r,
+.player-card[data-move="between-legs"]:active .pf-arm-r {
+  animation: move-btl-arm-r 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-arm-l,
+.player-card[data-move="between-legs"]:focus-within .pf-arm-l,
+.player-card[data-move="between-legs"]:active .pf-arm-l {
+  animation: move-btl-arm-l 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="between-legs"]:hover .pf-glow {
+  animation: pf-glow-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes move-btl-char {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(2px) scale(1.03, 0.96); }
+  50% { transform: translateY(-4px) scale(1.02, 0.98); }
+  80% { transform: translateY(1px) scale(1.01, 0.99); }
+}
+@keyframes move-btl-ball {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-14px, 8px) rotate(40deg); }
+  40% { transform: translate(-28px, 16px) rotate(90deg) scale(0.9); }
+  55% { transform: translate(-48px, 4px) rotate(160deg) scale(0.86); }
+  75% { transform: translate(-68px, 14px) rotate(230deg) scale(0.92); }
+  100% { transform: translate(-80px, 2px) rotate(300deg); }
+}
+@keyframes move-btl-leg-l {
+  0%, 100% { transform: rotate(0deg); }
+  40% { transform: rotate(-12deg); }
+  55% { transform: rotate(-8deg); }
+}
+@keyframes move-btl-leg-r {
+  0%, 100% { transform: rotate(0deg); }
+  40% { transform: rotate(12deg); }
+  55% { transform: rotate(8deg); }
+}
+@keyframes move-btl-arm-r {
+  0%, 100% { transform: rotate(14deg); }
+  40% { transform: rotate(-18deg); }
+  75% { transform: rotate(8deg); }
+}
+@keyframes move-btl-arm-l {
+  0%, 45% { transform: rotate(-6deg); }
+  75% { transform: rotate(22deg); }
+  100% { transform: rotate(10deg); }
+}
+
+/* --- 4. Behind-the-back --- */
+.player-card[data-move="behind-back"]:hover .pf-char,
+.player-card[data-move="behind-back"]:focus-within .pf-char,
+.player-card[data-move="behind-back"]:active .pf-char {
+  animation: move-bb-char 1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="behind-back"]:hover .pf-ball,
+.player-card[data-move="behind-back"]:focus-within .pf-ball,
+.player-card[data-move="behind-back"]:active .pf-ball {
+  animation: move-bb-ball 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.player-card[data-move="behind-back"]:hover .pf-arm-r,
+.player-card[data-move="behind-back"]:focus-within .pf-arm-r,
+.player-card[data-move="behind-back"]:active .pf-arm-r {
+  animation: move-bb-arm-r 1s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-back"]:hover .pf-arm-l,
+.player-card[data-move="behind-back"]:focus-within .pf-arm-l,
+.player-card[data-move="behind-back"]:active .pf-arm-l {
+  animation: move-bb-arm-l 1s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-back"]:hover .pf-glow {
+  animation: pf-glow-pulse 1s ease-in-out infinite;
+}
+
+@keyframes move-bb-char {
+  0%, 100% { transform: rotate(0deg) scale(1, 1); }
+  15% { transform: rotate(3deg) scale(1.02, 0.97); }
+  42% { transform: rotate(-8deg) scale(0.97, 1.03); }
+  72% { transform: rotate(6deg) scale(0.98, 1.02); }
+}
+@keyframes move-bb-ball {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  18% { transform: translate(-12px, -6px) rotate(-40deg); opacity: 1; }
+  40% { transform: translate(-38px, -16px) rotate(-110deg) scale(0.9); opacity: 0.7; }
+  58% { transform: translate(-64px, -2px) rotate(-190deg) scale(0.86); opacity: 0.5; }
+  78% { transform: translate(-78px, 6px) rotate(-270deg) scale(0.94); opacity: 0.9; }
+  100% { transform: translate(-80px, 4px) rotate(-330deg); opacity: 1; }
+}
+@keyframes move-bb-arm-r {
+  0%, 100% { transform: rotate(10deg); }
+  15% { transform: rotate(18deg); }
+  42% { transform: rotate(-32deg); }
+  72% { transform: rotate(4deg); }
+}
+@keyframes move-bb-arm-l {
+  0%, 40% { transform: rotate(0deg); }
+  58% { transform: rotate(12deg); }
+  78% { transform: rotate(32deg); }
+  100% { transform: rotate(14deg); }
+}
+
+/* --- 5. Crossover --- */
+.player-card[data-move="crossover"]:hover .pf-char,
+.player-card[data-move="crossover"]:focus-within .pf-char,
+.player-card[data-move="crossover"]:active .pf-char {
+  animation: move-crossover-char 0.85s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-ball,
+.player-card[data-move="crossover"]:focus-within .pf-ball,
+.player-card[data-move="crossover"]:active .pf-ball {
+  animation: move-crossover-ball 0.85s cubic-bezier(0.22, 0.8, 0.25, 1) infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-arm-r,
+.player-card[data-move="crossover"]:focus-within .pf-arm-r,
+.player-card[data-move="crossover"]:active .pf-arm-r {
+  animation: move-crossover-arm-r 0.85s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-arm-l,
+.player-card[data-move="crossover"]:focus-within .pf-arm-l,
+.player-card[data-move="crossover"]:active .pf-arm-l {
+  animation: move-crossover-arm-l 0.85s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-leg-l,
+.player-card[data-move="crossover"]:focus-within .pf-leg-l,
+.player-card[data-move="crossover"]:active .pf-leg-l {
+  animation: move-crossover-leg-l 0.85s ease-in-out infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-leg-r,
+.player-card[data-move="crossover"]:focus-within .pf-leg-r,
+.player-card[data-move="crossover"]:active .pf-leg-r {
+  animation: move-crossover-leg-r 0.85s ease-in-out infinite;
+}
+.player-card[data-move="crossover"]:hover .pf-glow,
+.player-card[data-move="crossover"]:focus-within .pf-glow,
+.player-card[data-move="crossover"]:active .pf-glow {
+  animation: pf-glow-pulse 0.85s ease-in-out infinite;
+}
+
+@keyframes move-crossover-char {
+  0%, 100% { transform: translateX(0) rotate(0deg) scale(1, 1); }
+  12% { transform: translateX(-2px) rotate(-2deg) scale(1.03, 0.96); }
+  30% { transform: translateX(-7px) rotate(-7deg) scale(1.02, 0.97); }
+  50% { transform: translateX(0) rotate(0deg) scale(0.98, 1.03); }
+  70% { transform: translateX(7px) rotate(7deg) scale(1.02, 0.97); }
+  88% { transform: translateX(2px) rotate(2deg) scale(1.01, 0.99); }
+}
+@keyframes move-crossover-ball {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  15% { transform: translate(-8px, 4px) rotate(-30deg); }
+  30% { transform: translate(-40px, 10px) rotate(-90deg); }
+  50% { transform: translate(-24px, 0px) rotate(-160deg) scale(0.95); }
+  70% { transform: translate(4px, 10px) rotate(-240deg); }
+  88% { transform: translate(2px, 2px) rotate(-300deg); }
+}
+@keyframes move-crossover-arm-r {
+  0%, 100% { transform: rotate(8deg); }
+  12% { transform: rotate(14deg); }
+  30% { transform: rotate(-22deg); }
+  70% { transform: rotate(26deg); }
+}
+@keyframes move-crossover-arm-l {
+  0%, 100% { transform: rotate(-8deg); }
+  12% { transform: rotate(-14deg); }
+  30% { transform: rotate(18deg); }
+  70% { transform: rotate(-24deg); }
+}
+@keyframes move-crossover-leg-l {
+  0%, 50%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-6deg); }
+  70% { transform: rotate(4deg); }
+}
+@keyframes move-crossover-leg-r {
+  0%, 50%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(4deg); }
+  70% { transform: rotate(-6deg); }
+}
+
+/* --- 6. Dunk --- */
+.player-card[data-move="dunk"]:hover .pf-char,
+.player-card[data-move="dunk"]:focus-within .pf-char,
+.player-card[data-move="dunk"]:active .pf-char {
+  animation: move-dunk-char 1.3s cubic-bezier(0.22, 1.3, 0.36, 1) infinite;
+}
+.player-card[data-move="dunk"]:hover .pf-ball,
+.player-card[data-move="dunk"]:focus-within .pf-ball,
+.player-card[data-move="dunk"]:active .pf-ball {
+  animation: move-dunk-ball 1.3s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="dunk"]:hover .pf-arm-r,
+.player-card[data-move="dunk"]:focus-within .pf-arm-r,
+.player-card[data-move="dunk"]:active .pf-arm-r {
+  animation: move-dunk-arm-r 1.3s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="dunk"]:hover .pf-arm-l,
+.player-card[data-move="dunk"]:focus-within .pf-arm-l,
+.player-card[data-move="dunk"]:active .pf-arm-l {
+  animation: move-dunk-arm-l 1.3s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="dunk"]:hover .pf-rim,
+.player-card[data-move="dunk"]:focus-within .pf-rim,
+.player-card[data-move="dunk"]:active .pf-rim {
+  animation: move-dunk-rim 1.3s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+}
+.player-card[data-move="dunk"]:hover .pf-glow,
+.player-card[data-move="dunk"]:focus-within .pf-glow,
+.player-card[data-move="dunk"]:active .pf-glow {
+  animation: move-dunk-glow 1.3s ease-in-out infinite;
+}
+
+@keyframes move-dunk-char {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  12% { transform: translateY(5px) scale(1.08, 0.88); }
+  42% { transform: translateY(-38px) scale(0.95, 1.08); }
+  55% { transform: translateY(-36px) scale(0.94, 1.06); }
+  78% { transform: translateY(5px) scale(1.08, 0.88); }
+  90% { transform: translateY(0) scale(1.02, 0.98); }
+}
+@keyframes move-dunk-ball {
+  0%, 12% { transform: translate(-6px, -6px) rotate(0deg); }
+  42% { transform: translate(-24px, -62px) rotate(45deg); }
+  55% { transform: translate(-26px, -72px) rotate(60deg); }
+  78% { transform: translate(-14px, -18px) rotate(95deg); }
+  100% { transform: translate(-6px, -6px) rotate(130deg); }
+}
+@keyframes move-dunk-arm-r {
+  0%, 12% { transform: rotate(-12deg); }
+  42% { transform: rotate(-68deg); }
+  55% { transform: rotate(-72deg); }
+  100% { transform: rotate(-10deg); }
+}
+@keyframes move-dunk-arm-l {
+  0%, 12% { transform: rotate(12deg); }
+  42% { transform: rotate(58deg); }
+  55% { transform: rotate(66deg); }
+  100% { transform: rotate(10deg); }
+}
+@keyframes move-dunk-rim {
+  0%, 35% { opacity: 0; transform: translateY(8px) scale(0.88); }
+  48% { opacity: 1; transform: translateY(0) scale(1); }
+  55% { opacity: 1; transform: translateY(3px) scale(1.06, 0.9) rotate(-4deg); }
+  72% { opacity: 1; transform: translateY(0) scale(1) rotate(2deg); }
+  100% { opacity: 0.3; transform: translateY(-1px); }
+}
+@keyframes move-dunk-glow {
+  0%, 100% { opacity: 0.55; transform: scaleX(1); }
+  42% { opacity: 1; transform: scaleX(0.7); }
+  55% { opacity: 1; transform: scaleX(1.15); }
+  78% { opacity: 1; transform: scaleX(1.45); }
+}
+
+/* --- 7. Rebound snatch --- */
+.player-card[data-move="rebound"]:hover .pf-char,
+.player-card[data-move="rebound"]:focus-within .pf-char,
+.player-card[data-move="rebound"]:active .pf-char {
+  animation: move-reb-char 1.25s cubic-bezier(0.34, 1.25, 0.64, 1) infinite;
+}
+.player-card[data-move="rebound"]:hover .pf-ball,
+.player-card[data-move="rebound"]:focus-within .pf-ball,
+.player-card[data-move="rebound"]:active .pf-ball {
+  animation: move-reb-ball 1.25s cubic-bezier(0.22, 0.9, 0.3, 1) infinite;
+}
+.player-card[data-move="rebound"]:hover .pf-arm-r,
+.player-card[data-move="rebound"]:focus-within .pf-arm-r,
+.player-card[data-move="rebound"]:active .pf-arm-r {
+  animation: move-reb-arm-r 1.25s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="rebound"]:hover .pf-arm-l,
+.player-card[data-move="rebound"]:focus-within .pf-arm-l,
+.player-card[data-move="rebound"]:active .pf-arm-l {
+  animation: move-reb-arm-l 1.25s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="rebound"]:hover .pf-rim,
+.player-card[data-move="rebound"]:focus-within .pf-rim,
+.player-card[data-move="rebound"]:active .pf-rim {
+  animation: move-reb-rim 1.25s ease-in-out infinite;
+}
+.player-card[data-move="rebound"]:hover .pf-glow {
+  animation: move-dunk-glow 1.25s ease-in-out infinite;
+}
+
+@keyframes move-reb-char {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  14% { transform: translateY(4px) scale(1.06, 0.9); }
+  42% { transform: translateY(-32px) scale(0.96, 1.07); }
+  58% { transform: translateY(-30px) scale(0.95, 1.05); }
+  82% { transform: translateY(4px) scale(1.06, 0.9); }
+}
+@keyframes move-reb-ball {
+  0%, 12% { transform: translate(-20px, -72px) rotate(0deg) scale(0.88); opacity: 0.8; }
+  38% { transform: translate(-22px, -64px) rotate(18deg) scale(0.94); opacity: 1; }
+  55% { transform: translate(-20px, -48px) rotate(42deg); }
+  82% { transform: translate(-12px, -16px) rotate(75deg); }
+  100% { transform: translate(-8px, -4px) rotate(95deg); }
+}
+@keyframes move-reb-arm-r {
+  0%, 100% { transform: rotate(-10deg); }
+  14% { transform: rotate(-18deg); }
+  42% { transform: rotate(-62deg); }
+  58% { transform: rotate(-54deg); }
+}
+@keyframes move-reb-arm-l {
+  0%, 100% { transform: rotate(10deg); }
+  14% { transform: rotate(18deg); }
+  42% { transform: rotate(56deg); }
+  58% { transform: rotate(50deg); }
+}
+@keyframes move-reb-rim {
+  0%, 18% { opacity: 0; transform: scale(0.88); }
+  32%, 68% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.25; }
+}
+
+/* --- 8. Fake pass → explode dribble --- */
+.player-card[data-move="hesitation"]:hover .pf-char,
+.player-card[data-move="hesitation"]:focus-within .pf-char,
+.player-card[data-move="hesitation"]:active .pf-char {
+  animation: move-hes-char 1.2s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="hesitation"]:hover .pf-head,
+.player-card[data-move="hesitation"]:focus-within .pf-head,
+.player-card[data-move="hesitation"]:active .pf-head {
+  animation: move-hes-head 1.2s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+}
+.player-card[data-move="hesitation"]:hover .pf-ball,
+.player-card[data-move="hesitation"]:focus-within .pf-ball,
+.player-card[data-move="hesitation"]:active .pf-ball {
+  animation: move-hes-ball 1.2s cubic-bezier(0.2, 0.85, 0.2, 1) infinite;
+}
+.player-card[data-move="hesitation"]:hover .pf-arm-r,
+.player-card[data-move="hesitation"]:focus-within .pf-arm-r,
+.player-card[data-move="hesitation"]:active .pf-arm-r {
+  animation: move-hes-arm-r 1.2s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="hesitation"]:hover .pf-arm-l,
+.player-card[data-move="hesitation"]:focus-within .pf-arm-l,
+.player-card[data-move="hesitation"]:active .pf-arm-l {
+  animation: move-hes-arm-l 1.2s ease-in-out infinite;
+}
+.player-card[data-move="hesitation"]:hover .pf-glow {
+  animation: pf-glow-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes move-hes-char {
+  0%, 28% { transform: translateX(0) rotate(0deg) scale(1, 1); }
+  38% { transform: translateX(-4px) rotate(4deg) scale(1.03, 0.97); }
+  48% { transform: translateX(-2px) rotate(2deg) scale(1.01, 0.99); }
+  52% { transform: translateX(0) rotate(0deg) scale(0.98, 1.02); }
+  72% { transform: translateX(10px) rotate(5deg) scale(1.04, 0.96); }
+  100% { transform: translateX(3px) rotate(1deg) scale(1, 1); }
+}
+@keyframes move-hes-head {
+  0%, 24% { transform: rotate(0deg); }
+  38% { transform: rotate(-14deg); }
+  50%, 100% { transform: rotate(0deg); }
+}
+@keyframes move-hes-ball {
+  0%, 28% { transform: translate(0, 0) rotate(0deg); }
+  38% { transform: translate(20px, -12px) rotate(45deg); }
+  50% { transform: translate(14px, -8px) rotate(30deg); }
+  55% { transform: translate(6px, 2px) rotate(8deg); }
+  72% { transform: translate(-22px, 12px) rotate(-90deg); }
+  100% { transform: translate(0, 4px) rotate(-130deg); }
+}
+@keyframes move-hes-arm-r {
+  0%, 28% { transform: rotate(8deg); }
+  38% { transform: rotate(36deg); }
+  50% { transform: rotate(28deg); }
+  55% { transform: rotate(10deg); }
+  72% { transform: rotate(-18deg); }
+  100% { transform: rotate(6deg); }
+}
+@keyframes move-hes-arm-l {
+  0%, 42% { transform: rotate(-4deg); }
+  55% { transform: rotate(8deg); }
+  72% { transform: rotate(-14deg); }
+  100% { transform: rotate(-4deg); }
+}
+
+/* --- 9. Waist-wrap / around-the-world --- */
+.player-card[data-move="waist-wrap"]:hover .pf-char,
+.player-card[data-move="waist-wrap"]:focus-within .pf-char,
+.player-card[data-move="waist-wrap"]:active .pf-char {
+  animation: move-waist-char 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="waist-wrap"]:hover .pf-ball,
+.player-card[data-move="waist-wrap"]:focus-within .pf-ball,
+.player-card[data-move="waist-wrap"]:active .pf-ball {
+  animation: move-waist-ball 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.player-card[data-move="waist-wrap"]:hover .pf-arm-r,
+.player-card[data-move="waist-wrap"]:focus-within .pf-arm-r,
+.player-card[data-move="waist-wrap"]:active .pf-arm-r {
+  animation: move-waist-arm-r 1.2s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="waist-wrap"]:hover .pf-arm-l,
+.player-card[data-move="waist-wrap"]:focus-within .pf-arm-l,
+.player-card[data-move="waist-wrap"]:active .pf-arm-l {
+  animation: move-waist-arm-l 1.2s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="waist-wrap"]:hover .pf-body,
+.player-card[data-move="waist-wrap"]:focus-within .pf-body,
+.player-card[data-move="waist-wrap"]:active .pf-body {
+  animation: move-waist-body 1.2s ease-in-out infinite;
+}
+.player-card[data-move="waist-wrap"]:hover .pf-glow {
+  animation: pf-glow-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes move-waist-char {
+  0%, 100% { transform: rotate(0deg) scale(1, 1); }
+  20% { transform: rotate(-4deg) scale(1.02, 0.98); }
+  50% { transform: rotate(0deg) scale(0.98, 1.02); }
+  80% { transform: rotate(4deg) scale(1.02, 0.98); }
+}
+@keyframes move-waist-ball {
+  /* circle around hips: front-right → behind → front-left → front-right */
+  0% { transform: translate(-8px, 2px) rotate(0deg) scale(0.94); }
+  12% { transform: translate(-22px, 10px) rotate(45deg) scale(0.9); }
+  25% { transform: translate(-40px, 6px) rotate(100deg) scale(0.86); opacity: 0.75; }
+  38% { transform: translate(-52px, -4px) rotate(160deg) scale(0.84); opacity: 0.55; }
+  50% { transform: translate(-70px, 4px) rotate(220deg) scale(0.86); opacity: 0.75; }
+  62% { transform: translate(-82px, 8px) rotate(280deg) scale(0.9); opacity: 1; }
+  75% { transform: translate(-58px, -2px) rotate(330deg) scale(0.92); }
+  88% { transform: translate(-28px, 6px) rotate(380deg) scale(0.94); }
+  100% { transform: translate(-8px, 2px) rotate(420deg) scale(0.94); }
+}
+@keyframes move-waist-arm-r {
+  0%, 100% { transform: rotate(16deg); }
+  25% { transform: rotate(-8deg); }
+  50% { transform: rotate(6deg); }
+  75% { transform: rotate(22deg); }
+}
+@keyframes move-waist-arm-l {
+  0%, 100% { transform: rotate(-16deg); }
+  25% { transform: rotate(-22deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-6deg); }
+}
+@keyframes move-waist-body {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+/* --- 10. Shoulder / neck roll (tasteful chibi) --- */
+.player-card[data-move="shoulder-roll"]:hover .pf-char,
+.player-card[data-move="shoulder-roll"]:focus-within .pf-char,
+.player-card[data-move="shoulder-roll"]:active .pf-char {
+  animation: move-shroll-char 1.3s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="shoulder-roll"]:hover .pf-ball,
+.player-card[data-move="shoulder-roll"]:focus-within .pf-ball,
+.player-card[data-move="shoulder-roll"]:active .pf-ball {
+  animation: move-shroll-ball 1.3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="shoulder-roll"]:hover .pf-arm-r,
+.player-card[data-move="shoulder-roll"]:focus-within .pf-arm-r,
+.player-card[data-move="shoulder-roll"]:active .pf-arm-r {
+  animation: move-shroll-arm-r 1.3s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="shoulder-roll"]:hover .pf-arm-l,
+.player-card[data-move="shoulder-roll"]:focus-within .pf-arm-l,
+.player-card[data-move="shoulder-roll"]:active .pf-arm-l {
+  animation: move-shroll-arm-l 1.3s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="shoulder-roll"]:hover .pf-head,
+.player-card[data-move="shoulder-roll"]:focus-within .pf-head,
+.player-card[data-move="shoulder-roll"]:active .pf-head {
+  animation: move-shroll-head 1.3s ease-in-out infinite;
+}
+.player-card[data-move="shoulder-roll"]:hover .pf-glow {
+  animation: pf-glow-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes move-shroll-char {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  15% { transform: translateY(2px) rotate(3deg) scale(1.02, 0.97); }
+  50% { transform: translateY(-2px) rotate(0deg) scale(0.99, 1.02); }
+  85% { transform: translateY(1px) rotate(-3deg) scale(1.02, 0.97); }
+}
+@keyframes move-shroll-ball {
+  /* R hand → R shoulder → across neck → L shoulder → L hand */
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  14% { transform: translate(-8px, -28px) rotate(40deg) scale(0.94); }
+  28% { transform: translate(-18px, -62px) rotate(90deg) scale(0.88); }
+  42% { transform: translate(-36px, -74px) rotate(150deg) scale(0.86); }
+  55% { transform: translate(-52px, -76px) rotate(210deg) scale(0.86); }
+  68% { transform: translate(-70px, -62px) rotate(270deg) scale(0.88); }
+  82% { transform: translate(-80px, -28px) rotate(320deg) scale(0.92); }
+  100% { transform: translate(-86px, -6px) rotate(380deg) scale(0.96); }
+}
+@keyframes move-shroll-arm-r {
+  0% { transform: rotate(10deg); }
+  14% { transform: rotate(-20deg); }
+  28%, 42% { transform: rotate(-48deg); } /* guide onto shoulder */
+  68% { transform: rotate(-8deg); }
+  100% { transform: rotate(6deg); }
+}
+@keyframes move-shroll-arm-l {
+  0%, 42% { transform: rotate(-6deg); }
+  55% { transform: rotate(-18deg); }
+  68% { transform: rotate(8deg); }
+  82% { transform: rotate(26deg); } /* catch */
+  100% { transform: rotate(12deg); }
+}
+@keyframes move-shroll-head {
+  0%, 100% { transform: rotate(0deg); }
+  28% { transform: rotate(6deg); } /* duck slightly under the roll */
+  55% { transform: rotate(-4deg); }
+  82% { transform: rotate(-2deg); }
+}
+
+/* --- 11. Lay-up --- */
+.player-card[data-move="layup"]:hover .pf-char,
+.player-card[data-move="layup"]:focus-within .pf-char,
+.player-card[data-move="layup"]:active .pf-char {
+  animation: move-layup-char 1.1s cubic-bezier(0.34, 1.25, 0.64, 1) infinite;
+}
+.player-card[data-move="layup"]:hover .pf-ball,
+.player-card[data-move="layup"]:focus-within .pf-ball,
+.player-card[data-move="layup"]:active .pf-ball {
+  animation: move-layup-ball 1.1s cubic-bezier(0.22, 0.9, 0.3, 1) infinite;
+}
+.player-card[data-move="layup"]:hover .pf-arm-r,
+.player-card[data-move="layup"]:focus-within .pf-arm-r,
+.player-card[data-move="layup"]:active .pf-arm-r {
+  animation: move-layup-arm 1.1s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="layup"]:hover .pf-leg-r,
+.player-card[data-move="layup"]:focus-within .pf-leg-r,
+.player-card[data-move="layup"]:active .pf-leg-r {
+  animation: move-layup-knee 1.1s ease-in-out infinite;
+}
+.player-card[data-move="layup"]:hover .pf-leg-l,
+.player-card[data-move="layup"]:focus-within .pf-leg-l,
+.player-card[data-move="layup"]:active .pf-leg-l {
+  animation: move-layup-plant 1.1s ease-in-out infinite;
+}
+.player-card[data-move="layup"]:hover .pf-glow {
+  animation: pf-glow-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes move-layup-char {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1, 1); }
+  12% { transform: translate(2px, 3px) rotate(1deg) scale(1.04, 0.94); }
+  38% { transform: translate(10px, -18px) rotate(7deg) scale(0.97, 1.05); }
+  58% { transform: translate(14px, -24px) rotate(9deg) scale(0.96, 1.06); }
+  82% { transform: translate(4px, -2px) rotate(2deg) scale(1.04, 0.95); }
+}
+@keyframes move-layup-ball {
+  0%, 14% { transform: translate(0, 0) rotate(0deg); }
+  42% { transform: translate(6px, -42px) rotate(55deg); }
+  62% { transform: translate(12px, -56px) rotate(85deg) scale(0.94); }
+  100% { transform: translate(6px, -20px) rotate(120deg); }
+}
+@keyframes move-layup-arm {
+  0%, 14% { transform: rotate(0deg); }
+  42% { transform: rotate(-55deg); }
+  62% { transform: rotate(-58deg); }
+  100% { transform: rotate(-18deg); }
+}
+@keyframes move-layup-knee {
+  0%, 100% { transform: rotate(0deg); }
+  42% { transform: rotate(-26deg); }
+  62% { transform: rotate(-20deg); }
+}
+@keyframes move-layup-plant {
+  0%, 100% { transform: rotate(0deg); }
+  42% { transform: rotate(8deg); }
+}
+
+/* --- 12. Behind-head / no-look flip --- */
+.player-card[data-move="behind-head"]:hover .pf-char,
+.player-card[data-move="behind-head"]:focus-within .pf-char,
+.player-card[data-move="behind-head"]:active .pf-char {
+  animation: move-bhead-char 1.25s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-head"]:hover .pf-ball,
+.player-card[data-move="behind-head"]:focus-within .pf-ball,
+.player-card[data-move="behind-head"]:active .pf-ball {
+  animation: move-bhead-ball 1.25s cubic-bezier(0.33, 0.1, 0.25, 1) infinite;
+}
+.player-card[data-move="behind-head"]:hover .pf-arm-r,
+.player-card[data-move="behind-head"]:focus-within .pf-arm-r,
+.player-card[data-move="behind-head"]:active .pf-arm-r {
+  animation: move-bhead-arm-r 1.25s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-head"]:hover .pf-arm-l,
+.player-card[data-move="behind-head"]:focus-within .pf-arm-l,
+.player-card[data-move="behind-head"]:active .pf-arm-l {
+  animation: move-bhead-arm-l 1.25s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-head"]:hover .pf-head,
+.player-card[data-move="behind-head"]:focus-within .pf-head,
+.player-card[data-move="behind-head"]:active .pf-head {
+  animation: move-bhead-head 1.25s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+}
+.player-card[data-move="behind-head"]:hover .pf-glow {
+  animation: pf-glow-pulse 1.25s ease-in-out infinite;
+}
+
+@keyframes move-bhead-char {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  14% { transform: translateY(2px) rotate(2deg) scale(1.03, 0.96); }
+  40% { transform: translateY(-3px) rotate(-2deg) scale(0.99, 1.02); }
+  70% { transform: translateY(1px) rotate(3deg) scale(1.02, 0.98); }
+}
+@keyframes move-bhead-ball {
+  /* stall near R ear, flip behind head, catch L */
+  0% { transform: translate(0, 0) rotate(0deg); }
+  12% { transform: translate(-6px, -24px) rotate(40deg) scale(0.94); }
+  28% { transform: translate(-14px, -58px) rotate(120deg) scale(0.88); } /* stall */
+  40% { transform: translate(-18px, -62px) rotate(200deg) scale(0.86); }
+  52% { transform: translate(-40px, -78px) rotate(280deg) scale(0.84); opacity: 0.7; } /* behind head */
+  64% { transform: translate(-62px, -70px) rotate(360deg) scale(0.86); opacity: 0.85; }
+  78% { transform: translate(-78px, -32px) rotate(430deg) scale(0.92); opacity: 1; }
+  100% { transform: translate(-86px, -6px) rotate(500deg) scale(0.96); }
+}
+@keyframes move-bhead-arm-r {
+  0% { transform: rotate(8deg); }
+  12% { transform: rotate(-24deg); }
+  28%, 40% { transform: rotate(-58deg); } /* hold / stall */
+  52% { transform: rotate(-42deg); } /* flip release */
+  78% { transform: rotate(-6deg); }
+  100% { transform: rotate(8deg); }
+}
+@keyframes move-bhead-arm-l {
+  0%, 48% { transform: rotate(-4deg); }
+  64% { transform: rotate(10deg); }
+  78% { transform: rotate(30deg); }
+  100% { transform: rotate(14deg); }
+}
+@keyframes move-bhead-head {
+  0%, 20% { transform: rotate(0deg); }
+  32% { transform: rotate(16deg); } /* look away — no-look */
+  52% { transform: rotate(12deg); }
+  70% { transform: rotate(-4deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* shared helpers */
+@keyframes pf-idle {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-2.5px) scale(1.01, 0.985); }
+}
+
+@keyframes pf-shadow-idle {
+  0%, 100% { transform: scaleX(1); opacity: 0.28; }
+  50% { transform: scaleX(0.92); opacity: 0.22; }
+}
+
+@keyframes pf-shadow-active {
+  0%, 100% { transform: scaleX(1); opacity: 0.32; }
+  50% { transform: scaleX(0.85); opacity: 0.2; }
+}
+
+@keyframes pf-hair-bob {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  35% { transform: rotate(-2.5deg) translateY(-1px); }
+  70% { transform: rotate(2deg) translateY(0.5px); }
+}
+
+@keyframes pf-hem-sway {
+  0%, 100% { transform: rotate(0deg) scaleY(1); }
+  40% { transform: rotate(-3deg) scaleY(1.04); }
+  70% { transform: rotate(2.5deg) scaleY(0.98); }
+}
+
+@keyframes pf-eyes-focus {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes pf-shine-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes pf-glow-pulse {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+@keyframes pf-blink {
+  0%, 42%, 48%, 100% { opacity: 0; ry: 0.5; }
+  45% { opacity: 1; ry: 6; }
+}
+
+@keyframes pf-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(14deg); opacity: 0.7; }
+}
+
+
+/* ========== STAFF POPPETJES (milder, sequential) ========== */
+
+.staff-figure .sf-encourage,
+.staff-figure .sf-laugh-mouth,
+.staff-figure .sf-cheer-smile,
+.staff-figure .sf-eye-squint,
+.staff-figure .sf-cheek,
+.staff-figure .sf-whistle,
+.staff-figure .sf-clipboard,
+.staff-figure .sf-scarf,
+.staff-figure .sf-cheer-bits {
+  transform-box: view-box;
+}
+
+.staff-figure .sf-encourage { transform-origin: 70px 40px; }
+.staff-figure .sf-laugh-mouth { transform-origin: 70px 68px; }
+.staff-figure .sf-cheer-smile { transform-origin: 70px 66px; }
+.staff-figure .sf-eye-squint { transform-origin: 70px 50px; }
+.staff-figure .sf-cheek { transform-origin: 70px 58px; }
+.staff-figure .sf-whistle { transform-origin: 99px 101px; }
+.staff-figure .sf-clipboard { transform-origin: 20px 110px; }
+.staff-figure .sf-scarf { transform-origin: 114px 100px; }
+.staff-figure .sf-cheer-bits { transform-origin: 70px 40px; }
+
+/* --- Jonathan: stomp → laugh + clap (clear sequence) --- */
+.player-card[data-move="stomp-clap"]:hover .pf-char,
+.player-card[data-move="stomp-clap"]:focus-within .pf-char,
+.player-card[data-move="stomp-clap"]:active .pf-char {
+  animation: sf-stompclap-char 2.2s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-leg-l,
+.player-card[data-move="stomp-clap"]:focus-within .pf-leg-l,
+.player-card[data-move="stomp-clap"]:active .pf-leg-l {
+  animation: sf-stompclap-leg-l 2.2s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-leg-r,
+.player-card[data-move="stomp-clap"]:focus-within .pf-leg-r,
+.player-card[data-move="stomp-clap"]:active .pf-leg-r {
+  animation: sf-stompclap-leg-r 2.2s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-arm-l,
+.player-card[data-move="stomp-clap"]:focus-within .pf-arm-l,
+.player-card[data-move="stomp-clap"]:active .pf-arm-l {
+  animation: sf-stompclap-arm-l 2.2s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-arm-r,
+.player-card[data-move="stomp-clap"]:focus-within .pf-arm-r,
+.player-card[data-move="stomp-clap"]:active .pf-arm-r {
+  animation: sf-stompclap-arm-r 2.2s cubic-bezier(0.34, 1.15, 0.64, 1) infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-head,
+.player-card[data-move="stomp-clap"]:focus-within .pf-head,
+.player-card[data-move="stomp-clap"]:active .pf-head {
+  animation: sf-stompclap-head 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-laugh-mouth,
+.player-card[data-move="stomp-clap"]:focus-within .sf-laugh-mouth,
+.player-card[data-move="stomp-clap"]:active .sf-laugh-mouth {
+  animation: sf-stompclap-mouth 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-smile-idle,
+.player-card[data-move="stomp-clap"]:focus-within .sf-smile-idle,
+.player-card[data-move="stomp-clap"]:active .sf-smile-idle {
+  animation: sf-stompclap-smilehide 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-eye-open,
+.player-card[data-move="stomp-clap"]:focus-within .sf-eye-open,
+.player-card[data-move="stomp-clap"]:active .sf-eye-open {
+  animation: sf-stompclap-eyehide 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-eye-squint,
+.player-card[data-move="stomp-clap"]:focus-within .sf-eye-squint,
+.player-card[data-move="stomp-clap"]:active .sf-eye-squint {
+  animation: sf-stompclap-squint 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-whistle,
+.player-card[data-move="stomp-clap"]:focus-within .sf-whistle,
+.player-card[data-move="stomp-clap"]:active .sf-whistle {
+  animation: sf-whistle-bounce 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .sf-clipboard,
+.player-card[data-move="stomp-clap"]:focus-within .sf-clipboard,
+.player-card[data-move="stomp-clap"]:active .sf-clipboard {
+  animation: sf-clipboard-tilt 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-shadow,
+.player-card[data-move="stomp-clap"]:focus-within .pf-shadow,
+.player-card[data-move="stomp-clap"]:active .pf-shadow {
+  animation: sf-stompclap-shadow 2.2s ease-in-out infinite;
+}
+.player-card[data-move="stomp-clap"]:hover .pf-glow,
+.player-card[data-move="stomp-clap"]:focus-within .pf-glow,
+.player-card[data-move="stomp-clap"]:active .pf-glow {
+  animation: pf-glow-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes sf-stompclap-char {
+  /* phase 1: stomp compress · phase 2: laugh bounce */
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  8% { transform: translateY(4px) scale(1.04, 0.94); }   /* stomp L */
+  16% { transform: translateY(0) scale(1, 1); }
+  24% { transform: translateY(5px) scale(1.05, 0.92); }  /* stomp R */
+  32% { transform: translateY(0) scale(1, 1); }
+  40% { transform: translateY(4px) scale(1.03, 0.95); }  /* last stomp */
+  48% { transform: translateY(-2px) scale(0.99, 1.02); } /* into laugh */
+  58%, 72%, 86% { transform: translateY(-3px) scale(1.01, 0.99) rotate(-2deg); }
+  65%, 79%, 93% { transform: translateY(1px) scale(1.02, 0.98) rotate(2deg); }
+}
+@keyframes sf-stompclap-leg-l {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  8% { transform: rotate(-6deg) translateY(3px); }
+  16% { transform: rotate(0deg) translateY(0); }
+  24% { transform: rotate(4deg) translateY(0); }
+  32%, 40% { transform: rotate(0deg) translateY(0); }
+  50%, 100% { transform: rotate(0deg) translateY(0); }
+}
+@keyframes sf-stompclap-leg-r {
+  0%, 16% { transform: rotate(0deg) translateY(0); }
+  8% { transform: rotate(4deg) translateY(0); }
+  24% { transform: rotate(8deg) translateY(4px); }
+  32% { transform: rotate(0deg) translateY(0); }
+  40% { transform: rotate(6deg) translateY(3px); }
+  48%, 100% { transform: rotate(0deg) translateY(0); }
+}
+@keyframes sf-stompclap-arm-l {
+  /* idle during stomp, then clap inward */
+  0%, 42% { transform: rotate(8deg); }
+  52% { transform: rotate(-42deg); } /* clap toward center */
+  60% { transform: rotate(-28deg); }
+  68% { transform: rotate(-48deg); }
+  76% { transform: rotate(-30deg); }
+  84% { transform: rotate(-46deg); }
+  92%, 100% { transform: rotate(-34deg); }
+}
+@keyframes sf-stompclap-arm-r {
+  0%, 42% { transform: rotate(-6deg); }
+  52% { transform: rotate(42deg); }
+  60% { transform: rotate(28deg); }
+  68% { transform: rotate(48deg); }
+  76% { transform: rotate(30deg); }
+  84% { transform: rotate(46deg); }
+  92%, 100% { transform: rotate(34deg); }
+}
+@keyframes sf-stompclap-head {
+  0%, 42% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-4deg) translateY(1px); }
+  60% { transform: rotate(5deg) translateY(-1px); }
+  72% { transform: rotate(-6deg) translateY(1px); }
+  84% { transform: rotate(4deg) translateY(-1px); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+@keyframes sf-stompclap-mouth {
+  0%, 44% { opacity: 0; transform: scale(0.85, 0.9); }
+  52%, 100% { opacity: 1; transform: scale(1, 1); }
+}
+@keyframes sf-stompclap-smilehide {
+  /* keep closed smile — only eyes go happy-squint */
+  0%, 100% { opacity: 1; }
+}
+@keyframes sf-stompclap-eyehide {
+  0%, 44% { opacity: 1; }
+  52%, 100% { opacity: 0; }
+}
+@keyframes sf-stompclap-squint {
+  0%, 44% { opacity: 0; }
+  52%, 100% { opacity: 1; }
+}
+
+.player-card[data-move="stomp-clap"]:hover .sf-encourage,
+.player-card[data-move="stomp-clap"]:focus-within .sf-encourage,
+.player-card[data-move="stomp-clap"]:active .sf-encourage {
+  animation: sf-stompclap-encourage 2.2s ease-in-out infinite;
+}
+@keyframes sf-stompclap-encourage {
+  0%, 44% { opacity: 0; transform: translateY(4px) scale(0.9); }
+  55%, 90% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0.85; transform: translateY(-2px) scale(1.02); }
+}
+@keyframes sf-stompclap-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.28; }
+  8%, 24%, 40% { transform: scaleX(1.12); opacity: 0.38; }
+  16%, 32% { transform: scaleX(0.95); opacity: 0.24; }
+  60%, 84% { transform: scaleX(0.88); opacity: 0.2; }
+}
+
+/* coach props — light secondary motion, limbs stay hinged */
+@keyframes sf-whistle-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  35% { transform: translateY(-2.5px) rotate(-6deg); }
+  70% { transform: translateY(1px) rotate(4deg); }
+}
+@keyframes sf-clipboard-tilt {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(8deg); }
+}
+
+/* --- Rafa: big exaggerated laugh --- */
+.player-card[data-move="laugh"]:hover .pf-char,
+.player-card[data-move="laugh"]:focus-within .pf-char,
+.player-card[data-move="laugh"]:active .pf-char {
+  animation: sf-laugh-char 0.95s cubic-bezier(0.34, 1.25, 0.64, 1) infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-arm-l,
+.player-card[data-move="laugh"]:focus-within .pf-arm-l,
+.player-card[data-move="laugh"]:active .pf-arm-l {
+  animation: sf-laugh-arm-l 0.95s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-arm-r,
+.player-card[data-move="laugh"]:focus-within .pf-arm-r,
+.player-card[data-move="laugh"]:active .pf-arm-r {
+  animation: sf-laugh-arm-r 0.95s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-body,
+.player-card[data-move="laugh"]:focus-within .pf-body,
+.player-card[data-move="laugh"]:active .pf-body {
+  animation: sf-laugh-body 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-head,
+.player-card[data-move="laugh"]:focus-within .pf-head,
+.player-card[data-move="laugh"]:active .pf-head {
+  animation: sf-laugh-head 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .sf-laugh-mouth,
+.player-card[data-move="laugh"]:focus-within .sf-laugh-mouth,
+.player-card[data-move="laugh"]:active .sf-laugh-mouth {
+  animation: sf-laugh-mouth 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .sf-smile-idle,
+.player-card[data-move="laugh"]:focus-within .sf-smile-idle,
+.player-card[data-move="laugh"]:active .sf-smile-idle {
+  opacity: 1 !important;
+  animation: sf-laugh-smilepulse 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .sf-encourage,
+.player-card[data-move="laugh"]:focus-within .sf-encourage,
+.player-card[data-move="laugh"]:active .sf-encourage {
+  animation: sf-laugh-encourage 0.95s ease-in-out infinite;
+}
+@keyframes sf-laugh-smilepulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@keyframes sf-laugh-encourage {
+  0%, 100% { opacity: 0.85; transform: translateY(0) scale(1); }
+  50% { opacity: 1; transform: translateY(-3px) scale(1.05); }
+}
+
+.player-card[data-move="laugh"]:hover .sf-eye-open,
+.player-card[data-move="laugh"]:focus-within .sf-eye-open,
+.player-card[data-move="laugh"]:active .sf-eye-open,
+.player-card[data-move="laugh"]:hover .pf-eye-shine,
+.player-card[data-move="laugh"]:focus-within .pf-eye-shine,
+.player-card[data-move="laugh"]:active .pf-eye-shine {
+  opacity: 0 !important;
+}
+.player-card[data-move="laugh"]:hover .sf-eye-squint,
+.player-card[data-move="laugh"]:focus-within .sf-eye-squint,
+.player-card[data-move="laugh"]:active .sf-eye-squint {
+  opacity: 1 !important;
+}
+.player-card[data-move="laugh"]:hover .sf-cheek,
+.player-card[data-move="laugh"]:focus-within .sf-cheek,
+.player-card[data-move="laugh"]:active .sf-cheek {
+  animation: sf-laugh-cheek 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .sf-whistle,
+.player-card[data-move="laugh"]:focus-within .sf-whistle,
+.player-card[data-move="laugh"]:active .sf-whistle {
+  animation: sf-whistle-bounce 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .sf-clipboard,
+.player-card[data-move="laugh"]:focus-within .sf-clipboard,
+.player-card[data-move="laugh"]:active .sf-clipboard {
+  animation: sf-clipboard-tilt 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-shadow,
+.player-card[data-move="laugh"]:focus-within .pf-shadow,
+.player-card[data-move="laugh"]:active .pf-shadow {
+  animation: pf-shadow-active 0.95s ease-in-out infinite;
+}
+.player-card[data-move="laugh"]:hover .pf-glow,
+.player-card[data-move="laugh"]:focus-within .pf-glow,
+.player-card[data-move="laugh"]:active .pf-glow {
+  animation: pf-glow-pulse 0.95s ease-in-out infinite;
+}
+
+@keyframes sf-laugh-char {
+  0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+  25% { transform: translateY(-5px) scale(1.03, 0.96) rotate(-3deg); }
+  50% { transform: translateY(2px) scale(1.05, 0.93) rotate(2deg); }
+  75% { transform: translateY(-4px) scale(1.02, 0.97) rotate(-2deg); }
+}
+@keyframes sf-laugh-body {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.96); }
+}
+@keyframes sf-laugh-arm-l {
+  0%, 100% { transform: rotate(-18deg); }
+  50% { transform: rotate(-38deg); } /* hold belly / shake */
+}
+@keyframes sf-laugh-arm-r {
+  0%, 100% { transform: rotate(16deg); }
+  50% { transform: rotate(36deg); }
+}
+@keyframes sf-laugh-head {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(6deg) translateY(2px); }
+}
+/* keep grin wide — avoid vertical stretch that reads as a yell */
+@keyframes sf-laugh-mouth {
+  0%, 100% { opacity: 1; transform: scale(1, 1); }
+  50% { opacity: 1; transform: scale(1.08, 1.03); }
+}
+@keyframes sf-laugh-cheek {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.2); }
+}
+
+/* --- Els: arms-up scarf cheer (sweet supporter) --- */
+.player-card[data-move="cheer"]:hover .pf-char,
+.player-card[data-move="cheer"]:focus-within .pf-char,
+.player-card[data-move="cheer"]:active .pf-char {
+  animation: sf-cheer-char 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-arm-l,
+.player-card[data-move="cheer"]:focus-within .pf-arm-l,
+.player-card[data-move="cheer"]:active .pf-arm-l {
+  animation: sf-cheer-arm-l 1.5s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-arm-r,
+.player-card[data-move="cheer"]:focus-within .pf-arm-r,
+.player-card[data-move="cheer"]:active .pf-arm-r {
+  animation: sf-cheer-arm-r 1.5s cubic-bezier(0.34, 1.1, 0.64, 1) infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-head,
+.player-card[data-move="cheer"]:focus-within .pf-head,
+.player-card[data-move="cheer"]:active .pf-head {
+  animation: sf-cheer-head 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .sf-smile-idle,
+.player-card[data-move="cheer"]:focus-within .sf-smile-idle,
+.player-card[data-move="cheer"]:active .sf-smile-idle {
+  opacity: 0 !important;
+}
+.player-card[data-move="cheer"]:hover .sf-cheer-smile,
+.player-card[data-move="cheer"]:focus-within .sf-cheer-smile,
+.player-card[data-move="cheer"]:active .sf-cheer-smile {
+  opacity: 1 !important;
+}
+.player-card[data-move="cheer"]:hover .sf-cheer-bits,
+.player-card[data-move="cheer"]:focus-within .sf-cheer-bits,
+.player-card[data-move="cheer"]:active .sf-cheer-bits {
+  animation: sf-cheer-bits 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .sf-scarf,
+.player-card[data-move="cheer"]:focus-within .sf-scarf,
+.player-card[data-move="cheer"]:active .sf-scarf {
+  animation: sf-scarf-wave 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .sf-cheek,
+.player-card[data-move="cheer"]:focus-within .sf-cheek,
+.player-card[data-move="cheer"]:active .sf-cheek {
+  animation: sf-cheer-cheek 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-shadow,
+.player-card[data-move="cheer"]:focus-within .pf-shadow,
+.player-card[data-move="cheer"]:active .pf-shadow {
+  animation: pf-shadow-active 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-glow,
+.player-card[data-move="cheer"]:focus-within .pf-glow,
+.player-card[data-move="cheer"]:active .pf-glow {
+  animation: pf-glow-pulse 1.5s ease-in-out infinite;
+}
+.player-card[data-move="cheer"]:hover .pf-hair,
+.player-card[data-move="cheer"]:focus-within .pf-hair,
+.player-card[data-move="cheer"]:active .pf-hair {
+  animation: pf-hair-bob 1.5s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+
+@keyframes sf-cheer-char {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-4px) scale(1.02, 0.985); }
+}
+/* arms raised outward/up (same hinge sense as dunk/rebound) */
+@keyframes sf-cheer-arm-l {
+  /* arms UP in a V (past horizontal toward vertical) */
+  0%, 100% { transform: rotate(128deg); }
+  40% { transform: rotate(148deg); }
+  70% { transform: rotate(136deg); }
+}
+@keyframes sf-cheer-arm-r {
+  0%, 100% { transform: rotate(-128deg); }
+  40% { transform: rotate(-150deg); }
+  70% { transform: rotate(-138deg); }
+}
+@keyframes sf-cheer-head {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes sf-cheer-bits {
+  0% { opacity: 0; transform: translateY(8px) scale(0.7); }
+  30% { opacity: 1; transform: translateY(-2px) scale(1.05); }
+  70% { opacity: 0.85; transform: translateY(-10px) scale(1); }
+  100% { opacity: 0; transform: translateY(-16px) scale(0.85); }
+}
+@keyframes sf-scarf-wave {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  35% { transform: rotate(10deg) translateY(-2px); }
+  65% { transform: rotate(-12deg) translateY(1px); }
+}
+@keyframes sf-cheer-cheek {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-card:hover,
+  .player-card:focus-within,
+  .player-card:active {
+    transform: translateY(-4px);
+  }
+
+  .player-figure .pf-char,
+  .player-figure .pf-shadow,
+  .player-card:hover .pf-char,
+  .player-card:focus-within .pf-char,
+  .player-card:active .pf-char,
+  .player-card:hover .pf-ball,
+  .player-card:focus-within .pf-ball,
+  .player-card:active .pf-ball,
+  .player-card:hover .pf-arm-r,
+  .player-card:focus-within .pf-arm-r,
+  .player-card:active .pf-arm-r,
+  .player-card:hover .pf-arm-l,
+  .player-card:focus-within .pf-arm-l,
+  .player-card:active .pf-arm-l,
+  .player-card:hover .pf-body,
+  .player-card:focus-within .pf-body,
+  .player-card:active .pf-body,
+  .player-card:hover .pf-legs,
+  .player-card:focus-within .pf-legs,
+  .player-card:active .pf-legs,
+  .player-card:hover .pf-leg-l,
+  .player-card:focus-within .pf-leg-l,
+  .player-card:active .pf-leg-l,
+  .player-card:hover .pf-leg-r,
+  .player-card:focus-within .pf-leg-r,
+  .player-card:active .pf-leg-r,
+  .player-card:hover .pf-head,
+  .player-card:focus-within .pf-head,
+  .player-card:active .pf-head,
+  .player-card:hover .pf-hair,
+  .player-card:focus-within .pf-hair,
+  .player-card:hover .pf-jersey-hem,
+  .player-card:focus-within .pf-jersey-hem,
+  .player-card:hover .pf-eyes,
+  .player-card:focus-within .pf-eyes,
+  .player-card:hover .pf-eye-shine,
+  .player-card:focus-within .pf-eye-shine,
+  .player-card:hover .pf-glow,
+  .player-card:focus-within .pf-glow,
+  .player-card:active .pf-glow,
+  .player-card:hover .pf-shadow,
+  .player-card:focus-within .pf-shadow,
+  .player-card:hover .pf-rim,
+  .player-card:focus-within .pf-rim,
+  .player-card:active .pf-rim,
+  .player-card:hover .pf-lid,
+  .player-card:focus-within .pf-lid,
+  .player-card:active .pf-lid,
+  .player-card:hover .pf-spark,
+  .player-card:focus-within .pf-spark,
+  .player-card:hover .sf-encourage,
+  .player-card:hover .sf-laugh-mouth,
+  .player-card:focus-within .sf-encourage,
+  .player-card:focus-within .sf-laugh-mouth,
+  .player-card:active .sf-encourage,
+  .player-card:active .sf-laugh-mouth,
+  .player-card:hover .sf-cheer-smile,
+  .player-card:focus-within .sf-cheer-smile,
+  .player-card:active .sf-cheer-smile,
+  .player-card:hover .sf-eye-squint,
+  .player-card:focus-within .sf-eye-squint,
+  .player-card:active .sf-eye-squint,
+  .player-card:hover .sf-cheek,
+  .player-card:focus-within .sf-cheek,
+  .player-card:hover .sf-smile-idle,
+  .player-card:focus-within .sf-smile-idle,
+  .player-card:hover .sf-eye-open,
+  .player-card:focus-within .sf-eye-open,
+  .player-card:hover .sf-whistle,
+  .player-card:focus-within .sf-whistle,
+  .player-card:active .sf-whistle,
+  .player-card:hover .sf-clipboard,
+  .player-card:focus-within .sf-clipboard,
+  .player-card:active .sf-clipboard,
+  .player-card:hover .sf-scarf,
+  .player-card:focus-within .sf-scarf,
+  .player-card:active .sf-scarf,
+  .player-card:hover .sf-cheer-bits,
+  .player-card:focus-within .sf-cheer-bits,
+  .player-card:active .sf-cheer-bits,
+  .staff-figure .sf-encourage,
+.staff-figure .sf-laugh-mouth,
+  .staff-figure .sf-whistle,
+  .staff-figure .sf-clipboard,
+  .staff-figure .sf-scarf,
+  .staff-figure .sf-cheer-bits {
+    animation: none !important;
+  }
+
+  .player-card:hover .sf-encourage,
+  .player-card:hover .sf-laugh-mouth,
+  .player-card:focus-within .sf-encourage,
+  .player-card:focus-within .sf-laugh-mouth,
+  .player-card:hover .sf-cheer-smile,
+  .player-card:focus-within .sf-cheer-smile,
+  .player-card:hover .sf-eye-squint,
+  .player-card:focus-within .sf-eye-squint,
+  .player-card:hover .sf-cheer-bits,
+  .player-card:focus-within .sf-cheer-bits {
+    opacity: 0 !important;
+  }
+
+  .animate-float,
+  .animate-badge,
+  .animate-glow,
+  .animate-in {
+    animation: none !important;
+  }
+
+  .player-court-lines {
+    transition: none !important;
+  }
+}
