@@ -1079,6 +1079,142 @@ body {
   90% { transform: rotate(2deg); }
 }
 
+
+/* --- 13. Spin-move (plant → 360° hip turn → dribbly ready) --- */
+.player-card[data-move="spin-move"]:hover .pf-char,
+.player-card[data-move="spin-move"]:focus-within .pf-char,
+.player-card[data-move="spin-move"]:active .pf-char {
+  animation: move-spin-char 1.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-ball,
+.player-card[data-move="spin-move"]:focus-within .pf-ball,
+.player-card[data-move="spin-move"]:active .pf-ball {
+  animation: move-spin-ball 1.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-arm-r,
+.player-card[data-move="spin-move"]:focus-within .pf-arm-r,
+.player-card[data-move="spin-move"]:active .pf-arm-r {
+  animation: move-spin-arm-r 1.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-arm-l,
+.player-card[data-move="spin-move"]:focus-within .pf-arm-l,
+.player-card[data-move="spin-move"]:active .pf-arm-l {
+  animation: move-spin-arm-l 1.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-leg-l,
+.player-card[data-move="spin-move"]:focus-within .pf-leg-l,
+.player-card[data-move="spin-move"]:active .pf-leg-l {
+  animation: move-spin-leg-l 1.55s ease-in-out infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-leg-r,
+.player-card[data-move="spin-move"]:focus-within .pf-leg-r,
+.player-card[data-move="spin-move"]:active .pf-leg-r {
+  animation: move-spin-leg-r 1.55s ease-in-out infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-body,
+.player-card[data-move="spin-move"]:focus-within .pf-body,
+.player-card[data-move="spin-move"]:active .pf-body {
+  animation: move-spin-body 1.55s ease-in-out infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-head,
+.player-card[data-move="spin-move"]:focus-within .pf-head,
+.player-card[data-move="spin-move"]:active .pf-head {
+  animation: move-spin-head 1.55s ease-in-out infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-glow,
+.player-card[data-move="spin-move"]:focus-within .pf-glow,
+.player-card[data-move="spin-move"]:active .pf-glow {
+  animation: pf-glow-pulse 1.55s ease-in-out infinite;
+}
+.player-card[data-move="spin-move"]:hover .pf-shadow,
+.player-card[data-move="spin-move"]:focus-within .pf-shadow,
+.player-card[data-move="spin-move"]:active .pf-shadow {
+  animation: move-spin-shadow 1.55s ease-in-out infinite;
+}
+
+@keyframes move-spin-char {
+  /* plant → full 360 body turn → land ready; 0%/100% visual identity */
+  0% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  10% { transform: translateY(5px) rotate(-10deg) scale(1.07, 0.88); }
+  22% { transform: translateY(1px) rotate(55deg) scale(0.98, 1.02); }
+  38% { transform: translateY(-3px) rotate(140deg) scale(0.94, 1.05); }
+  52% { transform: translateY(-2px) rotate(220deg) scale(0.95, 1.04); }
+  68% { transform: translateY(2px) rotate(300deg) scale(1.02, 0.96); }
+  82% { transform: translateY(4px) rotate(350deg) scale(1.05, 0.92); }
+  92% { transform: translateY(1px) rotate(360deg) scale(1.01, 0.99); }
+  100% { transform: translateY(0) rotate(360deg) scale(1, 1); }
+}
+@keyframes move-spin-ball {
+  /* ball swings around the hip with the turn; 0%/100% visual identity (360°≡0°) */
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  10% { transform: translate(-6px, 8px) rotate(25deg) scale(0.96); }
+  22% { transform: translate(-18px, 10px) rotate(70deg) scale(0.92); }
+  35% { transform: translate(-42px, 4px) rotate(140deg) scale(0.86); opacity: 0.7; }
+  48% { transform: translate(-72px, 2px) rotate(210deg) scale(0.88); opacity: 0.85; }
+  60% { transform: translate(-86px, 8px) rotate(270deg) scale(0.94); opacity: 1; }
+  72% { transform: translate(-48px, 12px) rotate(310deg) scale(0.96); }
+  85% { transform: translate(-14px, 6px) rotate(340deg) scale(0.98); }
+  94% { transform: translate(-2px, 1px) rotate(355deg) scale(1); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); opacity: 1; }
+}
+@keyframes move-spin-arm-r {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(12deg); }
+  22% { transform: rotate(-8deg); }
+  38% { transform: rotate(-42deg); }
+  52% { transform: rotate(-20deg); }
+  68% { transform: rotate(18deg); }
+  82% { transform: rotate(8deg); }
+  92% { transform: rotate(2deg); }
+}
+@keyframes move-spin-arm-l {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-6deg); }
+  28% { transform: rotate(10deg); }
+  42% { transform: rotate(28deg); }
+  55% { transform: rotate(36deg); }
+  70% { transform: rotate(14deg); }
+  85% { transform: rotate(-4deg); }
+}
+@keyframes move-spin-leg-l {
+  /* plant / pivot foot */
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  30% { transform: rotate(8deg); }
+  55% { transform: rotate(-4deg); }
+  82% { transform: rotate(6deg); }
+}
+@keyframes move-spin-leg-r {
+  /* swing / step through the spin */
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-8deg); }
+  28% { transform: rotate(-22deg); }
+  48% { transform: rotate(10deg); }
+  68% { transform: rotate(16deg); }
+  85% { transform: rotate(4deg); }
+}
+@keyframes move-spin-body {
+  0%, 100% { transform: rotate(0deg); }
+  12% { transform: rotate(-4deg); }
+  40% { transform: rotate(3deg); }
+  70% { transform: rotate(-2deg); }
+}
+@keyframes move-spin-head {
+  /* slight counter-look so the spin reads clearly */
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-6deg); }
+  30% { transform: rotate(8deg); }
+  50% { transform: rotate(-4deg); }
+  75% { transform: rotate(6deg); }
+  90% { transform: rotate(1deg); }
+}
+@keyframes move-spin-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.28; }
+  10% { transform: scaleX(1.12); opacity: 0.34; }
+  40% { transform: scaleX(0.78); opacity: 0.18; }
+  82% { transform: scaleX(1.08); opacity: 0.32; }
+}
+
 /* shared helpers */
 @keyframes pf-idle {
   0%, 100% { transform: translateY(0) scale(1, 1); }

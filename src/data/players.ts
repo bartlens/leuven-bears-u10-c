@@ -11,6 +11,7 @@ export type PlayerMove =
   | 'shoulder-roll'
   | 'layup'
   | 'behind-head'
+  | 'spin-move'
 
 export type HairStyle = 'spiky' | 'bowl' | 'side' | 'curly' | 'short' | 'fluffy' | 'long'
 
@@ -119,8 +120,8 @@ export const players: Player[] = [
     label: 'Forward',
     emoji: '🎯',
     accent: 'orange',
-    move: 'rebound',
-    moveLabel: 'Rebound',
+    move: 'spin-move',
+    moveLabel: 'Spin-move',
     look: { hair: '#edd98a', skin: '#f0c4a0', hairStyle: 'spiky' },
   },
   {
