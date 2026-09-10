@@ -1,7 +1,9 @@
 /**
- * Procedural per-player click/tap sounds via Web Audio API.
+ * Procedural per-player / staff click/tap sounds via Web Audio API.
  * Soft, short, cartoon/sports vibes — no audio assets shipped.
  */
+
+import { isSfxMuted } from './sfxMute'
 
 type SoundKind =
   | 'boing'
@@ -432,6 +434,7 @@ export function playPlayerClickSound(player: {
   number: number
 }): void {
   if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
 
   const now = performance.now()
   if (now - lastPlayAt < DEBOUNCE_MS) return
@@ -446,7 +449,7 @@ export function playPlayerClickSound(player: {
   if (!c) return
 
   void unlockAudio().then(() => {
-    if (document.hidden) return
+    if (document.hidden || isSfxMuted()) return
     const audio = getCtx()
     if (!audio) return
     const kind = kindForPlayer(player.number)
@@ -455,5 +458,124 @@ export function playPlayerClickSound(player: {
       (player.id ? player.id.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) : 0)
     const t = audio.currentTime + 0.01
     activeStop = PLAYERS[kind](audio, t, seed)
+  })
+}
+
+
+/* ── Staff click sounds ─────────────────────────────────────────── */
+
+function playLaughBlip(c: AudioContext, t: number, seed: number) {
+  const stops: OscillatorNode[] = []
+  // Short ha-ha-ish rising blips
+  const freqs = [280 + (seed % 4) * 12, 360, 420 + (seed % 3) * 15]
+  freqs.forEach((freq, i) => {
+    const osc = c.createOscillator()
+    const g = softGain(c)
+    osc.type = 'triangle'
+    const start = t + i * 0.055
+    osc.frequency.setValueAtTime(freq, start)
+    osc.frequency.linearRampToValueAtTime(freq * 1.25, start + 0.04)
+    envelope(g, 0.09, 0.008, 0.025, 0.07, start)
+    osc.connect(g)
+    osc.start(start)
+    osc.stop(start + 0.14)
+    stops.push(osc)
+  })
+  return () => {
+    for (const o of stops) {
+      try {
+        o.stop()
+      } catch {
+        /* */
+      }
+    }
+  }
+}
+
+function playSoftCheer(c: AudioContext, t: number, seed: number) {
+  const src = c.createBufferSource()
+  src.buffer = noiseBuffer(c, 0.22)
+  const filter = c.createBiquadFilter()
+  filter.type = 'bandpass'
+  filter.frequency.value = 1200 + (seed % 4) * 80
+  filter.Q.value = 1.4
+  const g = softGain(c)
+  envelope(g, 0.055, 0.015, 0.06, 0.12, t)
+  const osc = c.createOscillator()
+  const og = softGain(c)
+  osc.type = 'sine'
+  osc.frequency.setValueAtTime(740 + (seed % 3) * 30, t)
+  osc.frequency.setValueAtTime(920 + (seed % 3) * 30, t + 0.07)
+  envelope(og, 0.04, 0.008, 0.035, 0.09, t)
+  src.connect(filter)
+  filter.connect(g)
+  osc.connect(og)
+  src.start(t)
+  osc.start(t)
+  src.stop(t + 0.24)
+  osc.stop(t + 0.2)
+  return () => {
+    try {
+      src.stop()
+      osc.stop()
+    } catch {
+      /* */
+    }
+  }
+}
+
+type StaffSoundId = 'jonathan' | 'rafa' | 'els'
+
+const STAFF_PLAYERS: Record<
+  StaffSoundId,
+  (c: AudioContext, t: number, seed: number) => () => void
+> = {
+  jonathan: playWhistle,
+  rafa: playLaughBlip,
+  els: playSoftCheer,
+}
+
+function staffSoundId(staff: { id: string; move?: string }): StaffSoundId {
+  const id = staff.id.toLowerCase()
+  if (id.includes('jonathan')) return 'jonathan'
+  if (id.includes('rafa')) return 'rafa'
+  if (id.includes('els')) return 'els'
+  // Fallback by move
+  if (staff.move === 'whistle-clap') return 'jonathan'
+  if (staff.move === 'laugh') return 'rafa'
+  return 'els'
+}
+
+/**
+ * Play staff click sound (Jonathan whistle, Rafa laugh blip, Els soft cheer).
+ * Same mute / debounce / unlock rules as players.
+ */
+export function playStaffClickSound(staff: {
+  id: string
+  move?: string
+}): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+
+  const now = performance.now()
+  if (now - lastPlayAt < DEBOUNCE_MS) return
+  lastPlayAt = now
+
+  if (activeStop) {
+    activeStop()
+    activeStop = null
+  }
+
+  const c = getCtx()
+  if (!c) return
+
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    const kind = staffSoundId(staff)
+    const seed = staff.id.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0)
+    const t = audio.currentTime + 0.01
+    activeStop = STAFF_PLAYERS[kind](audio, t, seed)
   })
 }

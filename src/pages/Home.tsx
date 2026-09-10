@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Logo } from '../components/Logo'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
+import { UpdatedHint } from '../components/UpdatedHint'
 import { useSheetData } from '../sheet/SheetProvider'
 
 const quickLinks = [
@@ -170,6 +171,7 @@ export function Home() {
             Ma Heilig-Hart · Do Redingenhof
           </span>
           <span className="rounded-full bg-white/5 px-3 py-1">#WEBEARS</span>
+          <UpdatedHint />
         </div>
       </section>
     </div>

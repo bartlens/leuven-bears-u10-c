@@ -252,6 +252,17 @@ export function Info() {
         </ul>
       </section>
 
+
+      <section className="mt-8 rounded-2xl border border-white/8 bg-panel/50 px-5 py-4 text-sm leading-relaxed text-muted">
+        <p className="font-semibold text-cream/90">Zet op je homescreen</p>
+        <p className="mt-1">
+          <span className="text-cream/80">iPhone:</span> deel-knop → “Zet op beginscherm”.
+          {' '}
+          <span className="text-cream/80">Android:</span> menu ⋮ → “App installeren” of “Toevoegen aan startscherm”.
+          Handig voor snelle toegang tot kalender & roster — geen app-store nodig.
+        </p>
+      </section>
+
       <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
         <h2 className="font-display text-xl font-bold text-cream">
           Tips voor ouders

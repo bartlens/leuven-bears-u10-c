@@ -1,4 +1,5 @@
 import type { StaffMember } from '../data/team'
+import { playStaffClickSound } from '../audio/playerClickSound'
 import { StaffFigure } from './StaffFigure'
 
 type StaffCardProps = {
@@ -20,6 +21,10 @@ const roleColor: Record<StaffMember['outfit'], string> = {
 
 export function StaffCard({ staff, index = 0, compact = false }: StaffCardProps) {
   const ariaNote = staff.note ? `, ${staff.note}` : ''
+  const onTap = () => {
+    playStaffClickSound(staff)
+  }
+
   return (
     <article
       tabIndex={0}
@@ -27,6 +32,13 @@ export function StaffCard({ staff, index = 0, compact = false }: StaffCardProps)
       className={`staff-card player-card group card-lift animate-in relative min-w-0 overflow-hidden rounded-3xl border bg-gradient-to-br touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink ${outfitRing[staff.outfit]} ${compact ? 'p-3 sm:p-4' : 'p-4 sm:p-5'}`}
       style={{ animationDelay: `${index * 0.05}s` }}
       aria-label={`${staff.name}, ${staff.role}${ariaNote}`}
+      onPointerDown={onTap}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onTap()
+        }
+      }}
     >
       <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-hoop/10 blur-2xl transition duration-500 group-hover:bg-hoop/25 group-focus-within:bg-hoop/25 group-active:bg-hoop/25" />
 

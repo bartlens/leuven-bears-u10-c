@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Logo } from './Logo'
+import { MuteButton } from './MuteButton'
 import { team } from '../data/team'
 
 const links = [
@@ -37,18 +38,6 @@ export function Navbar() {
           </div>
         </NavLink>
 
-        <button
-          type="button"
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation md:hidden"
-          aria-label={open ? 'Menu sluiten' : 'Menu openen'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className="text-lg" aria-hidden>
-            {open ? '✕' : '☰'}
-          </span>
-        </button>
-
         <ul className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
             <li key={link.to}>
@@ -67,7 +56,25 @@ export function Navbar() {
               </NavLink>
             </li>
           ))}
+          <li className="ml-1">
+            <MuteButton />
+          </li>
         </ul>
+
+        <div className="flex items-center gap-2 md:hidden">
+          <MuteButton />
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation"
+            aria-label={open ? 'Menu sluiten' : 'Menu openen'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="text-lg" aria-hidden>
+              {open ? '✕' : '☰'}
+            </span>
+          </button>
+        </div>
       </nav>
 
       {open && (

@@ -1,4 +1,5 @@
 import { Logo } from './Logo'
+import { UpdatedHint } from './UpdatedHint'
 import { team } from '../data/team'
 
 export function Footer() {
@@ -30,6 +31,7 @@ export function Footer() {
         <p className="text-xs text-muted/70">
           Leuven Bears · Jeugdteam U10 C · Seizoen {team.season}
         </p>
+        <UpdatedHint variant="footer" />
       </div>
     </footer>
   )
