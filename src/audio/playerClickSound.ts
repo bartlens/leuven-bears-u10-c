@@ -54,6 +54,26 @@ let ctx: AudioContext | null = null
 let lastPlayAt = 0
 const DEBOUNCE_MS = 150
 let activeStop: (() => void) | null = null
+/** True after a user-gesture successfully resumed AudioContext */
+let audioUnlocked = false
+const unlockListeners = new Set<(ready: boolean) => void>()
+
+export function isAudioUnlocked(): boolean {
+  return audioUnlocked
+}
+
+export function subscribeAudioUnlock(fn: (ready: boolean) => void): () => void {
+  unlockListeners.add(fn)
+  return () => {
+    unlockListeners.delete(fn)
+  }
+}
+
+function markAudioUnlocked() {
+  if (audioUnlocked) return
+  audioUnlocked = true
+  for (const fn of unlockListeners) fn(true)
+}
 
 function getCtx(): AudioContext | null {
   if (typeof window === 'undefined') return null
@@ -69,16 +89,29 @@ function getCtx(): AudioContext | null {
 }
 
 /** Unlock / resume AudioContext on first user gesture (browser autoplay policy). */
-export async function unlockAudio(): Promise<void> {
+export async function unlockAudio(): Promise<boolean> {
   const c = getCtx()
-  if (!c) return
-  if (c.state === 'suspended') {
-    try {
+  if (!c) return false
+  try {
+    if (c.state === 'suspended') {
       await c.resume()
-    } catch {
-      /* ignore */
     }
+    // Silent blip proves the graph is live (still within the gesture tick when called from one)
+    if (c.state === 'running') {
+      const g = c.createGain()
+      g.gain.value = 0.0001
+      g.connect(c.destination)
+      const o = c.createOscillator()
+      o.connect(g)
+      o.start()
+      o.stop(c.currentTime + 0.01)
+      markAudioUnlocked()
+      return true
+    }
+  } catch {
+    /* ignore */
   }
+  return audioUnlocked
 }
 
 function softGain(c: AudioContext): GainNode {
@@ -461,6 +494,7 @@ export function playPlayerClickSound(player: {
     if (document.hidden || isSfxMuted()) return
     const audio = getCtx()
     if (!audio) return
+    if (audio.state === 'running') markAudioUnlocked()
     const kind = kindForPlayer(player.number)
     const seed =
       player.number * 17 +

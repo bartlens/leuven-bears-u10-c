@@ -10,12 +10,14 @@ import { Evenementen } from './pages/Evenementen'
 import { Info } from './pages/Info'
 import { IdleFunProvider } from './fun/IdleFunContext'
 import { IdleBallEasterEgg } from './components/IdleBallEasterEgg'
+import { AudioUnlock } from './components/AudioUnlock'
 
 export default function App() {
   return (
     <BrowserRouter>
       <SheetProvider>
         <IdleFunProvider>
+          <AudioUnlock />
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">

@@ -4,9 +4,11 @@ import { players } from '../data/players'
 import type { Player } from '../data/players'
 import { useIdleFun } from '../fun/IdleFunContext'
 import {
+  isAudioUnlocked,
   playIdleBallBounce,
   playIdleFootstep,
   playRosterGiggleBurst,
+  subscribeAudioUnlock,
   unlockAudio,
 } from '../audio/playerClickSound'
 import { IdleSideFigure } from './IdleSideFigure'
@@ -104,6 +106,10 @@ export function IdleBallEasterEgg() {
   const scheduleIdle = () => {
     clearIdle()
     if (prefersReducedMotion()) return
+    // Browsers block sound until a gesture unlocks AudioContext.
+    // Don't start the idle clock until audio is ready — otherwise the
+    // animation plays silently on a fresh page load.
+    if (!isAudioUnlocked()) return
     idleTimer.current = setTimeout(() => startScene(), IDLE_MS)
   }
 
@@ -240,6 +246,10 @@ export function IdleBallEasterEgg() {
     if (running.current) return
     if (prefersReducedMotion()) return
     if (document.hidden) return
+    if (!isAudioUnlocked()) {
+      scheduleIdle()
+      return
+    }
     if (performance.now() - lastFinishedAt.current < COOLDOWN_MS && lastFinishedAt.current > 0) {
       scheduleIdle()
       return
@@ -269,10 +279,17 @@ export function IdleBallEasterEgg() {
   }
 
   useEffect(() => {
-    scheduleIdle()
+    // When audio becomes unlocked (first tap/click), arm the idle timer
+    const unsub = subscribeAudioUnlock(() => {
+      scheduleIdle()
+    })
+    if (isAudioUnlocked()) scheduleIdle()
+
     const opts: AddEventListenerOptions = { passive: true }
     const warm = () => {
-      void unlockAudio()
+      void unlockAudio().then((ok) => {
+        if (ok) scheduleIdle()
+      })
     }
     for (const ev of ['pointerdown', 'keydown', 'touchstart'] as const) {
       window.addEventListener(ev, warm, opts)
@@ -293,6 +310,7 @@ export function IdleBallEasterEgg() {
     document.addEventListener('visibilitychange', onVis)
 
     return () => {
+      unsub()
       clearIdle()
       clearPhaseTimers()
       stopPhysics()

@@ -4,6 +4,7 @@ import {
   setSfxMuted,
   subscribeSfxMute,
 } from '../audio/sfxMute'
+import { unlockAudio } from '../audio/playerClickSound'
 
 export function MuteButton({ className = '' }: { className?: string }) {
   const [muted, setMuted] = useState(isSfxMuted)
@@ -17,7 +18,10 @@ export function MuteButton({ className = '' }: { className?: string }) {
       aria-label={muted ? 'Geluid aanzetten' : 'Geluid dempen'}
       aria-pressed={muted}
       title={muted ? 'SFX aan' : 'SFX uit'}
-      onClick={() => setSfxMuted(!muted)}
+      onClick={() => {
+        void unlockAudio()
+        setSfxMuted(!muted)
+      }}
     >
       <span className="text-base leading-none" aria-hidden>
         {muted ? '🔇' : '🔊'}
