@@ -2500,10 +2500,12 @@ body {
   position: absolute;
   width: 2.6rem;
   height: 2.6rem;
-  left: var(--ball-x, 50%);
   bottom: 12%;
+  /* Start off-screen — keyframes drive left/top to --ball-x */
+  left: -20%;
   transform: translateX(-50%);
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+  will-change: left, top, bottom, transform;
 }
 
 .idle-fun__ball-svg {
@@ -2513,149 +2515,152 @@ body {
 }
 
 .idle-fun__ball--left {
-  animation: idle-ball-roll-l 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: idle-ball-roll-l 1.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .idle-fun__ball--right {
-  animation: idle-ball-roll-r 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  left: 120%;
+  animation: idle-ball-roll-r 1.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .idle-fun__ball--top {
-  animation: idle-ball-drop 1.35s cubic-bezier(0.22, 1.4, 0.36, 1) both;
+  left: var(--ball-x, 50%);
+  top: -12%;
+  bottom: auto;
+  animation: idle-ball-drop 1.55s cubic-bezier(0.22, 1.35, 0.36, 1) both;
 }
 
 @keyframes idle-ball-roll-l {
-  0% { left: -8%; transform: translateX(-50%) rotate(-120deg); opacity: 0; }
-  12% { opacity: 1; }
-  100% { left: var(--ball-x, 40%); transform: translateX(-50%) rotate(20deg); opacity: 1; }
+  0% { left: -18%; transform: translateX(-50%) rotate(-160deg); opacity: 1; }
+  100% { left: var(--ball-x, 40%); transform: translateX(-50%) rotate(28deg); opacity: 1; }
 }
 
 @keyframes idle-ball-roll-r {
-  0% { left: 108%; transform: translateX(-50%) rotate(120deg); opacity: 0; }
-  12% { opacity: 1; }
-  100% { left: var(--ball-x, 60%); transform: translateX(-50%) rotate(-20deg); opacity: 1; }
+  0% { left: 118%; transform: translateX(-50%) rotate(160deg); opacity: 1; }
+  100% { left: var(--ball-x, 60%); transform: translateX(-50%) rotate(-28deg); opacity: 1; }
 }
 
 @keyframes idle-ball-drop {
-  0% { top: -10%; bottom: auto; transform: translateX(-50%) scale(0.85); opacity: 0; }
-  10% { opacity: 1; }
-  45% { top: auto; bottom: 12%; transform: translateX(-50%) scale(1.05); }
-  60% { bottom: 18%; transform: translateX(-50%) scale(0.96); }
-  75% { bottom: 12%; transform: translateX(-50%) scale(1.02); }
-  88% { bottom: 14%; transform: translateX(-50%) scale(0.99); }
+  0% {
+    top: -14%;
+    bottom: auto;
+    left: var(--ball-x, 50%);
+    transform: translateX(-50%) scale(0.9);
+    opacity: 1;
+  }
+  42% {
+    top: auto;
+    bottom: 12%;
+    transform: translateX(-50%) scale(1.06);
+  }
+  58% { bottom: 20%; transform: translateX(-50%) scale(0.94); }
+  72% { bottom: 12%; transform: translateX(-50%) scale(1.03); }
+  86% { bottom: 15%; transform: translateX(-50%) scale(0.98); }
   100% { bottom: 12%; transform: translateX(-50%) scale(1); opacity: 1; }
 }
 
 .idle-fun__walker {
   position: absolute;
-  bottom: 6%;
-  width: 5.2rem;
-  height: 6rem;
+  bottom: 5%;
+  width: 5.4rem;
+  height: 7.2rem;
   transform: translateX(-50%);
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+  will-change: left, transform;
 }
 
 .idle-fun__walker-svg {
   width: 100%;
   height: 100%;
   display: block;
-  animation: none !important;
 }
 
-.idle-fun__walker-svg .pf-char,
-.idle-fun__walker-svg .pf-ball,
-.idle-fun__walker-svg .pf-arm-l,
-.idle-fun__walker-svg .pf-arm-r,
-.idle-fun__walker-svg .pf-legs,
-.idle-fun__walker-svg .pf-head {
-  animation: none !important;
+.idle-side-figure .idle-side-char {
+  transform-origin: 45px 120px;
 }
 
-.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-ball,
-.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-glow,
-.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-shadow {
-  opacity: 0 !important;
+.idle-fun__walker--peek {
+  animation: idle-peek 1.15s cubic-bezier(0.34, 1.2, 0.64, 1) both;
 }
 
-.idle-fun__held-ball {
-  position: absolute;
-  width: 1.55rem;
-  height: 1.55rem;
-  right: 0.15rem;
-  top: 42%;
-  animation: idle-held-bob 0.45s ease-in-out infinite;
+.idle-fun__walker--left.idle-fun__walker--peek {
+  left: 0%;
+}
+
+.idle-fun__walker--right.idle-fun__walker--peek {
+  left: 100%;
+}
+
+@keyframes idle-peek {
+  0% { transform: translateX(-50%) translateY(18%) scale(0.92); opacity: 0; }
+  35% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  70% { transform: translateX(-50%) translateY(-2%) scale(1.02); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
 }
 
 .idle-fun__walker--left.idle-fun__walker--walk-in {
-  animation: idle-walk-in-l 1.55s cubic-bezier(0.33, 1, 0.4, 1) both;
+  animation: idle-walk-in-l 1.75s cubic-bezier(0.33, 1, 0.4, 1) both;
 }
 
 .idle-fun__walker--right.idle-fun__walker--walk-in {
-  animation: idle-walk-in-r 1.55s cubic-bezier(0.33, 1, 0.4, 1) both;
+  animation: idle-walk-in-r 1.75s cubic-bezier(0.33, 1, 0.4, 1) both;
 }
 
 .idle-fun__walker--left.idle-fun__walker--pickup,
 .idle-fun__walker--right.idle-fun__walker--pickup {
   left: var(--ball-x, 50%);
-  animation: idle-pickup-bob 0.65s ease-in-out both;
+  animation: idle-pickup-bob 0.7s ease-in-out both;
 }
 
 .idle-fun__walker--left.idle-fun__walker--walk-out {
   left: var(--ball-x, 50%);
-  animation: idle-walk-out-l 1.75s cubic-bezier(0.4, 0, 0.6, 1) both;
+  animation: idle-walk-out-l 2.1s cubic-bezier(0.4, 0, 0.55, 1) both;
 }
 
 .idle-fun__walker--right.idle-fun__walker--walk-out {
   left: var(--ball-x, 50%);
-  animation: idle-walk-out-r 1.75s cubic-bezier(0.4, 0, 0.6, 1) both;
+  animation: idle-walk-out-r 2.1s cubic-bezier(0.4, 0, 0.55, 1) both;
 }
 
 @keyframes idle-walk-in-l {
-  0% { left: -12%; opacity: 0; }
-  15% { opacity: 1; }
+  0% { left: -14%; opacity: 1; }
   100% { left: var(--ball-x, 50%); opacity: 1; }
 }
 
 @keyframes idle-walk-in-r {
-  0% { left: 112%; opacity: 0; }
-  15% { opacity: 1; }
+  0% { left: 114%; opacity: 1; }
   100% { left: var(--ball-x, 50%); opacity: 1; }
 }
 
 @keyframes idle-pickup-bob {
   0% { transform: translateX(-50%) translateY(0); }
-  40% { transform: translateX(-50%) translateY(8px) scale(0.98); }
+  45% { transform: translateX(-50%) translateY(10px) scale(0.97); }
   100% { transform: translateX(-50%) translateY(0); }
 }
 
 @keyframes idle-walk-out-l {
   0% { left: var(--ball-x, 50%); opacity: 1; }
-  100% { left: -14%; opacity: 0.85; }
+  100% { left: -16%; opacity: 1; }
 }
 
 @keyframes idle-walk-out-r {
   0% { left: var(--ball-x, 50%); opacity: 1; }
-  100% { left: 114%; opacity: 0.85; }
+  100% { left: 116%; opacity: 1; }
 }
 
-@keyframes idle-held-bob {
-  0%, 100% { transform: translateY(0) rotate(-6deg); }
-  50% { transform: translateY(-3px) rotate(8deg); }
+.idle-fun__walker--walk-in .idle-side-char,
+.idle-fun__walker--walk-out .idle-side-char {
+  animation: idle-walk-char 0.36s ease-in-out infinite;
 }
 
-/* Mild walk bob on figure while moving */
-.idle-fun__walker--walk-in .pf-char,
-.idle-fun__walker--walk-out .pf-char {
-  animation: idle-walk-char 0.38s ease-in-out infinite !important;
-  transform-box: fill-box;
-  transform-origin: center bottom;
+.idle-fun__walker--walk-in .idle-side-legs,
+.idle-fun__walker--walk-out .idle-side-legs {
+  animation: idle-walk-legs 0.36s ease-in-out infinite;
+  transform-origin: 45px 90px;
 }
 
-.idle-fun__walker--walk-in .pf-legs,
-.idle-fun__walker--walk-out .pf-legs {
-  animation: idle-walk-legs 0.38s ease-in-out infinite !important;
-  transform-box: fill-box;
-  transform-origin: center top;
+.idle-fun__walker.is-glance .idle-side-head {
+  animation: idle-glance-nod 0.4s ease-in-out;
 }
 
 @keyframes idle-walk-char {
@@ -2664,8 +2669,19 @@ body {
 }
 
 @keyframes idle-walk-legs {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes idle-glance-nod {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idle-fun {
+    display: none !important;
+  }
 }
 
 /* Roster laugh-along on Spelers cards */

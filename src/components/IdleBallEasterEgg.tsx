@@ -9,27 +9,26 @@ import {
   playRosterGiggleBurst,
   unlockAudio,
 } from '../audio/playerClickSound'
-import { PlayerFigure } from './PlayerFigure'
+import { IdleSideFigure } from './IdleSideFigure'
 
 type Side = 'left' | 'right' | 'top'
-type Phase = 'ball' | 'walk-in' | 'pickup' | 'walk-out' | 'done'
+type Phase = 'ball' | 'peek' | 'walk-in' | 'pickup' | 'walk-out' | 'done'
 
 type Scene = {
   key: number
   side: Side
   player: Player
-  /** Horizontal settle point as % of viewport */
   ballX: number
-  /** Walk-in from this side */
   enterFrom: 'left' | 'right'
 }
 
-const IDLE_MS = 25_000
+const IDLE_MS = 20_000
 const COOLDOWN_MS = 90_000
-const BALL_SETTLE_MS = 1400
-const WALK_IN_MS = 1600
-const PICKUP_MS = 700
-const WALK_OUT_MS = 1800
+const BALL_SETTLE_MS = 1600
+const PEEK_MS = 1200
+const WALK_IN_MS = 1800
+const PICKUP_MS = 750
+const WALK_OUT_MS = 2200
 const LAUGH_MS = 4200
 
 function prefersReducedMotion() {
@@ -43,10 +42,11 @@ function pickScene(key: number): Scene {
   const player = players[Math.floor(Math.random() * players.length)]!
   const ballX =
     side === 'left'
-      ? 22 + Math.random() * 18
+      ? 28 + Math.random() * 16
       : side === 'right'
-        ? 58 + Math.random() * 18
-        : 30 + Math.random() * 40
+        ? 56 + Math.random() * 16
+        : 32 + Math.random() * 36
+  // Come from the opposite side of where the ball settled when possible
   const enterFrom: 'left' | 'right' =
     side === 'right' ? 'left' : side === 'left' ? 'right' : Math.random() < 0.5 ? 'left' : 'right'
   return { key, side, player, ballX, enterFrom }
@@ -58,6 +58,7 @@ export function IdleBallEasterEgg() {
   const [scene, setScene] = useState<Scene | null>(null)
   const [phase, setPhase] = useState<Phase | null>(null)
   const [holding, setHolding] = useState(false)
+  const [glance, setGlance] = useState(false)
 
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const phaseTimers = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -80,11 +81,19 @@ export function IdleBallEasterEgg() {
     }
   }
 
+  const scheduleIdle = () => {
+    clearIdle()
+    if (prefersReducedMotion()) return
+    idleTimer.current = setTimeout(() => {
+      startScene()
+    }, IDLE_MS)
+  }
+
   const finish = () => {
     running.current = false
     clearPhaseTimers()
-    setPhase('done')
     setHolding(false)
+    setGlance(false)
     setScene(null)
     setPhase(null)
     setRosterLaughing(false)
@@ -108,30 +117,44 @@ export function IdleBallEasterEgg() {
     const next = pickScene(sceneKey.current)
     setScene(next)
     setHolding(false)
+    setGlance(true)
     setPhase('ball')
     void unlockAudio()
 
     const seed = next.player.number * 7 + next.key
-    // Bounce sounds for top entry / settle
     if (next.side === 'top') {
       phaseTimers.current.push(
-        setTimeout(() => playIdleBallBounce(seed), 280),
-        setTimeout(() => playIdleBallBounce(seed + 1), 620),
-        setTimeout(() => playIdleBallBounce(seed + 2), 980),
+        setTimeout(() => playIdleBallBounce(seed), 320),
+        setTimeout(() => playIdleBallBounce(seed + 1), 700),
+        setTimeout(() => playIdleBallBounce(seed + 2), 1080),
       )
     } else {
-      phaseTimers.current.push(setTimeout(() => playIdleBallBounce(seed), 420))
+      phaseTimers.current.push(
+        setTimeout(() => playIdleBallBounce(seed), 500),
+        setTimeout(() => playIdleBallBounce(seed + 3), 1100),
+      )
     }
 
     const onSpelers = pathRef.current.startsWith('/spelers')
+    const t0 = BALL_SETTLE_MS
+    const tPeek = t0 + PEEK_MS
+    const tWalk = tPeek + WALK_IN_MS
+    const tPick = tWalk + PICKUP_MS
+    const tOut = tPick + WALK_OUT_MS
 
     phaseTimers.current.push(
       setTimeout(() => {
+        setPhase('peek')
+        setGlance(true)
+      }, t0),
+      setTimeout(() => {
         setPhase('walk-in')
-      }, BALL_SETTLE_MS),
+        setGlance(false)
+      }, tPeek),
       setTimeout(() => {
         setPhase('pickup')
         setHolding(true)
+        setGlance(false)
         playIdleBallScoop(seed + 9)
         if (onSpelers) {
           setRosterLaughing(true)
@@ -140,22 +163,22 @@ export function IdleBallEasterEgg() {
             setTimeout(() => setRosterLaughing(false), LAUGH_MS),
           )
         }
-      }, BALL_SETTLE_MS + WALK_IN_MS),
+      }, tWalk),
       setTimeout(() => {
         setPhase('walk-out')
-      }, BALL_SETTLE_MS + WALK_IN_MS + PICKUP_MS),
+        setGlance(false)
+        // Occasional looks toward camera while leaving
+        phaseTimers.current.push(
+          setTimeout(() => setGlance(true), 380),
+          setTimeout(() => setGlance(false), 780),
+          setTimeout(() => setGlance(true), 1300),
+          setTimeout(() => setGlance(false), 1680),
+        )
+      }, tPick),
       setTimeout(() => {
         finish()
-      }, BALL_SETTLE_MS + WALK_IN_MS + PICKUP_MS + WALK_OUT_MS),
+      }, tOut),
     )
-  }
-
-  const scheduleIdle = () => {
-    clearIdle()
-    if (prefersReducedMotion()) return
-    idleTimer.current = setTimeout(() => {
-      startScene()
-    }, IDLE_MS)
   }
 
   const bumpActivity = () => {
@@ -191,7 +214,6 @@ export function IdleBallEasterEgg() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Navigating resets idle clock (but doesn't cancel a running scene)
   useEffect(() => {
     if (!running.current) scheduleIdle()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,14 +221,27 @@ export function IdleBallEasterEgg() {
 
   if (!scene || !phase || phase === 'done') return null
 
-  const ballOnFloor = phase === 'ball' || phase === 'walk-in'
+  const ballOnFloor =
+    phase === 'ball' || phase === 'peek' || phase === 'walk-in'
   const showWalker =
-    phase === 'walk-in' || phase === 'pickup' || phase === 'walk-out'
+    phase === 'peek' ||
+    phase === 'walk-in' ||
+    phase === 'pickup' ||
+    phase === 'walk-out'
+
+  // Facing: peek looks at us (still mirrored by side); walk faces toward/away along path
+  const facing: 'left' | 'right' =
+    phase === 'walk-out'
+      ? scene.enterFrom // leave back the way they came
+      : scene.enterFrom === 'left'
+        ? 'right'
+        : 'left' // walking toward ball from enter side
 
   return (
     <div className="idle-fun" aria-hidden="true">
       {ballOnFloor && (
         <span
+          key={`ball-${scene.key}`}
           className={`idle-fun__ball idle-fun__ball--${scene.side}`}
           style={{ ['--ball-x' as string]: `${scene.ballX}%` }}
         >
@@ -225,23 +260,19 @@ export function IdleBallEasterEgg() {
 
       {showWalker && (
         <span
+          key={`walk-${scene.key}-${phase === 'peek' ? 'peek' : 'move'}`}
           className={`idle-fun__walker idle-fun__walker--${scene.enterFrom} idle-fun__walker--${phase} ${
             holding ? 'is-holding' : ''
-          }`}
+          } ${glance ? 'is-glance' : ''}`}
           style={{ ['--ball-x' as string]: `${scene.ballX}%` }}
         >
-          <PlayerFigure player={scene.player} className="idle-fun__walker-svg" />
-          {holding && (
-            <svg viewBox="0 0 28 28" className="idle-fun__held-ball" aria-hidden>
-              <circle cx="14" cy="14" r="12" fill="#f38019" />
-              <path
-                d="M14 2.5 V25.5 M2.5 14 H25.5"
-                fill="none"
-                stroke="#1a120e"
-                strokeWidth="1.3"
-              />
-            </svg>
-          )}
+          <IdleSideFigure
+            player={scene.player}
+            facing={phase === 'peek' ? (scene.enterFrom === 'left' ? 'right' : 'left') : facing}
+            glance={glance || phase === 'peek'}
+            holding={holding}
+            className="idle-fun__walker-svg"
+          />
         </span>
       )}
     </div>
