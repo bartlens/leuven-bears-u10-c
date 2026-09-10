@@ -5,7 +5,6 @@ import type { Player } from '../data/players'
 import { useIdleFun } from '../fun/IdleFunContext'
 import {
   playIdleBallBounce,
-  playIdleBallRoll,
   playIdleBallScoop,
   playIdleFootstep,
   playRosterGiggleBurst,
@@ -25,8 +24,8 @@ type Scene = {
 }
 
 const IDLE_MS = 20_000
-const COOLDOWN_MS = 90_000
-const BALL_SETTLE_MS = 1900
+const COOLDOWN_MS = 45_000
+const BALL_SETTLE_MS = 2100
 const PEEK_MS = 1200
 const WALK_IN_MS = 1800
 const PICKUP_MS = 750
@@ -39,18 +38,11 @@ function prefersReducedMotion() {
 }
 
 function pickScene(key: number): Scene {
-  const sideRoll = Math.random()
-  const side: Side = sideRoll < 0.34 ? 'left' : sideRoll < 0.68 ? 'right' : 'top'
+  // Always drop+bounce from above so the ball clearly stuitert (no quiet side-roll)
+  const side: Side = 'top'
   const player = players[Math.floor(Math.random() * players.length)]!
-  const ballX =
-    side === 'left'
-      ? 28 + Math.random() * 16
-      : side === 'right'
-        ? 56 + Math.random() * 16
-        : 32 + Math.random() * 36
-  // Come from the opposite side of where the ball settled when possible
-  const enterFrom: 'left' | 'right' =
-    side === 'right' ? 'left' : side === 'left' ? 'right' : Math.random() < 0.5 ? 'left' : 'right'
+  const ballX = 32 + Math.random() * 36
+  const enterFrom: 'left' | 'right' = Math.random() < 0.5 ? 'left' : 'right'
   return { key, side, player, ballX, enterFrom }
 }
 
@@ -124,29 +116,21 @@ export function IdleBallEasterEgg() {
     void unlockAudio()
 
     const seed = next.player.number * 7 + next.key
-    // Nudge audio awake again right as the scene starts
+    // Warm audio, then Bas N–style bounces synced to the drop
     phaseTimers.current.push(setTimeout(() => void unlockAudio(), 0))
-    if (next.side === 'top') {
-      // Real bounce settle: gaps & strength shrink each hit
-      let at = 480
-      const gaps = [0, 340, 230, 155, 105, 72, 50]
-      gaps.forEach((gap, i) => {
-        at += gap
-        const strength = Math.pow(0.7, i)
-        const when = at
-        phaseTimers.current.push(
-          setTimeout(() => playIdleBallBounce(seed + i, strength), when),
-        )
-      })
-    } else {
-      // Soft roll ticks while rolling in
+    let at = 420
+    const gaps = [0, 320, 220, 150, 100, 70, 48, 36]
+    gaps.forEach((gap, i) => {
+      at += gap
+      const strength = Math.pow(0.68, i)
+      const when = at
       phaseTimers.current.push(
-        setTimeout(() => playIdleBallRoll(seed), 280),
-        setTimeout(() => playIdleBallRoll(seed + 2), 620),
-        setTimeout(() => playIdleBallRoll(seed + 4), 980),
-        setTimeout(() => playIdleBallRoll(seed + 6), 1320),
+        setTimeout(() => {
+          void unlockAudio()
+          playIdleBallBounce(seed + i, strength)
+        }, when),
       )
-    }
+    })
 
     const onSpelers = pathRef.current.startsWith('/spelers')
     const t0 = BALL_SETTLE_MS

@@ -840,18 +840,21 @@ async function withRunningAudio(
   if (isSfxMuted()) return
   const c = getCtx()
   if (!c) return
-  await unlockAudio()
+  try {
+    await unlockAudio()
+  } catch {
+    /* */
+  }
   if (document.hidden || isSfxMuted()) return
   const audio = getCtx()
   if (!audio) return
-  if (audio.state !== 'running') {
+  if (audio.state === 'suspended') {
     try {
       await audio.resume()
     } catch {
-      return
+      /* still try to play — some browsers allow it after prior unlock */
     }
   }
-  if (audio.state !== 'running') return
   play(audio)
 }
 

@@ -2525,9 +2525,9 @@ body {
 
 .idle-fun__ball--top {
   left: var(--ball-x, 50%);
-  top: -12%;
+  top: -18%;
   bottom: auto;
-  animation: idle-ball-drop 1.85s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+  animation: idle-ball-drop 2.05s linear both;
 }
 
 @keyframes idle-ball-roll-l {
@@ -2542,25 +2542,27 @@ body {
 
 @keyframes idle-ball-drop {
   0% {
-    top: -14%;
+    top: -18%;
     bottom: auto;
     left: var(--ball-x, 50%);
-    transform: translateX(-50%) scale(0.92);
+    transform: translateX(-50%) scale(0.9) rotate(0deg);
     opacity: 1;
   }
-  28% {
+  18% {
     top: auto;
     bottom: 12%;
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(-50%) scale(1.08, 0.88) rotate(40deg);
   }
-  40% { bottom: 26%; transform: translateX(-50%) scale(0.95); }
-  50% { bottom: 12%; transform: translateX(-50%) scale(1.03); }
-  60% { bottom: 20%; transform: translateX(-50%) scale(0.97); }
-  70% { bottom: 12%; transform: translateX(-50%) scale(1.02); }
-  80% { bottom: 16%; transform: translateX(-50%) scale(0.99); }
-  88% { bottom: 12%; transform: translateX(-50%) scale(1.01); }
-  94% { bottom: 13.5%; transform: translateX(-50%) scale(1); }
-  100% { bottom: 12%; transform: translateX(-50%) scale(1); opacity: 1; }
+  28% { bottom: 34%; transform: translateX(-50%) scale(1) rotate(80deg); }
+  38% { bottom: 12%; transform: translateX(-50%) scale(1.06, 0.9) rotate(120deg); }
+  48% { bottom: 26%; transform: translateX(-50%) scale(1) rotate(170deg); }
+  56% { bottom: 12%; transform: translateX(-50%) scale(1.04, 0.92) rotate(210deg); }
+  64% { bottom: 20%; transform: translateX(-50%) scale(1) rotate(250deg); }
+  72% { bottom: 12%; transform: translateX(-50%) scale(1.03, 0.94) rotate(290deg); }
+  80% { bottom: 16%; transform: translateX(-50%) scale(1) rotate(320deg); }
+  88% { bottom: 12%; transform: translateX(-50%) scale(1.01, 0.97) rotate(350deg); }
+  94% { bottom: 13%; transform: translateX(-50%) scale(1) rotate(370deg); }
+  100% { bottom: 12%; transform: translateX(-50%) scale(1) rotate(380deg); opacity: 1; }
 }
 
 .idle-fun__walker {
