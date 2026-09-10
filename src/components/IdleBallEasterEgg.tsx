@@ -24,7 +24,7 @@ type Scene = {
   enterFrom: 'left' | 'right'
 }
 
-const IDLE_MS = 48_000
+const IDLE_MS = 25_000
 const COOLDOWN_MS = 90_000
 const BALL_SETTLE_MS = 1400
 const WALK_IN_MS = 1600
