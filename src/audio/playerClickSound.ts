@@ -493,33 +493,92 @@ function playLaughBlip(c: AudioContext, t: number, seed: number) {
 }
 
 function playSoftCheer(c: AudioContext, t: number, seed: number) {
-  const src = c.createBufferSource()
-  src.buffer = noiseBuffer(c, 0.22)
-  const filter = c.createBiquadFilter()
-  filter.type = 'bandpass'
-  filter.frequency.value = 1200 + (seed % 4) * 80
-  filter.Q.value = 1.4
-  const g = softGain(c)
-  envelope(g, 0.055, 0.015, 0.06, 0.12, t)
-  const osc = c.createOscillator()
-  const og = softGain(c)
-  osc.type = 'sine'
-  osc.frequency.setValueAtTime(740 + (seed % 3) * 30, t)
-  osc.frequency.setValueAtTime(920 + (seed % 3) * 30, t + 0.07)
-  envelope(og, 0.04, 0.008, 0.035, 0.09, t)
-  src.connect(filter)
-  filter.connect(g)
-  osc.connect(og)
-  src.start(t)
-  osc.start(t)
-  src.stop(t + 0.24)
-  osc.stop(t + 0.2)
+  /** Els: warm little “woo-hoo / go bears” cheer — clap + crowd-ish + yay peeps */
+  const stops: Array<OscillatorNode | AudioBufferSourceNode> = []
+
+  // Soft handclap (noise burst)
+  const clap = c.createBufferSource()
+  clap.buffer = noiseBuffer(c, 0.08)
+  const clapHp = c.createBiquadFilter()
+  clapHp.type = 'highpass'
+  clapHp.frequency.value = 1800
+  const clapG = softGain(c)
+  envelope(clapG, 0.11, 0.002, 0.012, 0.055, t)
+  clap.connect(clapHp)
+  clapHp.connect(clapG)
+  clap.start(t)
+  clap.stop(t + 0.09)
+  stops.push(clap)
+
+  // Tiny crowd bed
+  const crowd = c.createBufferSource()
+  crowd.buffer = noiseBuffer(c, 0.45)
+  const band = c.createBiquadFilter()
+  band.type = 'bandpass'
+  band.frequency.value = 900 + (seed % 5) * 60
+  band.Q.value = 0.85
+  const crowdG = softGain(c)
+  envelope(crowdG, 0.07, 0.04, 0.18, 0.22, t + 0.02)
+  crowd.connect(band)
+  band.connect(crowdG)
+  crowd.start(t + 0.02)
+  crowd.stop(t + 0.48)
+  stops.push(crowd)
+
+  // “Woo!” rising voice-ish (two harmonics)
+  const wooBase = 420 + (seed % 4) * 18
+  ;[1, 1.5, 2.01].forEach((mult, i) => {
+    const osc = c.createOscillator()
+    const g = softGain(c)
+    osc.type = i === 0 ? 'sawtooth' : 'triangle'
+    const start = t + 0.05
+    osc.frequency.setValueAtTime(wooBase * mult, start)
+    osc.frequency.linearRampToValueAtTime(wooBase * mult * 1.55, start + 0.16)
+    osc.frequency.linearRampToValueAtTime(wooBase * mult * 1.2, start + 0.28)
+    envelope(g, i === 0 ? 0.045 : 0.028, 0.02, 0.12, 0.16, start)
+    // tame sawtooth harshness
+    const lp = c.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 2200
+    osc.connect(lp)
+    lp.connect(g)
+    osc.start(start)
+    osc.stop(start + 0.36)
+    stops.push(osc)
+  })
+
+  // Second “hoo / yay” peep
+  const yay = c.createOscillator()
+  const yg = softGain(c)
+  yay.type = 'sine'
+  const yt = t + 0.22
+  yay.frequency.setValueAtTime(780 + (seed % 3) * 40, yt)
+  yay.frequency.linearRampToValueAtTime(1100 + (seed % 3) * 40, yt + 0.1)
+  envelope(yg, 0.055, 0.01, 0.06, 0.1, yt)
+  yay.connect(yg)
+  yay.start(yt)
+  yay.stop(yt + 0.22)
+  stops.push(yay)
+
+  // Little sparkle on top (bear energy)
+  const spark = c.createOscillator()
+  const sg = softGain(c)
+  spark.type = 'sine'
+  spark.frequency.setValueAtTime(1600, t + 0.28)
+  spark.frequency.exponentialRampToValueAtTime(2400, t + 0.4)
+  envelope(sg, 0.035, 0.008, 0.05, 0.1, t + 0.28)
+  spark.connect(sg)
+  spark.start(t + 0.28)
+  spark.stop(t + 0.45)
+  stops.push(spark)
+
   return () => {
-    try {
-      src.stop()
-      osc.stop()
-    } catch {
-      /* */
+    for (const n of stops) {
+      try {
+        n.stop()
+      } catch {
+        /* */
+      }
     }
   }
 }
