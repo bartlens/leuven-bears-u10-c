@@ -2620,6 +2620,68 @@ body {
   /* keep */
 }
 
+
+/* Jonathan peeks from the opposite edge on /spelers idle egg */
+.idle-fun__coach {
+  position: absolute;
+  bottom: 2.5%;
+  width: 5.4rem;
+  height: 7.8rem;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+  overflow: visible;
+  pointer-events: none;
+  animation: idle-coach-peek 0.55s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+}
+.idle-fun__coach--left { left: 6%; }
+.idle-fun__coach--right { left: 94%; }
+.idle-fun__coach-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+@keyframes idle-coach-peek {
+  0% { transform: translateX(-50%) translateY(28%); opacity: 0; }
+  55% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* One-shot whistle pose (reuse Jonathan keyframes, play once) */
+.idle-fun__coach.is-blowing .pf-char {
+  animation: sf-whistleclap-char 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .pf-arm-l {
+  animation: sf-whistleclap-arm-l 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .pf-arm-r {
+  animation: sf-whistleclap-arm-r 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .pf-head {
+  animation: sf-whistleclap-head 1.15s ease-in-out 1 both;
+}
+.idle-fun__coach.is-blowing .sf-whistle-mouth {
+  animation: sf-whistleclap-mouth 1.15s ease-in-out 1 both;
+}
+.idle-fun__coach.is-blowing .sf-smile-idle {
+  animation: sf-whistleclap-smile 1.15s ease-in-out 1 both;
+}
+.idle-fun__coach.is-blowing .sf-whistle {
+  animation: sf-whistleclap-whistle-chest 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .sf-whistle-hand {
+  animation: sf-whistleclap-whistle-hand 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .sf-whistle-blow {
+  animation: sf-whistleclap-whistle-blow 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
+}
+.idle-fun__coach.is-blowing .sf-whistle-sound {
+  animation: sf-whistleclap-sound 1.15s ease-in-out 1 both;
+}
+.idle-fun__coach.is-blowing .sf-clipboard {
+  animation: sf-clipboard-tilt 1.15s ease-in-out 1 both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .idle-fun { display: none !important; }
 }

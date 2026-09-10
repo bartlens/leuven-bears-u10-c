@@ -8,10 +8,13 @@ import {
   playIdleBallBounce,
   playIdleFootstep,
   playRosterGiggleBurst,
+  playStaffClickSound,
   subscribeAudioUnlock,
   unlockAudio,
 } from '../audio/playerClickSound'
 import { IdleSideFigure } from './IdleSideFigure'
+import { StaffFigure } from './StaffFigure'
+import { staffMembers } from '../data/team'
 
 type Phase = 'ball' | 'peek' | 'walk-in' | 'pickup' | 'walk-out' | 'done'
 
@@ -30,6 +33,10 @@ const WALK_IN_MS = 1700
 const PICKUP_MS = 700
 const WALK_OUT_MS = 2000
 const LAUGH_MS = 4200
+/** On /spelers: Jonathan appears this many ms before pickup */
+const COACH_LEAD_MS = 380
+/** Hold coach whistle beat before walk-out */
+const WHISTLE_MS = 950
 
 /** Floor as fraction of viewport height from top */
 const FLOOR_Y = 0.86
@@ -41,6 +48,8 @@ function prefersReducedMotion() {
   if (typeof window === 'undefined') return false
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
+
+const jonathan = staffMembers.find((s) => s.id === 'jonathan')!
 
 function pickScene(key: number): Scene {
   const player = players[Math.floor(Math.random() * players.length)]!
@@ -59,6 +68,8 @@ export function IdleBallEasterEgg() {
   const [phase, setPhase] = useState<Phase | null>(null)
   const [holding, setHolding] = useState(false)
   const [glance, setGlance] = useState(false)
+  const [showCoach, setShowCoach] = useState(false)
+  const [coachBlowing, setCoachBlowing] = useState(false)
   const [ballStyle, setBallStyle] = useState<{
     left: number
     top: number
@@ -119,6 +130,8 @@ export function IdleBallEasterEgg() {
     clearPhaseTimers()
     setHolding(false)
     setGlance(false)
+    setShowCoach(false)
+    setCoachBlowing(false)
     setBallStyle(null)
     setScene(null)
     setPhase(null)
@@ -131,11 +144,16 @@ export function IdleBallEasterEgg() {
     const onSpelers = pathRef.current.startsWith('/spelers')
     setPhase('peek')
     setGlance(true)
+    setShowCoach(false)
+    setCoachBlowing(false)
 
     const tPeek = PEEK_MS
     const tWalk = tPeek + WALK_IN_MS
-    const tPick = tWalk + PICKUP_MS
-    const tOut = tPick + WALK_OUT_MS
+    // On Spelers: whistle beat after pickup, then walk back while roster laughs
+    const tWhistle = onSpelers ? tWalk + WHISTLE_MS : tWalk + PICKUP_MS
+    const tPickDone = onSpelers ? tWhistle : tWalk + PICKUP_MS
+    const tOut = tPickDone + WALK_OUT_MS
+    const tCoach = Math.max(tPeek + 200, tWalk - COACH_LEAD_MS)
 
     phaseTimers.current.push(
       setTimeout(() => {
@@ -147,10 +165,30 @@ export function IdleBallEasterEgg() {
           )
         }
       }, tPeek),
+    )
+
+    if (onSpelers) {
+      // Almost at the ball → Jonathan peeks from the opposite edge + one whistle
+      phaseTimers.current.push(
+        setTimeout(() => {
+          setShowCoach(true)
+          setCoachBlowing(true)
+          playStaffClickSound(jonathan)
+          phaseTimers.current.push(
+            setTimeout(() => setCoachBlowing(false), WHISTLE_MS + 200),
+          )
+        }, tCoach),
+      )
+    }
+
+    phaseTimers.current.push(
       setTimeout(() => {
         setPhase('pickup')
         setHolding(true)
         setBallStyle(null)
+      }, tWalk),
+      setTimeout(() => {
+        setPhase('walk-out')
         if (onSpelers) {
           setRosterLaughing(true)
           playRosterGiggleBurst()
@@ -158,9 +196,6 @@ export function IdleBallEasterEgg() {
             setTimeout(() => setRosterLaughing(false), LAUGH_MS),
           )
         }
-      }, tWalk),
-      setTimeout(() => {
-        setPhase('walk-out')
         for (let i = 0; i < 6; i++) {
           phaseTimers.current.push(
             setTimeout(() => playIdleFootstep(seed + 40 + i), i * 300),
@@ -172,7 +207,7 @@ export function IdleBallEasterEgg() {
           setTimeout(() => setGlance(true), 1200),
           setTimeout(() => setGlance(false), 1550),
         )
-      }, tPick),
+      }, tPickDone),
       setTimeout(() => finish(), tOut),
     )
   }
@@ -264,6 +299,8 @@ export function IdleBallEasterEgg() {
     setScene(next)
     setHolding(false)
     setGlance(false)
+    setShowCoach(false)
+    setCoachBlowing(false)
     setPhase('ball')
     void unlockAudio()
 
@@ -386,6 +423,16 @@ export function IdleBallEasterEgg() {
             holding={holding}
             className="idle-fun__walker-svg"
           />
+        </span>
+      )}
+
+      {showCoach && (
+        <span
+          className={`idle-fun__coach idle-fun__coach--${
+            scene.enterFrom === 'left' ? 'right' : 'left'
+          }${coachBlowing ? ' is-blowing' : ''}`}
+        >
+          <StaffFigure staff={jonathan} className="idle-fun__coach-svg" />
         </span>
       )}
     </div>
