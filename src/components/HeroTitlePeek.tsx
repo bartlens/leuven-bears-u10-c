@@ -24,6 +24,8 @@ type Burst = {
 const DEBOUNCE_MS = 900
 const PEEK_DURATION_MS = 1750
 const PARTY_DURATION_MS = 2000
+/** Auto full-squad cheer once after landing on Home */
+const WELCOME_DELAY_MS = 3000
 
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false
@@ -125,21 +127,8 @@ export function HeroTitlePeek({ name, category }: Props) {
     }
   }, [])
 
-  const trigger = useCallback(() => {
-    const now = performance.now()
-    if (now - lastAt.current < DEBOUNCE_MS) return
-    lastAt.current = now
-
+  const runBurst = useCallback((mode: Mode, cast: Player[], opts?: { giggleChance?: number }) => {
     const reduced = prefersReducedMotion()
-    // First click always full-squad party; afterwards ~55% peek / ~45% party
-    let mode: Mode
-    if (!hasSeenFirst.current) {
-      mode = 'party'
-      hasSeenFirst.current = true
-    } else {
-      mode = Math.random() < 0.45 ? 'party' : 'peek'
-    }
-    const cast = pickCast(mode)
     const laughingIds = pickLaughers(cast)
     burstKey.current += 1
     const next: Burst = {
@@ -156,8 +145,8 @@ export function HeroTitlePeek({ name, category }: Props) {
 
     void unlockAudio()
 
-    // ~45% of bursts get a delayed “hihi” (not every peek); mute-aware
-    if (Math.random() < 0.45) {
+    const giggleChance = opts?.giggleChance ?? 0.45
+    if (Math.random() < giggleChance) {
       const seed =
         cast.reduce((a, p) => a + p.number * 13, 0) + burstKey.current * 7
       giggleTimer.current = setTimeout(() => {
@@ -170,6 +159,34 @@ export function HeroTitlePeek({ name, category }: Props) {
       setBurst((cur) => (cur?.key === next.key ? null : cur))
     }, dur)
   }, [])
+
+  const trigger = useCallback(() => {
+    const now = performance.now()
+    if (now - lastAt.current < DEBOUNCE_MS) return
+    lastAt.current = now
+
+    // First click always full-squad party; afterwards ~55% peek / ~45% party
+    let mode: Mode
+    if (!hasSeenFirst.current) {
+      mode = 'party'
+      hasSeenFirst.current = true
+    } else {
+      mode = Math.random() < 0.45 ? 'party' : 'peek'
+    }
+    runBurst(mode, pickCast(mode))
+  }, [runBurst])
+
+  // Welcome: 3s after Home loads, all players cheer once
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    const welcome = setTimeout(() => {
+      if (hasSeenFirst.current) return
+      hasSeenFirst.current = true
+      lastAt.current = performance.now()
+      runBurst('party', [...players], { giggleChance: 0.7 })
+    }, WELCOME_DELAY_MS)
+    return () => clearTimeout(welcome)
+  }, [runBurst])
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
