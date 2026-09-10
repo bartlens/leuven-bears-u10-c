@@ -9,7 +9,9 @@ type PlayerFigureProps = {
 /** Accent / emoji props that don't come from look — keep playful extras. */
 function extrasFromPlayer(player: Player) {
   const cheek = player.look.cheek ?? (player.accent === 'warm' ? '#ff8a7a' : '#f08070')
-  const showBearEars = player.accent === 'bear' || player.emoji === '🐻'
+  // Bear ears look like side hair-buns; skip on short hair (Thomas/Felix look)
+  const showBearEars =
+    (player.accent === 'bear' || player.emoji === '🐻') && player.look.hairStyle !== 'short'
   const showSpark = player.emoji === '⚡' || player.emoji === '✨' || player.emoji === '⭐'
   const showBand = player.emoji === '🔥' || player.emoji === '🚀' || player.emoji === '🌪️'
   const showShield = player.emoji === '🛡️' || player.emoji === '💪'
