@@ -8,6 +8,7 @@ import { Trainingen } from './pages/Trainingen'
 import { Matchen } from './pages/Matchen'
 import { Evenementen } from './pages/Evenementen'
 import { Info } from './pages/Info'
+import { Kalender } from './pages/Kalender'
 import { IdleFunProvider } from './fun/IdleFunContext'
 import { IdleBallEasterEgg } from './components/IdleBallEasterEgg'
 import { AudioUnlock } from './components/AudioUnlock'
@@ -26,6 +27,7 @@ export default function App() {
                 <Route path="/spelers" element={<Spelers />} />
                 <Route path="/trainingen" element={<Trainingen />} />
                 <Route path="/matchen" element={<Matchen />} />
+                <Route path="/kalender" element={<Kalender />} />
                 <Route path="/evenementen" element={<Evenementen />} />
                 <Route path="/info" element={<Info />} />
               </Routes>

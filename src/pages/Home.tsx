@@ -9,7 +9,8 @@ import { useSheetData } from '../sheet/SheetProvider'
 const quickLinks = [
   { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Team & staff' },
   { to: '/trainingen', label: 'Trainingen', emoji: '⏱️', desc: 'Ma & Do 17:30' },
-  { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Kalender' },
+  { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
+  { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
   { to: '/evenementen', label: 'Evenementen', emoji: '🎉', desc: 'Extra fun' },
 ]
 
