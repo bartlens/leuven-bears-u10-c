@@ -1,13 +1,19 @@
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
+import { StaffFigure } from '../components/StaffFigure'
 import {
   trainings,
   whatToBring,
   coachNotes,
   getUpcomingDatedTrainings,
 } from '../data/trainings'
-import { team } from '../data/team'
+import { team, staffMembers } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
 import { useSheetData } from '../sheet/SheetProvider'
+import { playStaffClickSound, unlockAudio } from '../audio/playerClickSound'
+
+const COACHES = staffMembers.filter((s) => s.outfit === 'coach')
+const WAVE_MS = 2200
 
 function formatTrainingDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -17,9 +23,46 @@ function formatTrainingDate(iso: string) {
   })
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 export function Trainingen() {
   const { datedTrainings } = useSheetData()
   const upcomingDated = getUpcomingDatedTrainings(new Date(), datedTrainings)
+  const [waving, setWaving] = useState(false)
+  const waveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastWaveAt = useRef(0)
+
+  useEffect(() => {
+    return () => {
+      if (waveTimer.current) clearTimeout(waveTimer.current)
+    }
+  }, [])
+
+  const triggerCoachWave = useCallback(() => {
+    const now = performance.now()
+    if (now - lastWaveAt.current < 800) return
+    lastWaveAt.current = now
+
+    if (waveTimer.current) clearTimeout(waveTimer.current)
+    setWaving(true)
+    void unlockAudio()
+    for (const coach of COACHES) {
+      playStaffClickSound(coach)
+    }
+
+    const dur = prefersReducedMotion() ? 500 : WAVE_MS
+    waveTimer.current = setTimeout(() => setWaving(false), dur)
+  }, [])
+
+  const onNextKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      triggerCoachWave()
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
@@ -83,25 +126,80 @@ export function Trainingen() {
           </p>
         ) : (
           <div className="space-y-2">
-            {upcomingDated.map((t, i) => (
-              <article
-                key={t.id}
-                className="card-lift animate-in flex flex-col gap-2 rounded-2xl border border-white/10 bg-panel px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
-                style={{ animationDelay: `${i * 0.03}s` }}
-              >
-                <div>
-                  <p className="font-display text-lg font-bold text-cream">
-                    {formatTrainingDate(t.dateIso)}
-                  </p>
-                  <p className="text-sm text-muted">
-                    {t.time} · {t.location}
-                  </p>
-                </div>
-                <span className="self-start rounded-full bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright sm:self-center">
-                  {t.day}
-                </span>
-              </article>
-            ))}
+            {upcomingDated.map((t, i) => {
+              const isNext = i === 0
+              if (isNext) {
+                return (
+                  <article
+                    key={t.id}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Eerstvolgende training ${formatTrainingDate(t.dateIso)}. Tik om de coaches te laten zwaaien.`}
+                    onClick={triggerCoachWave}
+                    onKeyDown={onNextKeyDown}
+                    className={`training-next card-lift animate-in relative flex cursor-pointer flex-col gap-2 overflow-visible rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:flex-row sm:items-center sm:justify-between ${
+                      waving ? 'is-waving' : ''
+                    }`}
+                    style={{ animationDelay: `${i * 0.03}s` }}
+                  >
+                    {waving && (
+                      <div
+                        className="training-coach-pop pointer-events-none absolute inset-x-0 bottom-full z-20 mb-[-0.35rem] flex h-24 items-end justify-center gap-3 overflow-visible sm:h-28"
+                        aria-hidden="true"
+                      >
+                        {COACHES.map((coach, ci) => (
+                          <span
+                            key={`${coach.id}-${waving}`}
+                            className={`training-coach-pop__fig is-waving ${
+                              ci === 0 ? 'from-left' : 'from-right'
+                            }`}
+                            style={{ animationDelay: `${ci * 0.08}s` }}
+                          >
+                            <StaffFigure
+                              staff={coach}
+                              className="training-coach-pop__svg"
+                            />
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="relative z-10">
+                      <p className="training-next__badge text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
+                        Eerstvolgende
+                      </p>
+                      <p className="mt-0.5 font-display text-lg font-bold text-cream">
+                        {formatTrainingDate(t.dateIso)}
+                      </p>
+                      <p className="text-sm text-muted">
+                        {t.time} · {t.location}
+                      </p>
+                    </div>
+                    <span className="relative z-10 self-start rounded-full bg-hoop/25 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright sm:self-center">
+                      {t.day}
+                    </span>
+                  </article>
+                )
+              }
+              return (
+                <article
+                  key={t.id}
+                  className="card-lift animate-in flex flex-col gap-2 rounded-2xl border border-white/10 bg-panel px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+                  style={{ animationDelay: `${i * 0.03}s` }}
+                >
+                  <div>
+                    <p className="font-display text-lg font-bold text-cream">
+                      {formatTrainingDate(t.dateIso)}
+                    </p>
+                    <p className="text-sm text-muted">
+                      {t.time} · {t.location}
+                    </p>
+                  </div>
+                  <span className="self-start rounded-full bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright sm:self-center">
+                    {t.day}
+                  </span>
+                </article>
+              )
+            })}
           </div>
         )}
       </section>
