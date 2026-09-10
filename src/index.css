@@ -2265,29 +2265,113 @@ body {
 .training-next {
   position: relative;
   isolation: isolate;
+  border-color: rgba(243, 128, 25, 0.42);
   animation:
     slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both,
-    training-next-border 4s ease-in-out infinite;
+    training-next-border 3.2s ease-in-out infinite;
 }
 
 .training-next__glow {
   pointer-events: none;
   position: absolute;
-  inset: -20% -10%;
+  inset: 0;
   z-index: 0;
   border-radius: inherit;
-  background: radial-gradient(
-    closest-side,
-    rgba(243, 128, 25, 0.32),
-    rgba(243, 128, 25, 0.12) 45%,
-    transparent 72%
+  overflow: hidden;
+}
+
+/* Tight traveling highlight on the border */
+.training-next__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 62%,
+    rgba(243, 128, 25, 0.05) 70%,
+    rgba(255, 196, 120, 0.55) 78%,
+    rgba(255, 236, 210, 0.95) 82%,
+    rgba(243, 128, 25, 0.75) 86%,
+    rgba(243, 128, 25, 0.08) 92%,
+    transparent 100%
   );
-  width: 70%;
-  height: 140%;
-  inset: auto;
-  left: 0;
-  top: -20%;
-  animation: training-next-glow-drift 5.5s ease-in-out infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: training-next-ring-spin 2.6s linear infinite;
+}
+
+/* Soft diagonal sheen that blinks across the card */
+.training-next__sheen {
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 42%;
+  height: 180%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 220, 180, 0.14) 48%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 220, 180, 0.12) 52%,
+    transparent 62%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  animation: training-next-sheen 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Tiny playful sparkles */
+.training-next__spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffe6c2;
+  box-shadow:
+    0 0 6px 1px rgba(255, 210, 140, 0.85),
+    0 0 0 1px rgba(243, 128, 25, 0.25);
+  opacity: 0;
+}
+
+.training-next__spark::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background:
+    linear-gradient(#ffe6c2, #ffe6c2) center / 1.5px 100% no-repeat,
+    linear-gradient(#ffe6c2, #ffe6c2) center / 100% 1.5px no-repeat;
+  opacity: 0.9;
+}
+
+.training-next__spark--a {
+  top: 18%;
+  right: 14%;
+  animation: training-next-spark 2.4s ease-in-out infinite;
+}
+
+.training-next__spark--b {
+  bottom: 22%;
+  left: 12%;
+  width: 4px;
+  height: 4px;
+  animation: training-next-spark 2.4s ease-in-out 0.9s infinite;
+}
+
+.training-next__spark--c {
+  top: 28%;
+  left: 42%;
+  width: 3px;
+  height: 3px;
+  animation: training-next-spark 2.4s ease-in-out 1.6s infinite;
 }
 
 .training-next__badge {
@@ -2298,36 +2382,46 @@ body {
 @keyframes training-next-border {
   0%, 100% {
     box-shadow:
-      0 0 0 0 rgba(243, 128, 25, 0.08),
-      inset 0 0 0 1px rgba(243, 128, 25, 0.12);
-    border-color: rgba(243, 128, 25, 0.36);
+      0 0 0 0 rgba(243, 128, 25, 0.06),
+      inset 0 0 0 1px rgba(243, 128, 25, 0.1);
+    border-color: rgba(243, 128, 25, 0.38);
   }
-  50% {
+  40% {
     box-shadow:
-      0 0 18px 1px rgba(243, 128, 25, 0.18),
-      inset 0 0 12px 0 rgba(243, 128, 25, 0.08);
-    border-color: rgba(243, 128, 25, 0.55);
+      0 0 14px 0 rgba(243, 128, 25, 0.22),
+      inset 0 0 0 1px rgba(255, 210, 150, 0.18);
+    border-color: rgba(255, 196, 120, 0.7);
+  }
+  55% {
+    box-shadow:
+      0 0 10px 0 rgba(243, 128, 25, 0.14),
+      inset 0 0 0 1px rgba(243, 128, 25, 0.12);
+    border-color: rgba(243, 128, 25, 0.48);
   }
 }
 
-@keyframes training-next-glow-drift {
-  0%, 100% {
-    opacity: 0.5;
-    transform: translate3d(-12%, -8%, 0) scale(1);
-  }
-  35% {
-    opacity: 0.78;
-    transform: translate3d(38%, -14%, 0) scale(1.08);
-  }
-  65% {
-    opacity: 0.65;
-    transform: translate3d(18%, 22%, 0) scale(1.03);
-  }
+@keyframes training-next-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes training-next-sheen {
+  0%, 55% { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
+  60% { opacity: 1; }
+  78% { transform: translateX(280%) skewX(-18deg); opacity: 0.95; }
+  82%, 100% { transform: translateX(280%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes training-next-spark {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  12% { opacity: 1; transform: scale(1.15); }
+  24% { opacity: 0.35; transform: scale(0.7); }
+  36% { opacity: 1; transform: scale(1); }
+  48%, 100% { opacity: 0; transform: scale(0.35); }
 }
 
 @keyframes training-next-badge {
-  0%, 100% { transform: translateY(0); opacity: 0.9; }
-  50% { transform: translateY(-1.5px); opacity: 1; }
+  0%, 100% { transform: translateY(0); opacity: 0.92; }
+  50% { transform: translateY(-1px); opacity: 1; }
 }
 
 .training-coach-pop__fig {
@@ -2432,7 +2526,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .training-next,
   .training-next__badge,
-  .training-next__glow,
+  .training-next__ring,
+  .training-next__sheen,
+  .training-next__spark,
   .training-coach-pop__fig.from-left,
   .training-coach-pop__fig.from-right,
   .training-coach-pop__fig.is-waving .pf-char,
@@ -2443,12 +2539,18 @@ body {
   }
 
   .training-next {
-    box-shadow: 0 0 14px 1px rgba(243, 128, 25, 0.16);
+    box-shadow: 0 0 12px 0 rgba(243, 128, 25, 0.2);
+    border-color: rgba(243, 128, 25, 0.5);
   }
 
-  .training-next__glow {
-    opacity: 0.45;
-    background: radial-gradient(50% 60% at 40% 50%, rgba(243, 128, 25, 0.28), transparent 70%);
+  .training-next__ring {
+    opacity: 0.7;
+    transform: none;
+  }
+
+  .training-next__sheen,
+  .training-next__spark {
+    display: none;
   }
 
   .training-coach-pop__fig {

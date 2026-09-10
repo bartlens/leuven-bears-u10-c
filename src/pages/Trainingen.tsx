@@ -142,7 +142,13 @@ export function Trainingen() {
                     }`}
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
-                    <span className="training-next__glow" aria-hidden="true" />
+                    <span className="training-next__glow" aria-hidden="true">
+                      <span className="training-next__ring" />
+                      <span className="training-next__sheen" />
+                      <span className="training-next__spark training-next__spark--a" />
+                      <span className="training-next__spark training-next__spark--b" />
+                      <span className="training-next__spark training-next__spark--c" />
+                    </span>
                     {waving && (
                       <div
                         className="training-coach-pop pointer-events-none absolute inset-0 z-[5] flex items-center justify-center gap-3 overflow-hidden rounded-2xl"
