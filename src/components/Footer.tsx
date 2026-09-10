@@ -31,6 +31,11 @@ export function Footer() {
         <p className="text-xs text-muted/70">
           Leuven Bears · Jeugdteam U10 C · Seizoen {team.season}
         </p>
+        <p className="text-xs text-muted/80">
+          Gemaakt door <span className="font-semibold text-cream/80">Blits BV</span>
+          {' '}
+          <span className="text-muted/70">(Bart, papa van Thomas)</span>
+        </p>
         <UpdatedHint variant="footer" />
       </div>
     </footer>
