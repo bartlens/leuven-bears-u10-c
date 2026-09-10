@@ -143,7 +143,63 @@ export function Trainingen() {
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
                     <span className="training-next__glow" aria-hidden="true">
-                      <span className="training-next__ring" />
+                      <svg
+                        className="training-next__frame"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                      >
+                        <defs>
+                          <linearGradient
+                            id="training-next-stroke"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                          >
+                            <stop offset="0%" stopColor="#f38019" stopOpacity="0" />
+                            <stop offset="35%" stopColor="#f38019" stopOpacity="0.15" />
+                            <stop offset="50%" stopColor="#ffe6c2" stopOpacity="0.95" />
+                            <stop offset="65%" stopColor="#f38019" stopOpacity="0.35" />
+                            <stop offset="100%" stopColor="#f38019" stopOpacity="0" />
+                          </linearGradient>
+                          <filter
+                            id="training-next-glow-blur"
+                            x="-20%"
+                            y="-20%"
+                            width="140%"
+                            height="140%"
+                          >
+                            <feGaussianBlur stdDeviation="0.8" result="b" />
+                            <feMerge>
+                              <feMergeNode in="b" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                        </defs>
+                        {/* Soft base rim */}
+                        <rect
+                          className="training-next__rim"
+                          x="1.2"
+                          y="1.2"
+                          width="97.6"
+                          height="97.6"
+                          rx="8"
+                          ry="8"
+                          pathLength="100"
+                        />
+                        {/* Traveling highlight along the frame edge */}
+                        <rect
+                          className="training-next__edge"
+                          x="1.2"
+                          y="1.2"
+                          width="97.6"
+                          height="97.6"
+                          rx="8"
+                          ry="8"
+                          pathLength="100"
+                          filter="url(#training-next-glow-blur)"
+                        />
+                      </svg>
                       <span className="training-next__sheen" />
                     </span>
                     {waving && (
