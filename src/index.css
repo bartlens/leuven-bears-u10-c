@@ -2486,3 +2486,251 @@ body {
     opacity: 1;
   }
 }
+
+/* ========== IDLE BALL EASTER EGG ========== */
+.idle-fun {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.idle-fun__ball {
+  position: absolute;
+  width: 2.6rem;
+  height: 2.6rem;
+  left: var(--ball-x, 50%);
+  bottom: 12%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+}
+
+.idle-fun__ball-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.idle-fun__ball--left {
+  animation: idle-ball-roll-l 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.idle-fun__ball--right {
+  animation: idle-ball-roll-r 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.idle-fun__ball--top {
+  animation: idle-ball-drop 1.35s cubic-bezier(0.22, 1.4, 0.36, 1) both;
+}
+
+@keyframes idle-ball-roll-l {
+  0% { left: -8%; transform: translateX(-50%) rotate(-120deg); opacity: 0; }
+  12% { opacity: 1; }
+  100% { left: var(--ball-x, 40%); transform: translateX(-50%) rotate(20deg); opacity: 1; }
+}
+
+@keyframes idle-ball-roll-r {
+  0% { left: 108%; transform: translateX(-50%) rotate(120deg); opacity: 0; }
+  12% { opacity: 1; }
+  100% { left: var(--ball-x, 60%); transform: translateX(-50%) rotate(-20deg); opacity: 1; }
+}
+
+@keyframes idle-ball-drop {
+  0% { top: -10%; bottom: auto; transform: translateX(-50%) scale(0.85); opacity: 0; }
+  10% { opacity: 1; }
+  45% { top: auto; bottom: 12%; transform: translateX(-50%) scale(1.05); }
+  60% { bottom: 18%; transform: translateX(-50%) scale(0.96); }
+  75% { bottom: 12%; transform: translateX(-50%) scale(1.02); }
+  88% { bottom: 14%; transform: translateX(-50%) scale(0.99); }
+  100% { bottom: 12%; transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.idle-fun__walker {
+  position: absolute;
+  bottom: 6%;
+  width: 5.2rem;
+  height: 6rem;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+}
+
+.idle-fun__walker-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: none !important;
+}
+
+.idle-fun__walker-svg .pf-char,
+.idle-fun__walker-svg .pf-ball,
+.idle-fun__walker-svg .pf-arm-l,
+.idle-fun__walker-svg .pf-arm-r,
+.idle-fun__walker-svg .pf-legs,
+.idle-fun__walker-svg .pf-head {
+  animation: none !important;
+}
+
+.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-ball,
+.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-glow,
+.idle-fun__walker.is-holding .idle-fun__walker-svg .pf-shadow {
+  opacity: 0 !important;
+}
+
+.idle-fun__held-ball {
+  position: absolute;
+  width: 1.55rem;
+  height: 1.55rem;
+  right: 0.15rem;
+  top: 42%;
+  animation: idle-held-bob 0.45s ease-in-out infinite;
+}
+
+.idle-fun__walker--left.idle-fun__walker--walk-in {
+  animation: idle-walk-in-l 1.55s cubic-bezier(0.33, 1, 0.4, 1) both;
+}
+
+.idle-fun__walker--right.idle-fun__walker--walk-in {
+  animation: idle-walk-in-r 1.55s cubic-bezier(0.33, 1, 0.4, 1) both;
+}
+
+.idle-fun__walker--left.idle-fun__walker--pickup,
+.idle-fun__walker--right.idle-fun__walker--pickup {
+  left: var(--ball-x, 50%);
+  animation: idle-pickup-bob 0.65s ease-in-out both;
+}
+
+.idle-fun__walker--left.idle-fun__walker--walk-out {
+  left: var(--ball-x, 50%);
+  animation: idle-walk-out-l 1.75s cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+
+.idle-fun__walker--right.idle-fun__walker--walk-out {
+  left: var(--ball-x, 50%);
+  animation: idle-walk-out-r 1.75s cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+
+@keyframes idle-walk-in-l {
+  0% { left: -12%; opacity: 0; }
+  15% { opacity: 1; }
+  100% { left: var(--ball-x, 50%); opacity: 1; }
+}
+
+@keyframes idle-walk-in-r {
+  0% { left: 112%; opacity: 0; }
+  15% { opacity: 1; }
+  100% { left: var(--ball-x, 50%); opacity: 1; }
+}
+
+@keyframes idle-pickup-bob {
+  0% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(8px) scale(0.98); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes idle-walk-out-l {
+  0% { left: var(--ball-x, 50%); opacity: 1; }
+  100% { left: -14%; opacity: 0.85; }
+}
+
+@keyframes idle-walk-out-r {
+  0% { left: var(--ball-x, 50%); opacity: 1; }
+  100% { left: 114%; opacity: 0.85; }
+}
+
+@keyframes idle-held-bob {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-3px) rotate(8deg); }
+}
+
+/* Mild walk bob on figure while moving */
+.idle-fun__walker--walk-in .pf-char,
+.idle-fun__walker--walk-out .pf-char {
+  animation: idle-walk-char 0.38s ease-in-out infinite !important;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.idle-fun__walker--walk-in .pf-legs,
+.idle-fun__walker--walk-out .pf-legs {
+  animation: idle-walk-legs 0.38s ease-in-out infinite !important;
+  transform-box: fill-box;
+  transform-origin: center top;
+}
+
+@keyframes idle-walk-char {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes idle-walk-legs {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* Roster laugh-along on Spelers cards */
+.player-card.is-laughing .pf-eyes > ellipse:not(.pf-lid) {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(0.22);
+}
+
+.player-card.is-laughing .pf-eye-shine {
+  opacity: 0;
+}
+
+.player-card.is-laughing .pf-lid {
+  opacity: 0.95;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(8);
+}
+
+.player-card.is-laughing .pf-smile {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translateY(1px) scaleY(1.5) scaleX(1.1);
+  stroke-width: 2.5;
+}
+
+.player-card.is-laughing .pf-head {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: hero-laugh-bob 0.34s ease-in-out infinite !important;
+}
+
+.player-card.is-laughing .pf-char {
+  animation: idle-roster-bounce 0.55s ease-in-out infinite !important;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.player-card.is-laughing .pf-arm-l,
+.player-card.is-laughing .pf-arm-r {
+  animation: idle-roster-arms 0.45s ease-in-out infinite !important;
+  transform-box: fill-box;
+  transform-origin: 50% 10%;
+}
+
+@keyframes idle-roster-bounce {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes idle-roster-arms {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(18deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idle-fun {
+    display: none !important;
+  }
+
+  .player-card.is-laughing .pf-head,
+  .player-card.is-laughing .pf-char,
+  .player-card.is-laughing .pf-arm-l,
+  .player-card.is-laughing .pf-arm-r {
+    animation: none !important;
+  }
+}

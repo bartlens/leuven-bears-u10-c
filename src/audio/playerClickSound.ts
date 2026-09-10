@@ -711,3 +711,93 @@ export function playHihiGiggle(seed = 1): void {
     }, 400)
   })
 }
+
+/* ── Idle easter-egg: bounce + funny scoop ───────────────────────── */
+
+function playBounceTone(c: AudioContext, t: number, seed: number) {
+  const osc = c.createOscillator()
+  const g = softGain(c)
+  osc.type = 'sine'
+  const f = 140 + (seed % 4) * 12
+  osc.frequency.setValueAtTime(f, t)
+  osc.frequency.exponentialRampToValueAtTime(Math.max(60, f * 0.55), t + 0.12)
+  envelope(g, 0.11, 0.004, 0.04, 0.09, t)
+  osc.connect(g)
+  osc.start(t)
+  osc.stop(t + 0.16)
+  return () => {
+    try {
+      osc.stop()
+    } catch {
+      /* */
+    }
+  }
+}
+
+function playScoopTone(c: AudioContext, t: number, seed: number) {
+  /** Cartoon “boing-scoop” — silly pickup */
+  const stops: OscillatorNode[] = []
+  const base = 280 + (seed % 6) * 18
+  ;[
+    { f: base, at: 0, dur: 0.1 },
+    { f: base * 1.7, at: 0.06, dur: 0.12 },
+    { f: base * 2.3, at: 0.14, dur: 0.1 },
+  ].forEach(({ f, at, dur }, i) => {
+    const osc = c.createOscillator()
+    const g = softGain(c)
+    osc.type = i === 0 ? 'square' : 'triangle'
+    const start = t + at
+    osc.frequency.setValueAtTime(f, start)
+    osc.frequency.linearRampToValueAtTime(f * 1.25, start + dur * 0.5)
+    envelope(g, 0.08 - i * 0.01, 0.005, 0.025, dur * 0.7, start)
+    osc.connect(g)
+    osc.start(start)
+    osc.stop(start + dur + 0.02)
+    stops.push(osc)
+  })
+  return () => {
+    for (const o of stops) {
+      try {
+        o.stop()
+      } catch {
+        /* */
+      }
+    }
+  }
+}
+
+export function playIdleBallBounce(seed = 1): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+  const c = getCtx()
+  if (!c) return
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    playBounceTone(audio, audio.currentTime + 0.01, seed)
+  })
+}
+
+export function playIdleBallScoop(seed = 1): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+  const c = getCtx()
+  if (!c) return
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    playScoopTone(audio, audio.currentTime + 0.01, seed)
+  })
+}
+
+/** Staggered kid giggles for roster laugh-along (mute-aware). */
+export function playRosterGiggleBurst(): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+  const seeds = [3, 11, 19, 7, 23, 13]
+  seeds.forEach((seed, i) => {
+    window.setTimeout(() => playHihiGiggle(seed + i * 5), 120 + i * 280)
+  })
+}
