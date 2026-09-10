@@ -2288,20 +2288,20 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1.5px;
+  padding: 2px;
   background: linear-gradient(
     100deg,
     transparent 0%,
-    transparent 40%,
-    rgba(243, 128, 25, 0.12) 45%,
-    rgba(255, 196, 120, 0.55) 49%,
-    rgba(255, 245, 230, 0.9) 50.5%,
-    rgba(255, 196, 120, 0.5) 52%,
-    rgba(243, 128, 25, 0.12) 57%,
-    transparent 64%,
+    transparent 36%,
+    rgba(243, 128, 25, 0.25) 43%,
+    rgba(255, 180, 90, 0.85) 48%,
+    rgba(255, 255, 245, 1) 50.5%,
+    rgba(255, 180, 90, 0.8) 53%,
+    rgba(243, 128, 25, 0.25) 58%,
+    transparent 66%,
     transparent 100%
   );
-  background-size: 260% 100%;
+  background-size: 240% 100%;
   background-position: 120% 0;
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
@@ -2311,8 +2311,8 @@ body {
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   mask-composite: exclude;
-  /* Quiet most of the time; clear soft pass ~every 8s */
-  animation: training-next-border-swoosh 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  /* Clear pass ~every 6.5s */
+  animation: training-next-border-swoosh 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .training-next__badge {
@@ -2336,19 +2336,19 @@ body {
 }
 
 @keyframes training-next-border-swoosh {
-  0%, 62% {
+  0%, 55% {
     background-position: 120% 0;
     opacity: 0;
   }
-  68% {
+  62% {
     opacity: 1;
   }
-  84% {
-    background-position: -30% 0;
+  82% {
+    background-position: -25% 0;
     opacity: 1;
   }
   90%, 100% {
-    background-position: -30% 0;
+    background-position: -25% 0;
     opacity: 0;
   }
 }
