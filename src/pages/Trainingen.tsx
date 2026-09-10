@@ -145,9 +145,6 @@ export function Trainingen() {
                     <span className="training-next__glow" aria-hidden="true">
                       <span className="training-next__ring" />
                       <span className="training-next__sheen" />
-                      <span className="training-next__spark training-next__spark--a" />
-                      <span className="training-next__spark training-next__spark--b" />
-                      <span className="training-next__spark training-next__spark--c" />
                     </span>
                     {waving && (
                       <div
