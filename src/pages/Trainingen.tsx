@@ -26,8 +26,29 @@ export function Trainingen() {
       <SectionHeader
         eyebrow="Schedule"
         title="Trainingen"
-        subtitle={`Vaste planning seizoen ${team.seasonShort}: maandag Heilig-Hart Heverlee, donderdag Campus Redingenhof.`}
+        subtitle={`Vaste planning · seizoen ${team.season}`}
       />
+
+      <div className="mb-8 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-2xl border border-hoop/30 bg-hoop/10 px-5 py-4">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
+            Maandag
+          </p>
+          <p className="mt-1 font-display text-lg font-bold text-cream">
+            17:30–19:00
+          </p>
+          <p className="mt-1 text-sm text-muted">Heilig-Hart Heverlee</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-panel px-5 py-4">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
+            Donderdag
+          </p>
+          <p className="mt-1 font-display text-lg font-bold text-cream">
+            17:30–19:00
+          </p>
+          <p className="mt-1 text-sm text-muted">Campus Redingenhof</p>
+        </div>
+      </div>
 
       <a
         href={links.attendanceSpreadsheet}
