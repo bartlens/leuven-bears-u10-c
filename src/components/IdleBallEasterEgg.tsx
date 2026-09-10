@@ -26,6 +26,7 @@ type Scene = {
   enterFrom: 'left' | 'right'
 }
 
+const IDLE_FIRST_MS = 10_000
 const IDLE_MS = 20_000
 const COOLDOWN_MS = 45_000
 const PEEK_MS = 1100
@@ -83,6 +84,8 @@ export function IdleBallEasterEgg() {
   const running = useRef(false)
   const sceneKey = useRef(0)
   const pathRef = useRef(location.pathname)
+  const idlePlayedOnPath = useRef(false)
+  const idlePathRef = useRef(location.pathname)
   const rafRef = useRef(0)
   const physics = useRef({
     x: 0,
@@ -121,7 +124,8 @@ export function IdleBallEasterEgg() {
     // Don't start the idle clock until audio is ready — otherwise the
     // animation plays silently on a fresh page load.
     if (!isAudioUnlocked()) return
-    idleTimer.current = setTimeout(() => startScene(), IDLE_MS)
+    const delay = idlePlayedOnPath.current ? IDLE_MS : IDLE_FIRST_MS
+    idleTimer.current = setTimeout(() => startScene(), delay)
   }
 
   const finish = () => {
@@ -291,6 +295,7 @@ export function IdleBallEasterEgg() {
     }
 
     running.current = true
+    idlePlayedOnPath.current = true
     clearIdle()
     clearPhaseTimers()
     stopPhysics()
@@ -362,6 +367,10 @@ export function IdleBallEasterEgg() {
   }, [])
 
   useEffect(() => {
+    if (idlePathRef.current !== location.pathname) {
+      idlePathRef.current = location.pathname
+      idlePlayedOnPath.current = false
+    }
     if (!running.current) scheduleIdle()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
