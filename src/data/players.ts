@@ -109,8 +109,8 @@ export const players: Player[] = [
     label: 'Center',
     emoji: '💪',
     accent: 'warm',
-    move: 'dunk',
-    moveLabel: 'Dunk',
+    move: 'behind-head',
+    moveLabel: 'No-look',
     look: { hair: '#c9a84a', skin: '#e0b088', hairStyle: 'curly' },
   },
   {
@@ -182,8 +182,8 @@ export const players: Player[] = [
     label: 'Forward',
     emoji: '🏆',
     accent: 'warm',
-    move: 'behind-head',
-    moveLabel: 'No-look',
+    move: 'dunk',
+    moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'curly' },
   },
 ]

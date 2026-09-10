@@ -71,19 +71,36 @@ export function PlayerFigure({ player, className = '' }: PlayerFigureProps) {
       />
       <ellipse className="pf-shadow" cx="70" cy="150" rx="28" ry="4.5" fill="#000" opacity="0.28" />
 
-      {/* playful rim for dunk / rebound (hidden until hover via CSS) */}
+      {/* rim + net for dunk / rebound (hidden until hover via CSS) */}
       {(isDunk || isRebound) && (
         <g className="pf-rim" opacity="0">
-          <rect x="48" y="8" width="4" height="22" rx="1" fill="#9aa3ab" />
-          <ellipse cx="78" cy="14" rx="26" ry="8" fill="none" stroke="#f38019" strokeWidth="3.5" />
-          <path
-            d="M56 16 Q78 28 100 16"
-            fill="none"
-            stroke="#fff8f0"
-            strokeWidth="1.2"
-            strokeOpacity="0.55"
-            strokeDasharray="3 2"
-          />
+          {/* backboard */}
+          <rect x="92" y="2" width="18" height="22" rx="2" fill="#fff8f0" stroke="#c9d0d6" strokeWidth="1.2" opacity="0.92" />
+          <rect x="96" y="6" width="10" height="10" rx="1" fill="none" stroke="#f38019" strokeWidth="1.4" opacity="0.85" />
+          {/* pole */}
+          <rect x="108" y="22" width="3.5" height="18" rx="1" fill="#9aa3ab" />
+          {/* orange rim */}
+          <ellipse cx="78" cy="14" rx="26" ry="7.5" fill="none" stroke="#f38019" strokeWidth="3.8" />
+          <ellipse cx="78" cy="14" rx="26" ry="7.5" fill="none" stroke="#ffb060" strokeWidth="1.2" opacity="0.55" />
+          {/* net — separate class for swish on dunk slam */}
+          <g className="pf-net">
+            <path
+              d="M56 16 Q62 30 66 38 M66 16 Q70 32 72 40 M78 16 L78 42 M90 16 Q86 32 84 40 M100 16 Q94 30 90 38"
+              fill="none"
+              stroke="#fff8f0"
+              strokeWidth="1.15"
+              strokeOpacity="0.7"
+              strokeLinecap="round"
+            />
+            <path
+              d="M56 16 Q78 26 100 16 M60 24 Q78 34 96 24 M64 32 Q78 40 92 32"
+              fill="none"
+              stroke="#fff8f0"
+              strokeWidth="1"
+              strokeOpacity="0.45"
+              strokeLinecap="round"
+            />
+          </g>
         </g>
       )}
 
