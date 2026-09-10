@@ -3,6 +3,7 @@ import { Logo } from '../components/Logo'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
 import { UpdatedHint } from '../components/UpdatedHint'
+import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
 
 const quickLinks = [
@@ -33,18 +34,13 @@ export function Home() {
 
   return (
     <div className="overflow-x-hidden">
-      <section className="relative overflow-hidden grain mesh-grid">
+      <section className="relative overflow-x-hidden grain mesh-grid">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:py-20">
           <div className="min-w-0 animate-in">
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
             </span>
-            <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight text-cream break-words sm:text-5xl lg:text-6xl">
-              {team.name}{' '}
-              <span className="bg-gradient-to-r from-hoop via-hoop-bright to-warm bg-clip-text text-transparent">
-                {team.category}
-              </span>
-            </h1>
+            <HeroTitlePeek name={team.name} category={team.category} />
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               Jeugdbasket van de Leuven Bears: dribbels, dunk-dromen en
               high-fives. #WEBEARS — ouders juichen, kids scoren (of bijna).

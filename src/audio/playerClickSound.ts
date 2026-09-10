@@ -638,3 +638,76 @@ export function playStaffClickSound(staff: {
     activeStop = STAFF_PLAYERS[kind](audio, t, seed)
   })
 }
+
+/* ── Hero peek “hihi” giggle ────────────────────────────────────── */
+
+function playHihiTone(c: AudioContext, t: number, seed: number) {
+  /** Short cartoon kid “hi-hi!” — two/three rising peeps */
+  const stops: OscillatorNode[] = []
+  const base = 720 + (seed % 5) * 35
+  const steps = [
+    { f: base, at: 0 },
+    { f: base * 1.18, at: 0.07 },
+    { f: base * 1.32, at: 0.14 },
+  ]
+  steps.forEach(({ f, at }, i) => {
+    const osc = c.createOscillator()
+    const g = softGain(c)
+    osc.type = 'triangle'
+    const start = t + at
+    osc.frequency.setValueAtTime(f, start)
+    osc.frequency.linearRampToValueAtTime(f * 1.08, start + 0.045)
+    envelope(g, 0.07 - i * 0.008, 0.006, 0.02, 0.055, start)
+    osc.connect(g)
+    osc.start(start)
+    osc.stop(start + 0.11)
+    stops.push(osc)
+  })
+  return () => {
+    for (const o of stops) {
+      try {
+        o.stop()
+      } catch {
+        /* */
+      }
+    }
+  }
+}
+
+/**
+ * Occasional short “hihi” giggle for the homepage title easter egg.
+ * Respects mute, document visibility, and AudioContext unlock.
+ * Soft-debounced separately so it can follow a peek without always winning.
+ */
+export function playHihiGiggle(seed = 1): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+
+  const now = performance.now()
+  // Soft anti-spam only (allow soon after other SFX)
+  if (now - lastPlayAt < 60) return
+  lastPlayAt = now
+
+  const c = getCtx()
+  if (!c) return
+
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    const t = audio.currentTime + 0.02
+    const stop = playHihiTone(audio, t, seed)
+    // Don't clobber a concurrent player click hard — schedule cleanup only
+    const prev = activeStop
+    activeStop = () => {
+      stop()
+      if (prev) prev()
+    }
+    window.setTimeout(() => {
+      if (activeStop) {
+        activeStop()
+        activeStop = null
+      }
+    }, 400)
+  })
+}
