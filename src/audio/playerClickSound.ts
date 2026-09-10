@@ -331,17 +331,26 @@ function playSparkle(c: AudioContext, t: number, seed: number) {
   }
 }
 
-function playThud(c: AudioContext, t: number, seed: number) {
+function playThud(
+  c: AudioContext,
+  t: number,
+  seed: number,
+  /** 1 = full Bas N click, lower = shorter/quieter bounce tick */
+  strength = 1,
+) {
+  const s = Math.max(0.12, Math.min(1, strength))
   const osc = c.createOscillator()
   const g = softGain(c)
   osc.type = 'triangle'
   const f = 70 + (seed % 4) * 6
-  osc.frequency.setValueAtTime(f * 1.6, t)
-  osc.frequency.exponentialRampToValueAtTime(f, t + 0.1)
-  envelope(g, 0.14, 0.005, 0.03, 0.12, t)
+  const rise = 0.06 + s * 0.04
+  const dur = 0.07 + s * 0.13
+  osc.frequency.setValueAtTime(f * (1.35 + s * 0.25), t)
+  osc.frequency.exponentialRampToValueAtTime(f, t + rise)
+  envelope(g, 0.06 + s * 0.12, 0.004, 0.02 * s, dur * 0.65, t)
   osc.connect(g)
   osc.start(t)
-  osc.stop(t + 0.2)
+  osc.stop(t + dur + 0.02)
   return () => {
     try {
       osc.stop()
@@ -714,56 +723,6 @@ export function playHihiGiggle(seed = 1): void {
 
 /* ── Idle easter-egg: bounce + funny scoop ───────────────────────── */
 
-function playBounceTone(
-  c: AudioContext,
-  t: number,
-  seed: number,
-  /** 1 = first big bounce, ~0.15 = tiny settling tick */
-  strength = 1,
-) {
-  /** Same family as Bas N’s click sound (`thud`) — shorter each bounce */
-  const s = Math.max(0.12, Math.min(1, strength))
-  const osc = c.createOscillator()
-  const g = softGain(c)
-  osc.type = 'triangle'
-  const f = 70 + (seed % 4) * 6
-  const dur = 0.05 + s * 0.15
-  osc.frequency.setValueAtTime(f * (1.35 + s * 0.25), t)
-  osc.frequency.exponentialRampToValueAtTime(f, t + dur * 0.55)
-  envelope(g, 0.08 + s * 0.12, 0.004, dur * 0.15, dur * 0.55, t)
-  osc.connect(g)
-  osc.start(t)
-  osc.stop(t + dur + 0.02)
-  return () => {
-    try {
-      osc.stop()
-    } catch {
-      /* */
-    }
-  }
-}
-
-function playRollTone(c: AudioContext, t: number, seed: number) {
-  /** Soft roll tick — quieter than bounce */
-  const osc = c.createOscillator()
-  const g = softGain(c)
-  osc.type = 'sine'
-  const f = 180 + (seed % 4) * 15
-  osc.frequency.setValueAtTime(f, t)
-  osc.frequency.linearRampToValueAtTime(f * 0.7, t + 0.06)
-  envelope(g, 0.22, 0.004, 0.025, 0.05, t)
-  osc.connect(g)
-  osc.start(t)
-  osc.stop(t + 0.1)
-  return () => {
-    try {
-      osc.stop()
-    } catch {
-      /* */
-    }
-  }
-}
-
 function playFootstepTone(c: AudioContext, t: number, seed: number) {
   /** Soft sneaker / shoe scuff — filtered noise, no beep */
   const n = c.createBufferSource()
@@ -860,13 +819,8 @@ async function withRunningAudio(
 
 export function playIdleBallBounce(seed = 1, strength = 1): void {
   void withRunningAudio((audio) => {
-    playBounceTone(audio, audio.currentTime + 0.01, seed, strength)
-  })
-}
-
-export function playIdleBallRoll(seed = 1): void {
-  void withRunningAudio((audio) => {
-    playRollTone(audio, audio.currentTime + 0.01, seed)
+    // Bas N’s click voice (jersey 10 → thud)
+    playThud(audio, audio.currentTime + 0.01, 10 * 17 + seed, strength)
   })
 }
 
