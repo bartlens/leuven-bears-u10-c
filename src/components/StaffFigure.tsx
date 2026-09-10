@@ -9,7 +9,7 @@ type StaffFigureProps = {
 /**
  * Chibi staff poppetje — same visual language as PlayerFigure, but adult
  * outfits (coach tracksuit / parent volunteer). Hover moves:
- * stomp-clap (Jonathan), laugh (Rafa), cheer (Els).
+ * whistle-clap (Jonathan), laugh (Rafa), cheer (Els).
  */
 export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
   const { hair, skin, hairStyle, cheek = '#f08070', eyeStyle = 'round' } = staff.look
@@ -68,7 +68,7 @@ export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
       <ellipse className="pf-shadow" cx="70" cy="150" rx="28" ry="4.5" fill="#000" opacity="0.28" />
 
       {/* coach encourage — closed-eye laugh + cheers, no teeth mouth */}
-      {(move === 'laugh' || move === 'stomp-clap') && (
+      {(move === 'laugh' || move === 'whistle-clap') && (
         <g className="sf-encourage" opacity="0">
           <text
             x="106"
@@ -333,6 +333,18 @@ export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
             strokeLinecap="round"
             className="pf-smile sf-smile-idle"
           />
+          {/* whistle O-mouth — shown during Jonathan whistle phase */}
+          {move === 'whistle-clap' && (
+            <ellipse
+              className="sf-whistle-mouth"
+              cx="70"
+              cy="66"
+              rx="4.2"
+              ry="3.4"
+              fill="#0a0a0a"
+              opacity="0"
+            />
+          )}
           {/* soft cheer smile — slightly wider, still closed */}
           <path
             d="M58 64 Q70 74 82 64"

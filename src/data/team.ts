@@ -1,7 +1,7 @@
 import { links } from './links'
 import type { PlayerLook } from './players'
 
-export type StaffMove = 'stomp-clap' | 'laugh' | 'cheer'
+export type StaffMove = 'whistle-clap' | 'laugh' | 'cheer'
 
 export type StaffOutfit = 'coach' | 'volunteer'
 
@@ -23,10 +23,10 @@ export const staffMembers: StaffMember[] = [
     id: 'jonathan',
     name: 'Jonathan Degros',
     role: 'Coach',
-    emoji: '🦶',
+    emoji: '📢',
     outfit: 'coach',
-    move: 'stomp-clap',
-    moveLabel: 'Stamp & klap',
+    move: 'whistle-clap',
+    moveLabel: 'Fluit & klap',
     // Belgian/Flemish adult male: light-medium skin, brown hair
     look: {
       hair: '#5c3d24',
