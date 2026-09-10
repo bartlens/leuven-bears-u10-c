@@ -5,7 +5,9 @@ import type { Player } from '../data/players'
 import { useIdleFun } from '../fun/IdleFunContext'
 import {
   playIdleBallBounce,
+  playIdleBallRoll,
   playIdleBallScoop,
+  playIdleFootstep,
   playRosterGiggleBurst,
   unlockAudio,
 } from '../audio/playerClickSound'
@@ -123,15 +125,19 @@ export function IdleBallEasterEgg() {
 
     const seed = next.player.number * 7 + next.key
     if (next.side === 'top') {
+      // Bounce hits when the ball lands / rebounds
       phaseTimers.current.push(
-        setTimeout(() => playIdleBallBounce(seed), 320),
-        setTimeout(() => playIdleBallBounce(seed + 1), 700),
-        setTimeout(() => playIdleBallBounce(seed + 2), 1080),
+        setTimeout(() => playIdleBallBounce(seed), 620),
+        setTimeout(() => playIdleBallBounce(seed + 1), 920),
+        setTimeout(() => playIdleBallBounce(seed + 2), 1180),
       )
     } else {
+      // Soft roll ticks while rolling in
       phaseTimers.current.push(
-        setTimeout(() => playIdleBallBounce(seed), 500),
-        setTimeout(() => playIdleBallBounce(seed + 3), 1100),
+        setTimeout(() => playIdleBallRoll(seed), 280),
+        setTimeout(() => playIdleBallRoll(seed + 2), 620),
+        setTimeout(() => playIdleBallRoll(seed + 4), 980),
+        setTimeout(() => playIdleBallRoll(seed + 6), 1320),
       )
     }
 
@@ -150,6 +156,12 @@ export function IdleBallEasterEgg() {
       setTimeout(() => {
         setPhase('walk-in')
         setGlance(false)
+        // Footsteps while approaching
+        for (let i = 0; i < 5; i++) {
+          phaseTimers.current.push(
+            setTimeout(() => playIdleFootstep(seed + 20 + i), i * 340),
+          )
+        }
       }, tPeek),
       setTimeout(() => {
         setPhase('pickup')
@@ -167,6 +179,11 @@ export function IdleBallEasterEgg() {
       setTimeout(() => {
         setPhase('walk-out')
         setGlance(false)
+        for (let i = 0; i < 6; i++) {
+          phaseTimers.current.push(
+            setTimeout(() => playIdleFootstep(seed + 40 + i), i * 320),
+          )
+        }
         // Occasional looks toward camera while leaving
         phaseTimers.current.push(
           setTimeout(() => setGlance(true), 380),

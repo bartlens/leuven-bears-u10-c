@@ -715,16 +715,76 @@ export function playHihiGiggle(seed = 1): void {
 /* ── Idle easter-egg: bounce + funny scoop ───────────────────────── */
 
 function playBounceTone(c: AudioContext, t: number, seed: number) {
+  /** Punchy floor bounce — thud + short spring */
+  const stops: OscillatorNode[] = []
+  const thud = c.createOscillator()
+  const tg = softGain(c)
+  thud.type = 'sine'
+  const f0 = 95 + (seed % 5) * 8
+  thud.frequency.setValueAtTime(f0, t)
+  thud.frequency.exponentialRampToValueAtTime(42, t + 0.09)
+  envelope(tg, 0.2, 0.002, 0.03, 0.08, t)
+  thud.connect(tg)
+  thud.start(t)
+  thud.stop(t + 0.14)
+  stops.push(thud)
+
+  const spring = c.createOscillator()
+  const sg = softGain(c)
+  spring.type = 'triangle'
+  const f1 = 220 + (seed % 4) * 20
+  spring.frequency.setValueAtTime(f1, t + 0.015)
+  spring.frequency.exponentialRampToValueAtTime(110, t + 0.11)
+  envelope(sg, 0.1, 0.003, 0.02, 0.07, t + 0.015)
+  spring.connect(sg)
+  spring.start(t + 0.015)
+  spring.stop(t + 0.14)
+  stops.push(spring)
+
+  return () => {
+    for (const o of stops) {
+      try {
+        o.stop()
+      } catch {
+        /* */
+      }
+    }
+  }
+}
+
+function playRollTone(c: AudioContext, t: number, seed: number) {
+  /** Soft roll tick — quieter than bounce */
   const osc = c.createOscillator()
   const g = softGain(c)
   osc.type = 'sine'
-  const f = 140 + (seed % 4) * 12
+  const f = 180 + (seed % 4) * 15
   osc.frequency.setValueAtTime(f, t)
-  osc.frequency.exponentialRampToValueAtTime(Math.max(60, f * 0.55), t + 0.12)
-  envelope(g, 0.11, 0.004, 0.04, 0.09, t)
+  osc.frequency.linearRampToValueAtTime(f * 0.7, t + 0.06)
+  envelope(g, 0.045, 0.004, 0.02, 0.04, t)
   osc.connect(g)
   osc.start(t)
-  osc.stop(t + 0.16)
+  osc.stop(t + 0.09)
+  return () => {
+    try {
+      osc.stop()
+    } catch {
+      /* */
+    }
+  }
+}
+
+function playFootstepTone(c: AudioContext, t: number, seed: number) {
+  /** Soft cartoon foot tap */
+  const osc = c.createOscillator()
+  const g = softGain(c)
+  osc.type = 'triangle'
+  const f = 160 + (seed % 3) * 25
+  osc.frequency.setValueAtTime(f, t)
+  osc.frequency.exponentialRampToValueAtTime(70, t + 0.05)
+  envelope(g, 0.07, 0.002, 0.015, 0.04, t)
+  osc.connect(g)
+  osc.start(t)
+  osc.stop(t + 0.08)
   return () => {
     try {
       osc.stop()
@@ -776,6 +836,32 @@ export function playIdleBallBounce(seed = 1): void {
     const audio = getCtx()
     if (!audio) return
     playBounceTone(audio, audio.currentTime + 0.01, seed)
+  })
+}
+
+export function playIdleBallRoll(seed = 1): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+  const c = getCtx()
+  if (!c) return
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    playRollTone(audio, audio.currentTime + 0.01, seed)
+  })
+}
+
+export function playIdleFootstep(seed = 1): void {
+  if (typeof document !== 'undefined' && document.hidden) return
+  if (isSfxMuted()) return
+  const c = getCtx()
+  if (!c) return
+  void unlockAudio().then(() => {
+    if (document.hidden || isSfxMuted()) return
+    const audio = getCtx()
+    if (!audio) return
+    playFootstepTone(audio, audio.currentTime + 0.005, seed)
   })
 }
 

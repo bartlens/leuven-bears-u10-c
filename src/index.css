@@ -2561,12 +2561,13 @@ body {
 
 .idle-fun__walker {
   position: absolute;
-  bottom: 5%;
-  width: 5.4rem;
-  height: 7.2rem;
+  bottom: 4%;
+  width: 5.6rem;
+  height: 8.2rem;
   transform: translateX(-50%);
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
   will-change: left, transform;
+  overflow: visible;
 }
 
 .idle-fun__walker-svg {
@@ -2653,10 +2654,18 @@ body {
   animation: idle-walk-char 0.36s ease-in-out infinite;
 }
 
-.idle-fun__walker--walk-in .idle-side-legs,
-.idle-fun__walker--walk-out .idle-side-legs {
-  animation: idle-walk-legs 0.36s ease-in-out infinite;
-  transform-origin: 45px 90px;
+.idle-fun__walker--walk-in .idle-side-leg--front,
+.idle-fun__walker--walk-out .idle-side-leg--front {
+  animation: idle-walk-leg-f 0.36s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+.idle-fun__walker--walk-in .idle-side-leg--back,
+.idle-fun__walker--walk-out .idle-side-leg--back {
+  animation: idle-walk-leg-b 0.36s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: top center;
 }
 
 .idle-fun__walker.is-glance .idle-side-head {
@@ -2668,9 +2677,14 @@ body {
   50% { transform: translateY(-2px); }
 }
 
-@keyframes idle-walk-legs {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
+@keyframes idle-walk-leg-f {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(-10deg); }
+}
+
+@keyframes idle-walk-leg-b {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(10deg); }
 }
 
 @keyframes idle-glance-nod {
