@@ -23,7 +23,7 @@ type Burst = {
 
 const DEBOUNCE_MS = 900
 const PEEK_DURATION_MS = 1750
-const PARTY_DURATION_MS = 2000
+const PARTY_DURATION_MS = 3800
 /** Auto full-squad cheer once after landing on Home */
 const WELCOME_DELAY_MS = 3000
 

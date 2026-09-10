@@ -2053,7 +2053,7 @@ body {
 }
 
 .hero-title-peek__fig--party {
-  animation: hero-party-pop 1.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-party-pop 3.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-title-peek__fig.is-reduced {
