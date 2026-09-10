@@ -112,6 +112,7 @@ type Props = {
 export function HeroTitlePeek({ name, category }: Props) {
   const [burst, setBurst] = useState<Burst | null>(null)
   const lastAt = useRef(0)
+  const peekStreak = useRef(0)
   const clearTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const giggleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const burstKey = useRef(0)
@@ -130,7 +131,11 @@ export function HeroTitlePeek({ name, category }: Props) {
     lastAt.current = now
 
     const reduced = prefersReducedMotion()
-    const mode: Mode = Math.random() < 0.7 ? 'peek' : 'party'
+    // ~55% peek / ~45% party; after 2 peeks in a row, force a full-squad cheer
+    let mode: Mode =
+      peekStreak.current >= 2 || Math.random() < 0.45 ? 'party' : 'peek'
+    if (mode === 'peek') peekStreak.current += 1
+    else peekStreak.current = 0
     const cast = pickCast(mode)
     const laughingIds = pickLaughers(cast)
     burstKey.current += 1
