@@ -723,10 +723,10 @@ function playBounceTone(c: AudioContext, t: number, seed: number) {
   const f0 = 95 + (seed % 5) * 8
   thud.frequency.setValueAtTime(f0, t)
   thud.frequency.exponentialRampToValueAtTime(42, t + 0.09)
-  envelope(tg, 0.2, 0.002, 0.03, 0.08, t)
+  envelope(tg, 0.45, 0.002, 0.035, 0.1, t)
   thud.connect(tg)
   thud.start(t)
-  thud.stop(t + 0.14)
+  thud.stop(t + 0.16)
   stops.push(thud)
 
   const spring = c.createOscillator()
@@ -734,8 +734,8 @@ function playBounceTone(c: AudioContext, t: number, seed: number) {
   spring.type = 'triangle'
   const f1 = 220 + (seed % 4) * 20
   spring.frequency.setValueAtTime(f1, t + 0.015)
-  spring.frequency.exponentialRampToValueAtTime(110, t + 0.11)
-  envelope(sg, 0.1, 0.003, 0.02, 0.07, t + 0.015)
+  spring.frequency.exponentialRampToValueAtTime(110, t + 0.12)
+  envelope(sg, 0.28, 0.003, 0.025, 0.09, t + 0.015)
   spring.connect(sg)
   spring.start(t + 0.015)
   spring.stop(t + 0.14)
@@ -760,10 +760,10 @@ function playRollTone(c: AudioContext, t: number, seed: number) {
   const f = 180 + (seed % 4) * 15
   osc.frequency.setValueAtTime(f, t)
   osc.frequency.linearRampToValueAtTime(f * 0.7, t + 0.06)
-  envelope(g, 0.045, 0.004, 0.02, 0.04, t)
+  envelope(g, 0.22, 0.004, 0.025, 0.05, t)
   osc.connect(g)
   osc.start(t)
-  osc.stop(t + 0.09)
+  osc.stop(t + 0.1)
   return () => {
     try {
       osc.stop()
@@ -774,20 +774,30 @@ function playRollTone(c: AudioContext, t: number, seed: number) {
 }
 
 function playFootstepTone(c: AudioContext, t: number, seed: number) {
-  /** Soft cartoon foot tap */
+  /** Cartoon foot tap — audible on phone speakers */
   const osc = c.createOscillator()
   const g = softGain(c)
-  osc.type = 'triangle'
-  const f = 160 + (seed % 3) * 25
+  osc.type = 'square'
+  const f = 190 + (seed % 3) * 30
   osc.frequency.setValueAtTime(f, t)
-  osc.frequency.exponentialRampToValueAtTime(70, t + 0.05)
-  envelope(g, 0.07, 0.002, 0.015, 0.04, t)
+  osc.frequency.exponentialRampToValueAtTime(80, t + 0.055)
+  envelope(g, 0.2, 0.002, 0.02, 0.05, t)
   osc.connect(g)
   osc.start(t)
-  osc.stop(t + 0.08)
+  osc.stop(t + 0.09)
+
+  const n = c.createBufferSource()
+  const ng = softGain(c)
+  n.buffer = noiseBuffer(c, 0.05)
+  envelope(ng, 0.12, 0.001, 0.01, 0.035, t)
+  n.connect(ng)
+  n.start(t)
+  n.stop(t + 0.05)
+
   return () => {
     try {
       osc.stop()
+      n.stop()
     } catch {
       /* */
     }
@@ -809,7 +819,7 @@ function playScoopTone(c: AudioContext, t: number, seed: number) {
     const start = t + at
     osc.frequency.setValueAtTime(f, start)
     osc.frequency.linearRampToValueAtTime(f * 1.25, start + dur * 0.5)
-    envelope(g, 0.08 - i * 0.01, 0.005, 0.025, dur * 0.7, start)
+    envelope(g, 0.28 - i * 0.04, 0.005, 0.03, dur * 0.75, start)
     osc.connect(g)
     osc.start(start)
     osc.stop(start + dur + 0.02)
@@ -826,57 +836,52 @@ function playScoopTone(c: AudioContext, t: number, seed: number) {
   }
 }
 
-export function playIdleBallBounce(seed = 1): void {
+async function withRunningAudio(
+  play: (c: AudioContext) => void,
+): Promise<void> {
   if (typeof document !== 'undefined' && document.hidden) return
   if (isSfxMuted()) return
   const c = getCtx()
   if (!c) return
-  void unlockAudio().then(() => {
-    if (document.hidden || isSfxMuted()) return
-    const audio = getCtx()
-    if (!audio) return
+  await unlockAudio()
+  if (document.hidden || isSfxMuted()) return
+  const audio = getCtx()
+  if (!audio) return
+  if (audio.state !== 'running') {
+    try {
+      await audio.resume()
+    } catch {
+      return
+    }
+  }
+  if (audio.state !== 'running') return
+  play(audio)
+}
+
+export function playIdleBallBounce(seed = 1): void {
+  void withRunningAudio((audio) => {
     playBounceTone(audio, audio.currentTime + 0.01, seed)
   })
 }
 
 export function playIdleBallRoll(seed = 1): void {
-  if (typeof document !== 'undefined' && document.hidden) return
-  if (isSfxMuted()) return
-  const c = getCtx()
-  if (!c) return
-  void unlockAudio().then(() => {
-    if (document.hidden || isSfxMuted()) return
-    const audio = getCtx()
-    if (!audio) return
+  void withRunningAudio((audio) => {
     playRollTone(audio, audio.currentTime + 0.01, seed)
   })
 }
 
 export function playIdleFootstep(seed = 1): void {
-  if (typeof document !== 'undefined' && document.hidden) return
-  if (isSfxMuted()) return
-  const c = getCtx()
-  if (!c) return
-  void unlockAudio().then(() => {
-    if (document.hidden || isSfxMuted()) return
-    const audio = getCtx()
-    if (!audio) return
+  void withRunningAudio((audio) => {
     playFootstepTone(audio, audio.currentTime + 0.005, seed)
   })
 }
 
 export function playIdleBallScoop(seed = 1): void {
-  if (typeof document !== 'undefined' && document.hidden) return
-  if (isSfxMuted()) return
-  const c = getCtx()
-  if (!c) return
-  void unlockAudio().then(() => {
-    if (document.hidden || isSfxMuted()) return
-    const audio = getCtx()
-    if (!audio) return
+  void withRunningAudio((audio) => {
     playScoopTone(audio, audio.currentTime + 0.01, seed)
   })
 }
+
 
 /** Staggered kid giggles for roster laugh-along (mute-aware). */
 export function playRosterGiggleBurst(): void {

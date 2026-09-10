@@ -124,6 +124,8 @@ export function IdleBallEasterEgg() {
     void unlockAudio()
 
     const seed = next.player.number * 7 + next.key
+    // Nudge audio awake again right as the scene starts
+    phaseTimers.current.push(setTimeout(() => void unlockAudio(), 0))
     if (next.side === 'top') {
       // Bounce hits when the ball lands / rebounds
       phaseTimers.current.push(
@@ -199,6 +201,8 @@ export function IdleBallEasterEgg() {
   }
 
   const bumpActivity = () => {
+    // Keep AudioContext unlocked so idle SFX can play after a quiet wait
+    void unlockAudio()
     if (running.current) return
     scheduleIdle()
   }
@@ -206,6 +210,13 @@ export function IdleBallEasterEgg() {
   useEffect(() => {
     scheduleIdle()
     const opts: AddEventListenerOptions = { passive: true }
+    const warm = () => {
+      void unlockAudio()
+    }
+    // Gesture events unlock audio (autoplay policy)
+    for (const ev of ['pointerdown', 'keydown', 'touchstart'] as const) {
+      window.addEventListener(ev, warm, opts)
+    }
     const events: (keyof WindowEventMap)[] = [
       'pointerdown',
       'keydown',
@@ -224,6 +235,9 @@ export function IdleBallEasterEgg() {
     return () => {
       clearIdle()
       clearPhaseTimers()
+      for (const ev of ['pointerdown', 'keydown', 'touchstart'] as const) {
+        window.removeEventListener(ev, warm)
+      }
       for (const ev of events) window.removeEventListener(ev, bumpActivity)
       document.removeEventListener('visibilitychange', onVis)
       setRosterLaughing(false)
