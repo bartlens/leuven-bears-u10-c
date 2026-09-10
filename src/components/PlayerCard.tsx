@@ -1,4 +1,5 @@
 import type { Player } from '../data/players'
+import { playPlayerClickSound } from '../audio/playerClickSound'
 import { PlayerFigure } from './PlayerFigure'
 
 type PlayerCardProps = {
@@ -13,6 +14,10 @@ const accentRing: Record<Player['accent'], string> = {
 }
 
 export function PlayerCard({ player, index = 0 }: PlayerCardProps) {
+  const onTap = () => {
+    playPlayerClickSound(player)
+  }
+
   return (
     <article
       tabIndex={0}
@@ -20,6 +25,13 @@ export function PlayerCard({ player, index = 0 }: PlayerCardProps) {
       className={`player-card group card-lift animate-in relative min-w-0 overflow-hidden rounded-3xl border bg-gradient-to-br p-3 touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:p-4 ${accentRing[player.accent]}`}
       style={{ animationDelay: `${index * 0.045}s` }}
       aria-label={`${player.firstName}, rugnummer ${player.number}, ${player.label}`}
+      onPointerDown={onTap}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onTap()
+        }
+      }}
     >
       {/* ambient glow blobs */}
       <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-hoop/10 blur-2xl transition duration-500 group-hover:bg-hoop/30 group-focus-within:bg-hoop/30 group-active:bg-hoop/30" />
