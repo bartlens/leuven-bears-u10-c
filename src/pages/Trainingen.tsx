@@ -143,6 +143,7 @@ export function Trainingen() {
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
                     <span className="training-next__glow" aria-hidden="true">
+                      <span className="training-next__ring" />
                       <span className="training-next__sheen" />
                     </span>
                     {waving && (
