@@ -8,7 +8,7 @@ export function Spelers() {
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
-        eyebrow="Roster · Seizoen 2026 - 2027"
+        eyebrow="Team · Seizoen 2026 - 2027"
         title="Onze spelers"
         subtitle={`De beren van seizoen ${team.season} — ${players.length} spelers met elk hun eigen vibe.`}
       />

@@ -259,7 +259,7 @@ export function Info() {
           <span className="text-cream/80">iPhone:</span> deel-knop → “Zet op beginscherm”.
           {' '}
           <span className="text-cream/80">Android:</span> menu ⋮ → “App installeren” of “Toevoegen aan startscherm”.
-          Handig voor snelle toegang tot kalender & roster — geen app-store nodig.
+          Handig voor snelle toegang tot kalender & team — geen app-store nodig.
         </p>
       </section>
 
