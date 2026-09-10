@@ -5,12 +5,11 @@ import type { Player } from '../data/players'
 import { useIdleFun } from '../fun/IdleFunContext'
 import {
   playIdleBallBounce,
-  playIdleBallScoop,
   playIdleFootstep,
   playRosterGiggleBurst,
   unlockAudio,
 } from '../audio/playerClickSound'
-import { PlayerFigure } from './PlayerFigure'
+import { IdleSideFigure } from './IdleSideFigure'
 
 type Phase = 'ball' | 'peek' | 'walk-in' | 'pickup' | 'walk-out' | 'done'
 
@@ -146,7 +145,6 @@ export function IdleBallEasterEgg() {
         setPhase('pickup')
         setHolding(true)
         setBallStyle(null)
-        playIdleBallScoop(seed + 9)
         if (onSpelers) {
           setRosterLaughing(true)
           playRosterGiggleBurst()
@@ -324,10 +322,13 @@ export function IdleBallEasterEgg() {
     phase === 'pickup' ||
     phase === 'walk-out'
 
-  const faceLeft =
+  // peek/walk-in: face toward ball; walk-out: face back toward exit
+  const facing: 'left' | 'right' =
     phase === 'walk-out'
-      ? scene.enterFrom === 'left'
-      : scene.enterFrom === 'right'
+      ? scene.enterFrom
+      : scene.enterFrom === 'left'
+        ? 'right'
+        : 'left'
 
   return (
     <div className="idle-fun" aria-hidden="true">
@@ -356,31 +357,17 @@ export function IdleBallEasterEgg() {
       {showWalker && (
         <span
           className={`idle-fun__walker idle-fun__walker--${scene.enterFrom} idle-fun__walker--${phase} ${
-            holding ? 'is-holding' : 'is-empty-handed'
-          } ${glance || phase === 'peek' ? 'is-glance' : ''} ${
-            faceLeft ? 'face-left' : 'face-right'
+            holding ? 'is-holding' : ''
           }`}
-          style={
-            {
-              ['--ball-x' as string]: `${scene.ballXPct}%`,
-            }
-          }
+          style={{ ['--ball-x' as string]: `${scene.ballXPct}%` }}
         >
-          <PlayerFigure
+          <IdleSideFigure
             player={scene.player}
+            facing={facing}
+            glance={glance || phase === 'peek'}
+            holding={holding}
             className="idle-fun__walker-svg"
           />
-          {holding && (
-            <svg viewBox="0 0 28 28" className="idle-fun__held-ball" aria-hidden>
-              <circle cx="14" cy="14" r="12" fill="#f38019" />
-              <path
-                d="M14 2.5 V25.5 M2.5 14 H25.5"
-                fill="none"
-                stroke="#1a120e"
-                strokeWidth="1.3"
-              />
-            </svg>
-          )}
         </span>
       )}
     </div>

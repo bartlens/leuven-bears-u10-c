@@ -2,15 +2,17 @@ import type { Player } from '../data/players'
 
 type Props = {
   player: Player
+  /** Walk direction — drawn facing RIGHT, flipped for left */
   facing: 'left' | 'right'
+  /** Looking toward the camera (peek / glance) */
   glance?: boolean
   holding?: boolean
   className?: string
 }
 
 /**
- * Clearer side-view chibi: visible legs, shorts, shoes; no ball until holding.
- * Drawn facing RIGHT; parent flips with scaleX for left.
+ * Compact side-profile chibi for idle egg.
+ * Clear legs, jersey, shoes; optional ¾ face when glancing at camera.
  */
 export function IdleSideFigure({
   player,
@@ -24,49 +26,44 @@ export function IdleSideFigure({
 
   return (
     <svg
-      viewBox="0 0 100 150"
+      viewBox="0 0 110 160"
       className={`idle-side-figure ${glance ? 'is-glance' : ''} ${holding ? 'is-holding' : ''} ${className}`}
       style={{ transform: `scaleX(${flip})` }}
       role="img"
       aria-hidden="true"
       overflow="visible"
     >
-      <ellipse cx="50" cy="142" rx="24" ry="5" fill="#000" opacity="0.3" />
+      <ellipse cx="55" cy="152" rx="26" ry="5" fill="#000" opacity="0.28" />
 
       <g className="idle-side-char">
-        {/* Back leg (far) */}
+        {/* Far leg */}
         <g className="idle-side-leg idle-side-leg--back">
           <path
-            d="M48 95 L42 118 L40 136"
+            d="M52 102 C48 118 46 130 44 146"
             fill="none"
             stroke="#1a2127"
-            strokeWidth="11"
+            strokeWidth="12"
             strokeLinecap="round"
-            strokeLinejoin="round"
           />
-          <ellipse cx="39" cy="138" rx="9" ry="4.5" fill="#0c0c0c" />
+          <ellipse cx="43" cy="148" rx="10" ry="4.5" fill="#0a0a0a" />
         </g>
 
-        {/* Body / jersey — stops above knees so legs stay visible */}
+        {/* Torso / jersey */}
         <path
-          d="M34 54
-             C32 70 33 86 36 94
-             H64
-             C67 86 68 70 66 54
+          d="M38 58
+             C36 78 38 96 42 102
+             H68
+             C72 96 74 78 72 58
              Z"
           fill="#f38019"
         />
-        {/* shorts */}
-        <path
-          d="M35 88 H65 L68 98 H33 Z"
-          fill="#1a2127"
-        />
-        <path d="M38 60 H62" stroke="#fff" strokeOpacity="0.35" strokeWidth="2.2" />
+        <path d="M40 96 H70 L72 106 H38 Z" fill="#141a1f" />
+        <path d="M42 64 H68" stroke="#fff" strokeOpacity="0.4" strokeWidth="2.4" />
         <text
-          x="50"
-          y="78"
+          x="55"
+          y="84"
           textAnchor="middle"
-          fontSize="12"
+          fontSize="13"
           fontWeight="900"
           fill="#1a120e"
           fontFamily="system-ui, sans-serif"
@@ -74,116 +71,102 @@ export function IdleSideFigure({
           {player.number}
         </text>
 
-        {/* Front leg (near) */}
+        {/* Near leg */}
         <g className="idle-side-leg idle-side-leg--front">
           <path
-            d="M54 95 L60 118 L62 136"
+            d="M60 102 C66 118 68 130 70 146"
             fill="none"
             stroke="#12171c"
-            strokeWidth="11"
+            strokeWidth="12"
             strokeLinecap="round"
-            strokeLinejoin="round"
           />
-          {/* sock */}
-          <path
-            d="M56 124 L64 124 L65 132 L55 132 Z"
-            fill="#f5f5f5"
-            opacity="0.9"
-          />
-          <ellipse cx="63" cy="138" rx="9" ry="4.5" fill="#0c0c0c" />
+          <path d="M64 132 H76 V142 H62 Z" fill="#f2f2f2" opacity="0.95" />
+          <ellipse cx="71" cy="148" rx="10" ry="4.5" fill="#0a0a0a" />
         </g>
 
-        {/* Back arm */}
+        {/* Far arm */}
         <path
-          d="M64 58 Q78 72 74 90"
+          d="M70 62 C84 74 82 96 78 102"
           fill="none"
           stroke={skin}
-          strokeWidth="8"
+          strokeWidth="9"
           strokeLinecap="round"
           className="idle-side-arm-back"
         />
 
-        {/* Front arm — empty hang or hold ball */}
+        {/* Near arm */}
         <path
-          d={holding ? 'M38 58 Q22 66 26 82' : 'M38 58 Q24 74 28 92'}
+          d={holding ? 'M42 62 C26 70 28 88 32 94' : 'M42 62 C28 78 30 98 34 104'}
           fill="none"
           stroke={skin}
-          strokeWidth="8"
+          strokeWidth="9"
           strokeLinecap="round"
           className="idle-side-arm-front"
         />
 
         {holding && (
           <g className="idle-side-ball">
-            <circle cx="24" cy="84" r="12" fill="#f38019" />
+            <circle cx="30" cy="96" r="13" fill="#f38019" />
             <path
-              d="M24 73 V95 M13 84 H35"
+              d="M30 84 V108 M18 96 H42"
               fill="none"
               stroke="#1a120e"
-              strokeWidth="1.3"
+              strokeWidth="1.4"
             />
           </g>
         )}
 
-        {/* Head — proper side profile (or ¾ when glancing) */}
+        {/* Head */}
         <g className="idle-side-head">
           {glance ? (
             <>
-              <circle cx="52" cy="36" r="20" fill={skin} />
+              {/* ¾ face toward camera */}
+              <circle cx="56" cy="38" r="22" fill={skin} />
               <path
-                d="M34 34 Q38 14 54 12 Q72 14 72 36 Q68 24 52 22 Q38 24 34 34 Z"
+                d="M36 36 Q42 12 58 10 Q78 12 78 38 Q74 24 56 22 Q42 24 36 36 Z"
                 fill={hair}
               />
-              <ellipse cx="46" cy="36" rx="3.4" ry="3.8" fill="#1a120e" />
-              <circle cx="47" cy="35" r="1.1" fill="#fff" />
-              <ellipse cx="58" cy="36" rx="3.4" ry="3.8" fill="#1a120e" />
-              <circle cx="59" cy="35" r="1.1" fill="#fff" />
+              <ellipse cx="48" cy="38" rx="3.6" ry="4" fill="#1a120e" />
+              <circle cx="49" cy="37" r="1.2" fill="#fff" />
+              <ellipse cx="62" cy="38" rx="3.6" ry="4" fill="#1a120e" />
+              <circle cx="63" cy="37" r="1.2" fill="#fff" />
               <path
-                d="M46 45 Q52 49 58 45"
+                d="M48 48 Q56 53 64 48"
+                fill="none"
+                stroke="#1a120e"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+              <circle cx="44" cy="46" r="2.6" fill={cheek} opacity="0.75" />
+              <circle cx="66" cy="46" r="2.6" fill={cheek} opacity="0.75" />
+            </>
+          ) : (
+            <>
+              {/* True side profile */}
+              <ellipse cx="62" cy="38" rx="18" ry="21" fill={skin} />
+              <path
+                d="M74 36 C82 38 82 44 74 46"
+                fill="none"
+                stroke={skin}
+                strokeWidth="7"
+                strokeLinecap="round"
+              />
+              <path
+                d="M46 34 Q52 10 66 10 Q82 12 84 36 Q80 22 66 20 Q52 22 46 34 Z"
+                fill={hair}
+              />
+              <path d="M46 32 C42 42 44 54 50 56 C48 48 50 40 54 36" fill={hair} />
+              <ellipse cx="50" cy="40" rx="4.5" ry="6" fill={skin} />
+              <ellipse cx="70" cy="38" rx="3.2" ry="3.8" fill="#1a120e" />
+              <circle cx="71" cy="37" r="1.1" fill="#fff" />
+              <path
+                d="M68 47 C72 50 76 48 78 46"
                 fill="none"
                 stroke="#1a120e"
                 strokeWidth="1.7"
                 strokeLinecap="round"
               />
-              <circle cx="42" cy="42" r="2.4" fill={cheek} opacity="0.75" />
-              <circle cx="62" cy="42" r="2.4" fill={cheek} opacity="0.75" />
-            </>
-          ) : (
-            <>
-              {/* skull */}
-              <ellipse cx="56" cy="36" rx="17" ry="19" fill={skin} />
-              {/* nose bump */}
-              <path
-                d="M70 36 Q76 38 70 42"
-                fill="none"
-                stroke={skin}
-                strokeWidth="5"
-                strokeLinecap="round"
-              />
-              {/* hair cap + back */}
-              <path
-                d="M40 34 Q44 12 58 11 Q74 12 76 34 Q72 20 58 18 Q46 20 40 34 Z"
-                fill={hair}
-              />
-              <path
-                d="M40 30 Q36 40 38 52 Q44 48 48 42"
-                fill={hair}
-              />
-              {/* ear */}
-              <ellipse cx="44" cy="38" rx="4" ry="5.5" fill={skin} />
-              <ellipse cx="44" cy="38" rx="2" ry="3" fill="none" stroke="#000" strokeOpacity="0.12" strokeWidth="1" />
-              {/* single eye */}
-              <ellipse cx="64" cy="36" rx="3" ry="3.5" fill="#1a120e" />
-              <circle cx="65" cy="35" r="1" fill="#fff" />
-              {/* smile */}
-              <path
-                d="M62 44 Q67 47 71 43"
-                fill="none"
-                stroke="#1a120e"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <circle cx="54" cy="42" r="2.2" fill={cheek} opacity="0.7" />
+              <circle cx="58" cy="46" r="2.4" fill={cheek} opacity="0.7" />
             </>
           )}
         </g>

@@ -2504,10 +2504,6 @@ body {
   will-change: left, top, transform;
 }
 
-.idle-fun__ball--physics {
-  /* position set inline from physics (left/top in px) */
-}
-
 .idle-fun__ball-svg {
   width: 100%;
   height: 100%;
@@ -2516,82 +2512,32 @@ body {
 
 .idle-fun__walker {
   position: absolute;
-  bottom: 4%;
+  bottom: 3%;
   width: 5.8rem;
-  height: 6.6rem;
+  height: 8.4rem;
   transform: translateX(-50%);
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
   will-change: left, transform;
   overflow: visible;
 }
 
-.idle-fun__walker.face-left {
-  transform: translateX(-50%) scaleX(-1);
-}
-
-.idle-fun__walker.face-left .idle-fun__held-ball {
-  /* un-mirror held ball text/feel — ball is symmetric OK */
-}
-
 .idle-fun__walker-svg {
   width: 100%;
   height: 100%;
   display: block;
-  animation: none !important;
-}
-
-.idle-fun__walker-svg .pf-char,
-.idle-fun__walker-svg .pf-ball,
-.idle-fun__walker-svg .pf-arm-l,
-.idle-fun__walker-svg .pf-arm-r,
-.idle-fun__walker-svg .pf-legs,
-.idle-fun__walker-svg .pf-head {
-  animation: none !important;
-}
-
-.idle-fun__walker-svg .pf-glow,
-.idle-fun__walker-svg .pf-shadow,
-.idle-fun__walker-svg .pf-rim {
-  display: none;
-}
-
-/* No ball in hands until pickup */
-.idle-fun__walker.is-empty-handed .pf-ball {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-.idle-fun__held-ball {
-  position: absolute;
-  width: 1.55rem;
-  height: 1.55rem;
-  right: 0.2rem;
-  top: 44%;
-  animation: idle-held-bob 0.45s ease-in-out infinite;
+  overflow: visible;
 }
 
 .idle-fun__walker--peek {
-  animation: idle-peek 1.1s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+  animation: idle-peek 1.15s cubic-bezier(0.34, 1.2, 0.64, 1) both;
 }
-
 .idle-fun__walker--left.idle-fun__walker--peek { left: 0%; }
 .idle-fun__walker--right.idle-fun__walker--peek { left: 100%; }
 
 @keyframes idle-peek {
-  0% { transform: translateX(-50%) translateY(22%) scale(0.9); opacity: 0; }
-  40% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-  100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
-}
-
-.idle-fun__walker--left.idle-fun__walker--peek.face-left,
-.idle-fun__walker--right.idle-fun__walker--peek.face-left {
-  animation-name: idle-peek-flip;
-}
-
-@keyframes idle-peek-flip {
-  0% { transform: translateX(-50%) scaleX(-1) translateY(22%) scale(0.9); opacity: 0; }
-  40% { opacity: 1; transform: translateX(-50%) scaleX(-1) translateY(0) scale(1); }
-  100% { transform: translateX(-50%) scaleX(-1) translateY(0) scale(1); opacity: 1; }
+  0% { transform: translateX(-50%) translateY(24%); opacity: 0; }
+  40% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
 }
 
 .idle-fun__walker--left.idle-fun__walker--walk-in {
@@ -2600,13 +2546,11 @@ body {
 .idle-fun__walker--right.idle-fun__walker--walk-in {
   animation: idle-walk-in-r 1.65s cubic-bezier(0.33, 1, 0.4, 1) both;
 }
-
 .idle-fun__walker--left.idle-fun__walker--pickup,
 .idle-fun__walker--right.idle-fun__walker--pickup {
   left: var(--ball-x, 50%);
   animation: idle-pickup-bob 0.65s ease-in-out both;
 }
-
 .idle-fun__walker--left.idle-fun__walker--walk-out {
   left: var(--ball-x, 50%);
   animation: idle-walk-out-l 1.95s cubic-bezier(0.4, 0, 0.55, 1) both;
@@ -2614,23 +2558,6 @@ body {
 .idle-fun__walker--right.idle-fun__walker--walk-out {
   left: var(--ball-x, 50%);
   animation: idle-walk-out-r 1.95s cubic-bezier(0.4, 0, 0.55, 1) both;
-}
-
-/* face-left variants keep scaleX(-1) in keyframes */
-.idle-fun__walker.face-left.idle-fun__walker--walk-in.idle-fun__walker--left {
-  animation-name: idle-walk-in-l-flip;
-}
-.idle-fun__walker.face-left.idle-fun__walker--walk-in.idle-fun__walker--right {
-  animation-name: idle-walk-in-r-flip;
-}
-.idle-fun__walker.face-left.idle-fun__walker--pickup {
-  animation-name: idle-pickup-bob-flip;
-}
-.idle-fun__walker.face-left.idle-fun__walker--walk-out.idle-fun__walker--left {
-  animation-name: idle-walk-out-l-flip;
-}
-.idle-fun__walker.face-left.idle-fun__walker--walk-out.idle-fun__walker--right {
-  animation-name: idle-walk-out-r-flip;
 }
 
 @keyframes idle-walk-in-l {
@@ -2641,26 +2568,11 @@ body {
   0% { left: 114%; opacity: 1; }
   100% { left: var(--ball-x, 50%); opacity: 1; }
 }
-@keyframes idle-walk-in-l-flip {
-  0% { left: -14%; opacity: 1; transform: translateX(-50%) scaleX(-1); }
-  100% { left: var(--ball-x, 50%); opacity: 1; transform: translateX(-50%) scaleX(-1); }
-}
-@keyframes idle-walk-in-r-flip {
-  0% { left: 114%; opacity: 1; transform: translateX(-50%) scaleX(-1); }
-  100% { left: var(--ball-x, 50%); opacity: 1; transform: translateX(-50%) scaleX(-1); }
-}
-
 @keyframes idle-pickup-bob {
   0% { transform: translateX(-50%) translateY(0); }
   45% { transform: translateX(-50%) translateY(10px) scale(0.97); }
   100% { transform: translateX(-50%) translateY(0); }
 }
-@keyframes idle-pickup-bob-flip {
-  0% { transform: translateX(-50%) scaleX(-1) translateY(0); }
-  45% { transform: translateX(-50%) scaleX(-1) translateY(10px) scale(0.97); }
-  100% { transform: translateX(-50%) scaleX(-1) translateY(0); }
-}
-
 @keyframes idle-walk-out-l {
   0% { left: var(--ball-x, 50%); opacity: 1; }
   100% { left: -16%; opacity: 1; }
@@ -2669,49 +2581,43 @@ body {
   0% { left: var(--ball-x, 50%); opacity: 1; }
   100% { left: 116%; opacity: 1; }
 }
-@keyframes idle-walk-out-l-flip {
-  0% { left: var(--ball-x, 50%); opacity: 1; transform: translateX(-50%) scaleX(-1); }
-  100% { left: -16%; opacity: 1; transform: translateX(-50%) scaleX(-1); }
-}
-@keyframes idle-walk-out-r-flip {
-  0% { left: var(--ball-x, 50%); opacity: 1; transform: translateX(-50%) scaleX(-1); }
-  100% { left: 116%; opacity: 1; transform: translateX(-50%) scaleX(-1); }
-}
 
-.idle-fun__walker--walk-in .pf-char,
-.idle-fun__walker--walk-out .pf-char {
-  animation: idle-walk-char 0.36s ease-in-out infinite !important;
-  transform-box: fill-box;
-  transform-origin: center bottom;
+.idle-fun__walker--walk-in .idle-side-char,
+.idle-fun__walker--walk-out .idle-side-char {
+  animation: idle-walk-char 0.36s ease-in-out infinite;
 }
-.idle-fun__walker--walk-in .pf-legs,
-.idle-fun__walker--walk-out .pf-legs {
-  animation: idle-walk-legs 0.36s ease-in-out infinite !important;
+.idle-fun__walker--walk-in .idle-side-leg--front,
+.idle-fun__walker--walk-out .idle-side-leg--front {
+  animation: idle-walk-leg-f 0.36s ease-in-out infinite;
   transform-box: fill-box;
-  transform-origin: center top;
+  transform-origin: top center;
+}
+.idle-fun__walker--walk-in .idle-side-leg--back,
+.idle-fun__walker--walk-out .idle-side-leg--back {
+  animation: idle-walk-leg-b 0.36s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: top center;
 }
 
 @keyframes idle-walk-char {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-2px); }
 }
-@keyframes idle-walk-legs {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+@keyframes idle-walk-leg-f {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(-10deg); }
 }
-@keyframes idle-held-bob {
-  0%, 100% { transform: translateY(0) rotate(-6deg); }
-  50% { transform: translateY(-3px) rotate(8deg); }
+@keyframes idle-walk-leg-b {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(10deg); }
 }
 
-.idle-fun__walker.is-glance .pf-head {
-  animation: idle-glance-nod 0.4s ease-in-out !important;
+.idle-fun__walker .idle-side-head {
   transform-box: fill-box;
   transform-origin: center bottom;
 }
-@keyframes idle-glance-nod {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-6deg); }
+.idle-fun__walker.is-holding .idle-side-head {
+  /* keep */
 }
 
 @media (prefers-reduced-motion: reduce) {
