@@ -2308,25 +2308,26 @@ body {
   animation: training-next-ring-spin 2.6s linear infinite;
 }
 
-/* Soft diagonal sheen that blinks across the card */
+/* Occasional subtle left→right swoosh (like sun on a plate) — rare & soft */
 .training-next__sheen {
   position: absolute;
-  top: -40%;
-  left: -30%;
-  width: 42%;
-  height: 180%;
+  top: -30%;
+  left: -40%;
+  width: 36%;
+  height: 160%;
   background: linear-gradient(
-    105deg,
+    100deg,
     transparent 0%,
-    rgba(255, 255, 255, 0) 38%,
-    rgba(255, 220, 180, 0.14) 48%,
-    rgba(255, 255, 255, 0.28) 50%,
-    rgba(255, 220, 180, 0.12) 52%,
-    transparent 62%,
+    transparent 42%,
+    rgba(255, 236, 210, 0.04) 47%,
+    rgba(255, 255, 255, 0.11) 50%,
+    rgba(255, 220, 180, 0.05) 53%,
+    transparent 58%,
     transparent 100%
   );
-  transform: translateX(-120%) skewX(-18deg);
-  animation: training-next-sheen 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform: translateX(-140%) skewX(-16deg);
+  /* ~11s cycle: swoosh only in a short window, long quiet gap */
+  animation: training-next-sheen 11s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
 }
 
 /* Tiny playful sparkles */
@@ -2405,10 +2406,11 @@ body {
 }
 
 @keyframes training-next-sheen {
-  0%, 55% { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
-  60% { opacity: 1; }
-  78% { transform: translateX(280%) skewX(-18deg); opacity: 0.95; }
-  82%, 100% { transform: translateX(280%) skewX(-18deg); opacity: 0; }
+  /* Quiet most of the time; one soft pass ~every 11s */
+  0%, 72% { transform: translateX(-140%) skewX(-16deg); opacity: 0; }
+  74% { opacity: 0.55; }
+  82% { transform: translateX(260%) skewX(-16deg); opacity: 0.7; }
+  84%, 100% { transform: translateX(260%) skewX(-16deg); opacity: 0; }
 }
 
 @keyframes training-next-spark {
