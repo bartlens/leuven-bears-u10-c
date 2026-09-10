@@ -721,39 +721,22 @@ function playBounceTone(
   /** 1 = first big bounce, ~0.15 = tiny settling tick */
   strength = 1,
 ) {
-  /** Rubber ball bounce — shorter & quieter as strength drops */
+  /** Same family as Bas N’s click sound (`thud`) — shorter each bounce */
   const s = Math.max(0.12, Math.min(1, strength))
-  const dur = 0.035 + s * 0.1
-  const peak = 0.12 + s * 0.38
-  const f0 = (88 + (seed % 5) * 7) * (0.85 + s * 0.2)
-
-  const thud = c.createOscillator()
-  const tg = softGain(c)
-  thud.type = 'sine'
-  thud.frequency.setValueAtTime(f0, t)
-  thud.frequency.exponentialRampToValueAtTime(Math.max(36, f0 * 0.4), t + dur * 0.7)
-  envelope(tg, peak, 0.002, dur * 0.2, dur * 0.55, t)
-  thud.connect(tg)
-  thud.start(t)
-  thud.stop(t + dur + 0.02)
-
-  // Soft rubber transient (noise) — scales with bounce size
-  const n = c.createBufferSource()
-  const ng = softGain(c)
-  const filt = c.createBiquadFilter()
-  filt.type = 'lowpass'
-  filt.frequency.value = 400 + s * 900
-  n.buffer = noiseBuffer(c, Math.max(0.02, dur * 0.55))
-  envelope(ng, peak * 0.35, 0.001, 0.008, dur * 0.4, t)
-  n.connect(filt)
-  filt.connect(ng)
-  n.start(t)
-  n.stop(t + dur)
-
+  const osc = c.createOscillator()
+  const g = softGain(c)
+  osc.type = 'triangle'
+  const f = 70 + (seed % 4) * 6
+  const dur = 0.05 + s * 0.15
+  osc.frequency.setValueAtTime(f * (1.35 + s * 0.25), t)
+  osc.frequency.exponentialRampToValueAtTime(f, t + dur * 0.55)
+  envelope(g, 0.08 + s * 0.12, 0.004, dur * 0.15, dur * 0.55, t)
+  osc.connect(g)
+  osc.start(t)
+  osc.stop(t + dur + 0.02)
   return () => {
     try {
-      thud.stop()
-      n.stop()
+      osc.stop()
     } catch {
       /* */
     }
