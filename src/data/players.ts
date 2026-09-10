@@ -56,7 +56,7 @@ export const players: Player[] = [
     accent: 'orange',
     move: 'arm-roll',
     moveLabel: 'Arm-roll',
-    look: { hair: '#1f1410', skin: '#f5c7a1', hairStyle: 'spiky' },
+    look: { hair: '#f0d078', skin: '#f5c7a1', hairStyle: 'spiky' },
   },
   {
     id: 'p2',
@@ -67,7 +67,7 @@ export const players: Player[] = [
     accent: 'bear',
     move: 'finger-spin',
     moveLabel: 'Vingerspin',
-    look: { hair: '#e8c468', skin: '#efc09a', hairStyle: 'fluffy' },
+    look: { hair: '#1f1410', skin: '#efc09a', hairStyle: 'short' },
   },
   {
     id: 'p3',
@@ -78,7 +78,7 @@ export const players: Player[] = [
     accent: 'warm',
     move: 'between-legs',
     moveLabel: 'Tussenbenen',
-    look: { hair: '#ffe8a8', skin: '#f8d4b8', hairStyle: 'side' },
+    look: { hair: '#ffe8a8', skin: '#f8d4b8', hairStyle: 'short' },
   },
   {
     id: 'p4',

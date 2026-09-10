@@ -10,7 +10,7 @@ export function Spelers() {
       <SectionHeader
         eyebrow="Roster · Seizoen 2026 - 2027"
         title="Onze spelers"
-        subtitle={`De beren van seizoen ${team.season} — ${players.length} spelers met elk hun eigen vibe. Hover of tik voor hun signature move!`}
+        subtitle={`De beren van seizoen ${team.season} — ${players.length} spelers met elk hun eigen vibe.`}
       />
 
       <div className="mb-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
