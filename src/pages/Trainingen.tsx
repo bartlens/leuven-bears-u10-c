@@ -137,14 +137,15 @@ export function Trainingen() {
                     aria-label={`Eerstvolgende training ${formatTrainingDate(t.dateIso)}. Tik om de coaches te laten zwaaien.`}
                     onClick={triggerCoachWave}
                     onKeyDown={onNextKeyDown}
-                    className={`training-next card-lift animate-in relative flex cursor-pointer flex-col gap-2 overflow-visible rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:flex-row sm:items-center sm:justify-between ${
+                    className={`training-next card-lift animate-in relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:flex-row sm:items-center sm:justify-between ${
                       waving ? 'is-waving' : ''
                     }`}
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
+                    <span className="training-next__glow" aria-hidden="true" />
                     {waving && (
                       <div
-                        className="training-coach-pop pointer-events-none absolute inset-x-0 bottom-full z-20 mb-[-0.35rem] flex h-24 items-end justify-center gap-3 overflow-visible sm:h-28"
+                        className="training-coach-pop pointer-events-none absolute inset-0 z-[5] flex items-center justify-center gap-3 overflow-hidden rounded-2xl"
                         aria-hidden="true"
                       >
                         {COACHES.map((coach, ci) => (
