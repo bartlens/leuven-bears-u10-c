@@ -100,7 +100,7 @@ export const players: Player[] = [
     accent: 'bear',
     move: 'crossover',
     moveLabel: 'Crossover',
-    look: { hair: '#f5e6b0', skin: '#f2c9a8', hairStyle: 'short' },
+    look: { hair: '#d4b45a', skin: '#f2c9a8', hairStyle: 'short' },
   },
   {
     id: 'p6',
@@ -173,7 +173,7 @@ export const players: Player[] = [
     accent: 'bear',
     move: 'layup',
     moveLabel: 'Lay-up',
-    look: { hair: '#f2d890', skin: '#f6d0b0', hairStyle: 'short' },
+    look: { hair: '#d4b45a', skin: '#f6d0b0', hairStyle: 'short' },
   },
   {
     id: 'p12',
