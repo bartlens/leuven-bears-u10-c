@@ -26,7 +26,7 @@ type Scene = {
 
 const IDLE_MS = 20_000
 const COOLDOWN_MS = 90_000
-const BALL_SETTLE_MS = 1600
+const BALL_SETTLE_MS = 1900
 const PEEK_MS = 1200
 const WALK_IN_MS = 1800
 const PICKUP_MS = 750
@@ -127,12 +127,17 @@ export function IdleBallEasterEgg() {
     // Nudge audio awake again right as the scene starts
     phaseTimers.current.push(setTimeout(() => void unlockAudio(), 0))
     if (next.side === 'top') {
-      // Bounce hits when the ball lands / rebounds
-      phaseTimers.current.push(
-        setTimeout(() => playIdleBallBounce(seed), 620),
-        setTimeout(() => playIdleBallBounce(seed + 1), 920),
-        setTimeout(() => playIdleBallBounce(seed + 2), 1180),
-      )
+      // Real bounce settle: gaps & strength shrink each hit
+      let at = 480
+      const gaps = [0, 340, 230, 155, 105, 72, 50]
+      gaps.forEach((gap, i) => {
+        at += gap
+        const strength = Math.pow(0.7, i)
+        const when = at
+        phaseTimers.current.push(
+          setTimeout(() => playIdleBallBounce(seed + i, strength), when),
+        )
+      })
     } else {
       // Soft roll ticks while rolling in
       phaseTimers.current.push(

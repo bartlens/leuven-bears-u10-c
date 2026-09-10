@@ -2527,7 +2527,7 @@ body {
   left: var(--ball-x, 50%);
   top: -12%;
   bottom: auto;
-  animation: idle-ball-drop 1.55s cubic-bezier(0.22, 1.35, 0.36, 1) both;
+  animation: idle-ball-drop 1.85s cubic-bezier(0.22, 1.2, 0.36, 1) both;
 }
 
 @keyframes idle-ball-roll-l {
@@ -2545,17 +2545,21 @@ body {
     top: -14%;
     bottom: auto;
     left: var(--ball-x, 50%);
-    transform: translateX(-50%) scale(0.9);
+    transform: translateX(-50%) scale(0.92);
     opacity: 1;
   }
-  42% {
+  28% {
     top: auto;
     bottom: 12%;
-    transform: translateX(-50%) scale(1.06);
+    transform: translateX(-50%) scale(1.05);
   }
-  58% { bottom: 20%; transform: translateX(-50%) scale(0.94); }
-  72% { bottom: 12%; transform: translateX(-50%) scale(1.03); }
-  86% { bottom: 15%; transform: translateX(-50%) scale(0.98); }
+  40% { bottom: 26%; transform: translateX(-50%) scale(0.95); }
+  50% { bottom: 12%; transform: translateX(-50%) scale(1.03); }
+  60% { bottom: 20%; transform: translateX(-50%) scale(0.97); }
+  70% { bottom: 12%; transform: translateX(-50%) scale(1.02); }
+  80% { bottom: 16%; transform: translateX(-50%) scale(0.99); }
+  88% { bottom: 12%; transform: translateX(-50%) scale(1.01); }
+  94% { bottom: 13.5%; transform: translateX(-50%) scale(1); }
   100% { bottom: 12%; transform: translateX(-50%) scale(1); opacity: 1; }
 }
 

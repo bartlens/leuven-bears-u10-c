@@ -714,40 +714,48 @@ export function playHihiGiggle(seed = 1): void {
 
 /* ── Idle easter-egg: bounce + funny scoop ───────────────────────── */
 
-function playBounceTone(c: AudioContext, t: number, seed: number) {
-  /** Punchy floor bounce — thud + short spring */
-  const stops: OscillatorNode[] = []
+function playBounceTone(
+  c: AudioContext,
+  t: number,
+  seed: number,
+  /** 1 = first big bounce, ~0.15 = tiny settling tick */
+  strength = 1,
+) {
+  /** Rubber ball bounce — shorter & quieter as strength drops */
+  const s = Math.max(0.12, Math.min(1, strength))
+  const dur = 0.035 + s * 0.1
+  const peak = 0.12 + s * 0.38
+  const f0 = (88 + (seed % 5) * 7) * (0.85 + s * 0.2)
+
   const thud = c.createOscillator()
   const tg = softGain(c)
   thud.type = 'sine'
-  const f0 = 95 + (seed % 5) * 8
   thud.frequency.setValueAtTime(f0, t)
-  thud.frequency.exponentialRampToValueAtTime(42, t + 0.09)
-  envelope(tg, 0.45, 0.002, 0.035, 0.1, t)
+  thud.frequency.exponentialRampToValueAtTime(Math.max(36, f0 * 0.4), t + dur * 0.7)
+  envelope(tg, peak, 0.002, dur * 0.2, dur * 0.55, t)
   thud.connect(tg)
   thud.start(t)
-  thud.stop(t + 0.16)
-  stops.push(thud)
+  thud.stop(t + dur + 0.02)
 
-  const spring = c.createOscillator()
-  const sg = softGain(c)
-  spring.type = 'triangle'
-  const f1 = 220 + (seed % 4) * 20
-  spring.frequency.setValueAtTime(f1, t + 0.015)
-  spring.frequency.exponentialRampToValueAtTime(110, t + 0.12)
-  envelope(sg, 0.28, 0.003, 0.025, 0.09, t + 0.015)
-  spring.connect(sg)
-  spring.start(t + 0.015)
-  spring.stop(t + 0.14)
-  stops.push(spring)
+  // Soft rubber transient (noise) — scales with bounce size
+  const n = c.createBufferSource()
+  const ng = softGain(c)
+  const filt = c.createBiquadFilter()
+  filt.type = 'lowpass'
+  filt.frequency.value = 400 + s * 900
+  n.buffer = noiseBuffer(c, Math.max(0.02, dur * 0.55))
+  envelope(ng, peak * 0.35, 0.001, 0.008, dur * 0.4, t)
+  n.connect(filt)
+  filt.connect(ng)
+  n.start(t)
+  n.stop(t + dur)
 
   return () => {
-    for (const o of stops) {
-      try {
-        o.stop()
-      } catch {
-        /* */
-      }
+    try {
+      thud.stop()
+      n.stop()
+    } catch {
+      /* */
     }
   }
 }
@@ -774,30 +782,36 @@ function playRollTone(c: AudioContext, t: number, seed: number) {
 }
 
 function playFootstepTone(c: AudioContext, t: number, seed: number) {
-  /** Cartoon foot tap — audible on phone speakers */
-  const osc = c.createOscillator()
-  const g = softGain(c)
-  osc.type = 'square'
-  const f = 190 + (seed % 3) * 30
-  osc.frequency.setValueAtTime(f, t)
-  osc.frequency.exponentialRampToValueAtTime(80, t + 0.055)
-  envelope(g, 0.2, 0.002, 0.02, 0.05, t)
-  osc.connect(g)
-  osc.start(t)
-  osc.stop(t + 0.09)
-
+  /** Soft sneaker / shoe scuff — filtered noise, no beep */
   const n = c.createBufferSource()
   const ng = softGain(c)
-  n.buffer = noiseBuffer(c, 0.05)
-  envelope(ng, 0.12, 0.001, 0.01, 0.035, t)
-  n.connect(ng)
+  const bp = c.createBiquadFilter()
+  bp.type = 'bandpass'
+  bp.frequency.value = 320 + (seed % 4) * 55
+  bp.Q.value = 0.85
+  n.buffer = noiseBuffer(c, 0.07)
+  envelope(ng, 0.18, 0.001, 0.012, 0.045, t)
+  n.connect(bp)
+  bp.connect(ng)
   n.start(t)
-  n.stop(t + 0.05)
+  n.stop(t + 0.07)
+
+  // Tiny low thud under the scuff
+  const osc = c.createOscillator()
+  const g = softGain(c)
+  osc.type = 'sine'
+  const f = 95 + (seed % 3) * 12
+  osc.frequency.setValueAtTime(f, t)
+  osc.frequency.exponentialRampToValueAtTime(55, t + 0.05)
+  envelope(g, 0.1, 0.002, 0.01, 0.04, t)
+  osc.connect(g)
+  osc.start(t)
+  osc.stop(t + 0.07)
 
   return () => {
     try {
-      osc.stop()
       n.stop()
+      osc.stop()
     } catch {
       /* */
     }
@@ -858,9 +872,9 @@ async function withRunningAudio(
   play(audio)
 }
 
-export function playIdleBallBounce(seed = 1): void {
+export function playIdleBallBounce(seed = 1, strength = 1): void {
   void withRunningAudio((audio) => {
-    playBounceTone(audio, audio.currentTime + 0.01, seed)
+    playBounceTone(audio, audio.currentTime + 0.01, seed, strength)
   })
 }
 
