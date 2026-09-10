@@ -169,7 +169,7 @@ export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
               <text x="70" y="92" textAnchor="middle" fontSize="10">
                 🐻
               </text>
-              {/* whistle on lanyard — front of chest, clear of hands */}
+              {/* whistle on lanyard — Rafa keeps chest bounce; Jonathan fades this during blow */}
               <g className="sf-whistle">
                 <path
                   d="M74 72 Q86 86 96 98"
@@ -271,6 +271,32 @@ export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
           <ellipse cx="106" cy="80" rx="5" ry="4" fill="#fff" opacity="0.1" />
           <circle cx="110" cy="100" r="7.5" fill={skin} />
           <circle cx="108" cy="98" r="1.6" fill="#fff" opacity="0.25" />
+          {/* Jonathan: hand-held whistle — rides the arm raise up to the mouth */}
+          {move === 'whistle-clap' && (
+            <g className="sf-whistle-hand" opacity="0">
+              <ellipse
+                cx="104"
+                cy="94"
+                rx="7.4"
+                ry="5.4"
+                fill="#f2ebe0"
+                stroke="#1a2127"
+                strokeWidth="1.2"
+                transform="rotate(-55 104 94)"
+              />
+              <rect
+                x="108.2"
+                y="88.2"
+                width="8.8"
+                height="5.2"
+                rx="1.4"
+                fill="#1a2127"
+                transform="rotate(-55 112.6 90.8)"
+              />
+              <circle cx="101.2" cy="93.2" r="1.3" fill="#1a2127" opacity="0.5" />
+              <circle cx="105.6" cy="92.4" r="1.1" fill="#f38019" opacity="0.95" />
+            </g>
+          )}
         </g>
 
         <g className="pf-head">
@@ -333,17 +359,77 @@ export function StaffFigure({ staff, className = '' }: StaffFigureProps) {
             strokeLinecap="round"
             className="pf-smile sf-smile-idle"
           />
-          {/* whistle O-mouth — shown during Jonathan whistle phase */}
+          {/* whistle O-mouth + blow whistle + sound ticks — Jonathan only */}
           {move === 'whistle-clap' && (
-            <ellipse
-              className="sf-whistle-mouth"
-              cx="70"
-              cy="66"
-              rx="4.2"
-              ry="3.4"
-              fill="#0a0a0a"
-              opacity="0"
-            />
+            <>
+              <ellipse
+                className="sf-whistle-mouth"
+                cx="70"
+                cy="66"
+                rx="5.2"
+                ry="4.2"
+                fill="#0a0a0a"
+                opacity="0"
+              />
+              {/* mouth-held whistle (unmistakable blow) — crossfades with chest/hand */}
+              <g className="sf-whistle-blow" opacity="0">
+                <ellipse
+                  cx="78"
+                  cy="66"
+                  rx="7.6"
+                  ry="5.5"
+                  fill="#f2ebe0"
+                  stroke="#1a2127"
+                  strokeWidth="1.25"
+                  transform="rotate(-18 78 66)"
+                />
+                <rect
+                  x="83.5"
+                  y="61.6"
+                  width="9"
+                  height="5.4"
+                  rx="1.4"
+                  fill="#1a2127"
+                  transform="rotate(-18 88 64.3)"
+                />
+                <circle cx="75.2" cy="65.4" r="1.35" fill="#1a2127" opacity="0.5" />
+                <circle cx="79.8" cy="64.6" r="1.15" fill="#f38019" opacity="0.95" />
+              </g>
+              <g className="sf-whistle-sound" opacity="0">
+                <path
+                  d="M88 58 Q94 54 98 57"
+                  fill="none"
+                  stroke="#f38019"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M90 64 Q97 61 102 65"
+                  fill="none"
+                  stroke="#ff9a3d"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                  opacity="0.9"
+                />
+                <path
+                  d="M89 52 Q95 47 101 50"
+                  fill="none"
+                  stroke="#fff8f0"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  opacity="0.75"
+                />
+                <text
+                  x="104"
+                  y="48"
+                  fontSize="11"
+                  fill="#f38019"
+                  fontFamily="'Space Grotesk', system-ui, sans-serif"
+                >
+                  ♪
+                </text>
+              </g>
+            </>
           )}
           {/* soft cheer smile — slightly wider, still closed */}
           <path

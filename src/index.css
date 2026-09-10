@@ -1142,6 +1142,9 @@ body {
 .staff-figure .sf-eye-squint,
 .staff-figure .sf-cheek,
 .staff-figure .sf-whistle,
+.staff-figure .sf-whistle-hand,
+.staff-figure .sf-whistle-blow,
+.staff-figure .sf-whistle-sound,
 .staff-figure .sf-clipboard,
 .staff-figure .sf-scarf,
 .staff-figure .sf-cheer-bits {
@@ -1155,6 +1158,9 @@ body {
 .staff-figure .sf-eye-squint { transform-origin: 70px 50px; }
 .staff-figure .sf-cheek { transform-origin: 70px 58px; }
 .staff-figure .sf-whistle { transform-origin: 99px 101px; }
+.staff-figure .sf-whistle-hand { transform-origin: 104px 94px; }
+.staff-figure .sf-whistle-blow { transform-origin: 78px 66px; }
+.staff-figure .sf-whistle-sound { transform-origin: 96px 56px; }
 .staff-figure .sf-clipboard { transform-origin: 20px 110px; }
 .staff-figure .sf-scarf { transform-origin: 114px 100px; }
 .staff-figure .sf-cheer-bits { transform-origin: 70px 40px; }
@@ -1208,7 +1214,22 @@ body {
 .player-card[data-move="whistle-clap"]:hover .sf-whistle,
 .player-card[data-move="whistle-clap"]:focus-within .sf-whistle,
 .player-card[data-move="whistle-clap"]:active .sf-whistle {
-  animation: sf-whistleclap-whistle 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  animation: sf-whistleclap-whistle-chest 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="whistle-clap"]:hover .sf-whistle-hand,
+.player-card[data-move="whistle-clap"]:focus-within .sf-whistle-hand,
+.player-card[data-move="whistle-clap"]:active .sf-whistle-hand {
+  animation: sf-whistleclap-whistle-hand 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="whistle-clap"]:hover .sf-whistle-blow,
+.player-card[data-move="whistle-clap"]:focus-within .sf-whistle-blow,
+.player-card[data-move="whistle-clap"]:active .sf-whistle-blow {
+  animation: sf-whistleclap-whistle-blow 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.player-card[data-move="whistle-clap"]:hover .sf-whistle-sound,
+.player-card[data-move="whistle-clap"]:focus-within .sf-whistle-sound,
+.player-card[data-move="whistle-clap"]:active .sf-whistle-sound {
+  animation: sf-whistleclap-sound 2.4s ease-in-out infinite;
 }
 .player-card[data-move="whistle-clap"]:hover .sf-clipboard,
 .player-card[data-move="whistle-clap"]:focus-within .sf-clipboard,
@@ -1232,12 +1253,12 @@ body {
 }
 
 @keyframes sf-whistleclap-char {
-  /* phase 1 whistle lean · phase 2 clap bounce · return idle */
+  /* phase 1 clear to-mouth blow · phase 2 clap bounce · return idle */
   0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
-  10% { transform: translateY(1px) scale(1.01, 0.99) rotate(0deg); }
-  22% { transform: translateY(2px) scale(1.02, 0.97) rotate(-1deg); } /* blow */
-  34% { transform: translateY(1px) scale(1.01, 0.99) rotate(0deg); }
-  42% { transform: translateY(0) scale(1, 1); } /* drop whistle */
+  8% { transform: translateY(1px) scale(1.01, 0.99) rotate(0deg); }
+  18% { transform: translateY(2px) scale(1.025, 0.965) rotate(1deg); } /* lean into blow */
+  30% { transform: translateY(2px) scale(1.02, 0.97) rotate(1deg); }
+  40% { transform: translateY(0) scale(1, 1) rotate(0deg); } /* drop whistle */
   52% { transform: translateY(-2px) scale(0.99, 1.02); }
   60% { transform: translateY(1px) scale(1.02, 0.98) rotate(-2deg); }
   68% { transform: translateY(-3px) scale(1.01, 0.99) rotate(2deg); }
@@ -1247,20 +1268,20 @@ body {
 }
 @keyframes sf-whistleclap-leg-l {
   0%, 100% { transform: rotate(0deg) translateY(0); }
-  22% { transform: rotate(-2deg) translateY(1px); }
+  20% { transform: rotate(-3deg) translateY(1px); }
   60%, 76% { transform: rotate(-3deg) translateY(0); }
   92% { transform: rotate(0deg) translateY(0); }
 }
 @keyframes sf-whistleclap-leg-r {
   0%, 100% { transform: rotate(0deg) translateY(0); }
-  22% { transform: rotate(2deg) translateY(1px); }
+  20% { transform: rotate(3deg) translateY(1px); }
   60%, 76% { transform: rotate(3deg) translateY(0); }
   92% { transform: rotate(0deg) translateY(0); }
 }
 @keyframes sf-whistleclap-arm-l {
   /* idle → steady during whistle → clap inward → idle */
   0%, 100% { transform: rotate(0deg); }
-  10%, 38% { transform: rotate(6deg); }
+  10%, 38% { transform: rotate(8deg); }
   48% { transform: rotate(-8deg); }
   56% { transform: rotate(-42deg); }
   64% { transform: rotate(-28deg); }
@@ -1270,13 +1291,13 @@ body {
   94% { transform: rotate(-4deg); }
 }
 @keyframes sf-whistleclap-arm-r {
-  /* raise to mouth for whistle, then clap */
+  /* right hand lifts hard toward mouth, then claps */
   0%, 100% { transform: rotate(0deg); }
-  8% { transform: rotate(-18deg); }
-  18% { transform: rotate(-52deg); } /* hold whistle */
-  30% { transform: rotate(-48deg); }
-  40% { transform: rotate(-12deg); } /* lower */
-  48% { transform: rotate(8deg); }
+  6% { transform: rotate(-28deg); }
+  14% { transform: rotate(-78deg); }
+  18%, 32% { transform: rotate(-96deg); } /* hold at mouth */
+  38% { transform: rotate(-40deg); } /* lower */
+  46% { transform: rotate(6deg); }
   56% { transform: rotate(42deg); }
   64% { transform: rotate(28deg); }
   72% { transform: rotate(46deg); }
@@ -1286,41 +1307,66 @@ body {
 }
 @keyframes sf-whistleclap-head {
   0%, 100% { transform: rotate(0deg) translateY(0); }
-  18%, 30% { transform: rotate(-3deg) translateY(1px); } /* lean into whistle */
-  42% { transform: rotate(0deg) translateY(0); }
+  14% { transform: rotate(4deg) translateY(1px); } /* lean toward raised hand/whistle */
+  18%, 32% { transform: rotate(5deg) translateY(2px); }
+  40% { transform: rotate(0deg) translateY(0); }
   56% { transform: rotate(-4deg) translateY(0); }
   68% { transform: rotate(5deg) translateY(-1px); }
   80% { transform: rotate(-3deg) translateY(0); }
   92% { transform: rotate(0deg) translateY(0); }
 }
 @keyframes sf-whistleclap-mouth {
-  0%, 8%, 100% { opacity: 0; transform: scale(0.7); }
-  16%, 34% { opacity: 1; transform: scale(1); } /* O / purse */
-  42%, 100% { opacity: 0; transform: scale(0.7); }
+  0%, 8%, 100% { opacity: 0; transform: scale(0.55); }
+  14% { opacity: 1; transform: scale(0.92); }
+  18%, 32% { opacity: 1; transform: scale(1.12); } /* clear O-mouth */
+  38% { opacity: 0.35; transform: scale(0.8); }
+  44%, 100% { opacity: 0; transform: scale(0.55); }
 }
 @keyframes sf-whistleclap-smile {
   0%, 8% { opacity: 1; }
-  16%, 36% { opacity: 0; } /* hidden while whistling */
+  14%, 36% { opacity: 0; } /* hidden while whistling */
   44%, 90% { opacity: 1; }
   100% { opacity: 1; }
 }
 @keyframes sf-whistleclap-cheek {
   0%, 100% { opacity: 0.45; transform: scale(1); }
-  18%, 32% { opacity: 0.8; transform: scale(1.18); } /* puff */
+  14% { opacity: 0.75; transform: scale(1.2); }
+  18%, 32% { opacity: 0.95; transform: scale(1.38); } /* strong puff */
+  40% { opacity: 0.55; transform: scale(1.05); }
   48% { opacity: 0.5; transform: scale(1); }
   64%, 80% { opacity: 0.7; transform: scale(1.1); }
 }
-@keyframes sf-whistleclap-whistle {
-  /* lift to mouth, hold, drop, gentle sway during clap */
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  10% { transform: translate(-8px, -12px) rotate(-12deg); }
-  18% { transform: translate(-22px, -34px) rotate(-28deg); } /* at mouth */
-  30% { transform: translate(-20px, -32px) rotate(-26deg) scale(1.04); }
-  40% { transform: translate(-6px, -8px) rotate(-8deg); }
-  48% { transform: translate(0, 0) rotate(0deg); }
-  64% { transform: translate(0, -2px) rotate(-6deg); }
-  80% { transform: translate(0, 1px) rotate(4deg); }
-  92% { transform: translate(0, 0) rotate(0deg); }
+@keyframes sf-whistleclap-whistle-chest {
+  /* chest lanyard whistle fades while hand/mouth whistle takes over */
+  0%, 100% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+  8% { opacity: 0.55; transform: translate(-4px, -6px) rotate(-8deg) scale(0.92); }
+  14%, 36% { opacity: 0; transform: translate(-10px, -14px) rotate(-16deg) scale(0.7); }
+  44% { opacity: 0.7; transform: translate(0, 0) rotate(0deg) scale(0.95); }
+  52%, 100% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+@keyframes sf-whistleclap-whistle-hand {
+  /* appears on the rising right hand, then yields to mouth whistle */
+  0%, 6%, 100% { opacity: 0; transform: translate(0, 0) scale(0.85); }
+  10% { opacity: 1; transform: translate(-2px, -4px) scale(1); }
+  14% { opacity: 1; transform: translate(-6px, -10px) scale(1.05); }
+  18%, 30% { opacity: 0; transform: translate(-8px, -12px) scale(0.9); } /* mouth whistle owns the blow */
+  38%, 100% { opacity: 0; transform: translate(0, 0) scale(0.85); }
+}
+@keyframes sf-whistleclap-whistle-blow {
+  /* unmistakable whistle parked on the lips during the blow */
+  0%, 10%, 100% { opacity: 0; transform: translate(6px, 4px) rotate(8deg) scale(0.6); }
+  14% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+  18%, 32% { opacity: 1; transform: translate(0, 0) rotate(-2deg) scale(1.06); }
+  38% { opacity: 0.4; transform: translate(4px, 6px) rotate(6deg) scale(0.8); }
+  44%, 100% { opacity: 0; transform: translate(8px, 8px) rotate(10deg) scale(0.55); }
+}
+@keyframes sf-whistleclap-sound {
+  0%, 12%, 100% { opacity: 0; transform: translate(-4px, 2px) scale(0.7); }
+  16% { opacity: 1; transform: translate(0, 0) scale(1); }
+  22% { opacity: 0.85; transform: translate(2px, -2px) scale(1.08); }
+  28% { opacity: 1; transform: translate(0, -1px) scale(1); }
+  34% { opacity: 0.5; transform: translate(3px, -3px) scale(1.12); }
+  40%, 100% { opacity: 0; transform: translate(4px, -2px) scale(0.75); }
 }
 @keyframes sf-whistleclap-encourage {
   0%, 48%, 100% { opacity: 0; transform: translateY(4px) scale(0.9); }
@@ -1329,7 +1375,7 @@ body {
 }
 @keyframes sf-whistleclap-shadow {
   0%, 100% { transform: scaleX(1); opacity: 0.28; }
-  22% { transform: scaleX(1.06); opacity: 0.34; }
+  20% { transform: scaleX(1.08); opacity: 0.36; }
   60%, 76% { transform: scaleX(0.9); opacity: 0.22; }
   92% { transform: scaleX(1); opacity: 0.28; }
 }
@@ -1629,6 +1675,15 @@ body {
   .player-card:hover .sf-whistle,
   .player-card:focus-within .sf-whistle,
   .player-card:active .sf-whistle,
+  .player-card:hover .sf-whistle-hand,
+  .player-card:focus-within .sf-whistle-hand,
+  .player-card:active .sf-whistle-hand,
+  .player-card:hover .sf-whistle-blow,
+  .player-card:focus-within .sf-whistle-blow,
+  .player-card:active .sf-whistle-blow,
+  .player-card:hover .sf-whistle-sound,
+  .player-card:focus-within .sf-whistle-sound,
+  .player-card:active .sf-whistle-sound,
   .player-card:hover .sf-clipboard,
   .player-card:focus-within .sf-clipboard,
   .player-card:active .sf-clipboard,
@@ -1639,8 +1694,11 @@ body {
   .player-card:focus-within .sf-cheer-bits,
   .player-card:active .sf-cheer-bits,
   .staff-figure .sf-encourage,
-.staff-figure .sf-laugh-mouth,
+  .staff-figure .sf-laugh-mouth,
   .staff-figure .sf-whistle,
+  .staff-figure .sf-whistle-hand,
+  .staff-figure .sf-whistle-blow,
+  .staff-figure .sf-whistle-sound,
   .staff-figure .sf-clipboard,
   .staff-figure .sf-scarf,
   .staff-figure .sf-cheer-bits {
@@ -1650,9 +1708,15 @@ body {
   .player-card:hover .sf-encourage,
   .player-card:hover .sf-laugh-mouth,
   .player-card:hover .sf-whistle-mouth,
+  .player-card:hover .sf-whistle-hand,
+  .player-card:hover .sf-whistle-blow,
+  .player-card:hover .sf-whistle-sound,
   .player-card:focus-within .sf-encourage,
   .player-card:focus-within .sf-laugh-mouth,
   .player-card:focus-within .sf-whistle-mouth,
+  .player-card:focus-within .sf-whistle-hand,
+  .player-card:focus-within .sf-whistle-blow,
+  .player-card:focus-within .sf-whistle-sound,
   .player-card:hover .sf-cheer-smile,
   .player-card:focus-within .sf-cheer-smile,
   .player-card:hover .sf-eye-squint,
