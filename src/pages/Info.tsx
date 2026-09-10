@@ -6,7 +6,7 @@ import {
   herfststage,
   links,
 } from '../data/links'
-import { matchAfspraken } from '../data/afspraken'
+import { useSheetData } from '../sheet/SheetProvider'
 
 const parentTips = [
   'Zorg voor naamlabels in jas & drinkbus — de kleedkamer is een jungle.',
@@ -35,6 +35,7 @@ const handyLinks = [
 ]
 
 export function Info() {
+  const { afspraken: matchAfspraken } = useSheetData()
   const mapsQuery = encodeURIComponent(
     `${team.hall.name}, ${team.hall.address}, ${team.hall.city}`,
   )

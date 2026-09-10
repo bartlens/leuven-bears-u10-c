@@ -1,6 +1,6 @@
 import { SectionHeader } from '../components/SectionHeader'
 import { herfststage, links } from '../data/links'
-import { events } from '../data/events'
+import { useSheetData } from '../sheet/SheetProvider'
 
 function formatEventDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -12,6 +12,7 @@ function formatEventDate(iso: string) {
 }
 
 export function Evenementen() {
+  const { events } = useSheetData()
   const today = new Date()
   const todayIso = today.toLocaleDateString('en-CA', {
     timeZone: 'Europe/Brussels',

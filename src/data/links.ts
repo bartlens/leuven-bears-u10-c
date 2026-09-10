@@ -1,8 +1,9 @@
 /** Central parent/team resource URLs — edit here to update the whole site.
  *
  * The Google Spreadsheet (attendanceSpreadsheet) is the source of truth for
- * aanwezigheid, matchen, training dates, afspraken and tornooien; this site
- * mirrors exports under sheet-sync/*.csv.
+ * aanwezigheid, matchen, training dates, afspraken and tornooien. The site
+ * refreshes via /api/team-data on load (with sessionStorage cache); static
+ * src/data/* remains the instant fallback / build-time snapshot.
  */
 
 export const links = {

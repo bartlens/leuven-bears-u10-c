@@ -250,16 +250,24 @@ function weeklyNextTraining(now: Date): NextTraining {
 /**
  * Prefer the next dated training from the spreadsheet.
  * After the last known sheet date, fall back to weekly Mon/Thu.
+ * Pass live `dated` from SheetProvider when available.
  */
-export function getNextTraining(now = new Date()): NextTraining {
+export function getNextTraining(
+  now = new Date(),
+  dated: DatedTraining[] = datedTrainings,
+): NextTraining {
   const END_MIN = 19 * 60
   const START_MIN = 17 * 60 + 30
   const here = brusselsParts(now)
   const todayIso = `${here.year}-${pad2(here.month)}-${pad2(here.day)}`
   const nowMin = here.hour * 60 + here.minute
+  const lastDate =
+    dated.length > 0
+      ? dated.reduce((a, b) => (a.dateIso > b.dateIso ? a : b)).dateIso
+      : lastSheetTrainingDate
 
-  if (todayIso <= lastSheetTrainingDate) {
-    for (const dt of datedTrainings) {
+  if (todayIso <= lastDate) {
+    for (const dt of dated) {
       if (dt.dateIso < todayIso) continue
       if (dt.dateIso === todayIso && nowMin >= END_MIN) continue
 
@@ -286,13 +294,16 @@ export function getNextTraining(now = new Date()): NextTraining {
 }
 
 /** Upcoming sheet-dated trainings (not yet ended today). */
-export function getUpcomingDatedTrainings(now = new Date()): DatedTraining[] {
+export function getUpcomingDatedTrainings(
+  now = new Date(),
+  dated: DatedTraining[] = datedTrainings,
+): DatedTraining[] {
   const END_MIN = 19 * 60
   const here = brusselsParts(now)
   const todayIso = `${here.year}-${pad2(here.month)}-${pad2(here.day)}`
   const nowMin = here.hour * 60 + here.minute
 
-  return datedTrainings.filter((dt) => {
+  return dated.filter((dt) => {
     if (dt.dateIso > todayIso) return true
     if (dt.dateIso === todayIso && nowMin < END_MIN) return true
     return false

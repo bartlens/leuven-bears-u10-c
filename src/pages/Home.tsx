@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Logo } from '../components/Logo'
 import { team } from '../data/team'
-import { matches } from '../data/matches'
 import { getNextTraining } from '../data/trainings'
+import { useSheetData } from '../sheet/SheetProvider'
 
 const quickLinks = [
   { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Roster & staff' },
@@ -12,8 +12,9 @@ const quickLinks = [
 ]
 
 export function Home() {
+  const { matches, datedTrainings } = useSheetData()
   const nextMatch = matches.find((m) => m.status === 'upcoming')
-  const nextTraining = getNextTraining()
+  const nextTraining = getNextTraining(new Date(), datedTrainings)
 
   return (
     <div className="overflow-x-hidden">

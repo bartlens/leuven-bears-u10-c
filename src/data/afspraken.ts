@@ -2,7 +2,16 @@
  * Wedstrijd-afspraken — source: sheet-sync/1883412318.csv
  * (tab "Afspraken wedstrijden" on the attendance spreadsheet).
  */
-export const matchAfspraken = {
+export type MatchAfspraken = {
+  title: string
+  bullets: string[]
+  draaischema: {
+    title: string
+    bullets: string[]
+  }
+}
+
+export const matchAfspraken: MatchAfspraken = {
   title: 'Afspraken wedstrijden',
   bullets: [
     '45 min voor aanvang van de wedstrijd in de sporthal',
@@ -19,4 +28,4 @@ export const matchAfspraken = {
       'Volgorde: Beschikbaarheid → aanwezigheid op beide trainingen → aanwezigheid op donderdag → draaischema',
     ],
   },
-} as const
+}

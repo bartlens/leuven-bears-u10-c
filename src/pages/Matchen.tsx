@@ -1,7 +1,6 @@
 import { SectionHeader } from '../components/SectionHeader'
 import { WinBadge } from '../components/WinBadge'
-import { matches } from '../data/matches'
-import { matchAfspraken } from '../data/afspraken'
+import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
 
@@ -14,6 +13,7 @@ function formatDate(iso: string) {
 }
 
 export function Matchen() {
+  const { matches, afspraken: matchAfspraken } = useSheetData()
   const upcoming = matches.filter((m) => m.status === 'upcoming')
   const past = matches.filter((m) => m.status === 'played')
 

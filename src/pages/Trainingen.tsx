@@ -7,6 +7,7 @@ import {
 } from '../data/trainings'
 import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
+import { useSheetData } from '../sheet/SheetProvider'
 
 function formatTrainingDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -17,7 +18,8 @@ function formatTrainingDate(iso: string) {
 }
 
 export function Trainingen() {
-  const upcomingDated = getUpcomingDatedTrainings()
+  const { datedTrainings } = useSheetData()
+  const upcomingDated = getUpcomingDatedTrainings(new Date(), datedTrainings)
 
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
