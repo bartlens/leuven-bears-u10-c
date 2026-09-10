@@ -12,10 +12,24 @@ const quickLinks = [
   { to: '/evenementen', label: 'Evenementen', emoji: '🎉', desc: 'Extra fun' },
 ]
 
+function startMs(dateIso: string, timeHHmm: string) {
+  const [hh, mm] = timeHHmm.split(':').map((n) => Number(n) || 0)
+  const d = new Date(`${dateIso}T00:00:00`)
+  d.setHours(hh, mm, 0, 0)
+  return d.getTime()
+}
+
 export function Home() {
   const { matches, datedTrainings } = useSheetData()
   const nextMatch = matches.find((m) => m.status === 'upcoming')
   const nextTraining = getNextTraining(new Date(), datedTrainings)
+
+  const matchAt = nextMatch
+    ? startMs(nextMatch.date, nextMatch.time.slice(0, 5))
+    : Number.POSITIVE_INFINITY
+  const trainingStart = nextTraining.training.time.slice(0, 5) // "17:30"
+  const trainingAt = startMs(nextTraining.dateIso, trainingStart)
+  const trainingFirst = trainingAt <= matchAt
 
   return (
     <div className="overflow-x-hidden">
@@ -76,7 +90,10 @@ export function Home() {
         <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
           <div className="grid gap-4 lg:grid-cols-2">
             {nextMatch && (
-              <div className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft">
+              <div
+                className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft"
+                style={{ order: trainingFirst ? 2 : 1 }}
+              >
                 <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
                   <div className="min-w-0">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
@@ -105,7 +122,10 @@ export function Home() {
               </div>
             )}
 
-            <div className="card-lift overflow-hidden rounded-3xl border border-hoop/25 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft">
+            <div
+              className="card-lift overflow-hidden rounded-3xl border border-hoop/25 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft"
+              style={{ order: trainingFirst ? 1 : 2 }}
+            >
               <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
