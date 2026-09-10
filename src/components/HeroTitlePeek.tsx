@@ -22,7 +22,7 @@ type Burst = {
 }
 
 const DEBOUNCE_MS = 900
-const PEEK_DURATION_MS = 1600
+const PEEK_DURATION_MS = 1750
 const PARTY_DURATION_MS = 2000
 
 function prefersReducedMotion(): boolean {
@@ -60,17 +60,22 @@ function pickLaughers(cast: Player[]): Set<string> {
   return ids
 }
 
-function peekSlots(count: number): { left: string; delay: string; wave: number }[] {
+function peekSlots(
+  count: number,
+): { left: string; delay: string; wave: number; rise: number }[] {
+  // Slightly outside 0–100% so heads sit around the sides of “U10 C”
   const bases =
     count === 2
-      ? [22, 72]
+      ? [-6, 106]
       : count === 3
-        ? [12, 50, 88]
-        : [8, 34, 62, 90]
+        ? [-8, 50, 108]
+        : [-10, 28, 72, 110]
+  const rises = count === 2 ? [1.05, 0.92] : count === 3 ? [1, 1.12, 0.95] : [1.08, 0.9, 1.15, 0.98]
   return bases.slice(0, count).map((left, i) => ({
     left: `${left}%`,
-    delay: `${i * 0.07}s`,
-    wave: i % 2 === 0 ? 1 : -1,
+    delay: `${i * 0.08}s`,
+    wave: (i % 3) + 1,
+    rise: rises[i] ?? 1,
   }))
 }
 
@@ -232,11 +237,13 @@ export function HeroTitlePeek({ name, category }: Props) {
         <span className="hero-title-peek__cat relative z-10 inline-block overflow-visible">
           {burst?.mode === 'peek' && (
             <span
-              className="hero-title-peek__peeks pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[140%] overflow-visible"
+              className="hero-title-peek__peeks pointer-events-none absolute z-0 overflow-visible"
               aria-hidden="true"
             >
               {burst.cast.map((player, i) => {
                 const slot = peekPos[i]!
+                const wave =
+                  slot.wave === 1 ? 'wave-a' : slot.wave === 2 ? 'wave-b' : 'wave-c'
                 return (
                   <span
                     key={`${burst.key}-${player.id}`}
@@ -244,11 +251,14 @@ export function HeroTitlePeek({ name, category }: Props) {
                       player,
                       'hero-title-peek__fig--peek',
                       burst.reduced,
-                    )} ${slot.wave > 0 ? 'wave-a' : 'wave-b'}`}
-                    style={{
-                      left: slot.left,
-                      animationDelay: slot.delay,
-                    }}
+                    )} ${wave}`}
+                    style={
+                      {
+                        left: slot.left,
+                        animationDelay: slot.delay,
+                        '--peek-rise': String(slot.rise),
+                      } as CSSProperties
+                    }
                   >
                     <PlayerFigure player={player} className="hero-title-peek__svg" />
                   </span>
