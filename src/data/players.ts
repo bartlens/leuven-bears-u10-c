@@ -6,7 +6,7 @@ export type PlayerMove =
   | 'crossover'
   | 'dunk'
   | 'rebound'
-  | 'hesitation'
+  | 'step-back'
   | 'waist-wrap'
   | 'shoulder-roll'
   | 'layup'
@@ -131,8 +131,8 @@ export const players: Player[] = [
     label: 'Guard',
     emoji: '😎',
     accent: 'bear',
-    move: 'hesitation',
-    moveLabel: 'Fake pass',
+    move: 'step-back',
+    moveLabel: 'Step-back',
     look: { hair: '#fff1c2', skin: '#fadcc4', hairStyle: 'side' },
   },
   {
