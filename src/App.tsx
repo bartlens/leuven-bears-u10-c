@@ -12,6 +12,7 @@ import { Kalender } from './pages/Kalender'
 import { IdleFunProvider } from './fun/IdleFunContext'
 import { IdleBallEasterEgg } from './components/IdleBallEasterEgg'
 import { AudioUnlock } from './components/AudioUnlock'
+import { Analytics } from '@vercel/analytics/react'
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
             <Footer />
             <IdleBallEasterEgg />
           </div>
+          <Analytics />
         </IdleFunProvider>
       </SheetProvider>
     </BrowserRouter>
