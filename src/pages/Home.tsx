@@ -12,6 +12,7 @@ const quickLinks = [
   { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
   { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
   { to: '/evenementen', label: 'Evenementen', emoji: '🎉', desc: 'Extra fun' },
+  { to: '/gedragscodes', label: 'Gedragscodes', emoji: '🤝', desc: 'Veilig sporten' },
 ]
 
 function startMs(dateIso: string, timeHHmm: string) {
@@ -162,7 +163,7 @@ export function Home() {
         <h2 className="mb-6 font-display text-xl font-bold text-cream">
           Snel naar…
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickLinks.map((item) => (
             <Link
               key={item.to}

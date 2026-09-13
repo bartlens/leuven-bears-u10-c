@@ -11,6 +11,7 @@ const links = [
   { to: '/matchen', label: 'Matchen' },
   { to: '/kalender', label: 'Kalender' },
   { to: '/evenementen', label: 'Evenementen' },
+  { to: '/gedragscodes', label: 'Gedragscodes' },
   { to: '/info', label: 'Info' },
 ]
 
