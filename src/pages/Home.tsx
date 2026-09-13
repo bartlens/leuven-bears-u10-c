@@ -181,6 +181,27 @@ export function Home() {
           ))}
         </div>
 
+        <Link
+          to="/gedragscodes"
+          className="card-lift mt-8 flex flex-col gap-4 rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7"
+        >
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+              Veilig sporten
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold text-cream sm:text-3xl">
+              Gedragscodes
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+              Afspraken voor trainers, spelers en ouders — zodat de kids veilig
+              en met respect kunnen basketballen.
+            </p>
+          </div>
+          <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-hoop px-5 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright">
+            Bekijk de codes →
+          </span>
+        </Link>
+
         <div className="mt-10 flex flex-wrap items-center gap-3 text-sm text-muted">
           <span className="rounded-full bg-white/5 px-3 py-1">
             Seizoen {team.season}
