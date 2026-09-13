@@ -21,6 +21,10 @@ export const links = {
   /** U10 herfststage registration (Microsoft Forms). */
   herfststageForm:
     'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=znK2Kzx9dEO0tWcmk-9sCPjI05p7wQlJvN8cjmgsnylUMUlCSEJIU1hQSU9YVE9ES0hUQ1dFVTRQMi4u',
+
+  /** Official Basketbal Vlaanderen gedragscodes (source for /gedragscodes). */
+  bvGedragscodes:
+    'https://www.basketbal.vlaanderen/kennishub/clubbestuurder/veilig-sporten/gedragscodes',
 } as const
 
 export const herfststage = {
