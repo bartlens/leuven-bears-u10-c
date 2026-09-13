@@ -16,6 +16,8 @@ export type Gedragscode = {
   eyebrow: string
   emoji: string
   blurb: string
+  poster: string
+  posterAlt: string
   bullets: readonly string[]
 }
 
@@ -30,6 +32,8 @@ export const gedragscodes: readonly Gedragscode[] = [
     title: 'Trainers',
     eyebrow: 'Coaches',
     emoji: '📢',
+    poster: '/gedragscodes/trainers.jpg',
+    posterAlt: 'Officiële gedragscode trainers van Basketbal Vlaanderen',
     blurb:
       'Trainers leiden de kids op — basket én omgang. Zij geven het voorbeeld in de zaal en houden de omgeving veilig.',
     bullets: [
@@ -51,6 +55,8 @@ export const gedragscodes: readonly Gedragscode[] = [
     title: 'Spelers',
     eyebrow: 'Op het veld',
     emoji: '🏀',
+    poster: '/gedragscodes/spelers.jpg',
+    posterAlt: 'Officiële gedragscode spelers van Basketbal Vlaanderen',
     blurb:
       'Fairplay: sportief met teamgenoten, tegenstanders, coaches, scheidsrechters en het publiek — op én naast het veld.',
     bullets: [
@@ -69,6 +75,8 @@ export const gedragscodes: readonly Gedragscode[] = [
     title: 'Ouders',
     eyebrow: 'Tribune',
     emoji: '📣',
+    poster: '/gedragscodes/ouders.jpg',
+    posterAlt: 'Officiële gedragscode ouders van Basketbal Vlaanderen',
     blurb:
       'Positief supporteren voor je kind én het team. Afspraken respecteren, en de coach het woord laten zodra training of match begint.',
     bullets: [

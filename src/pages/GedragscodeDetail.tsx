@@ -1,4 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { GedragscodePoster } from '../components/GedragscodePoster'
 import { SectionHeader } from '../components/SectionHeader'
 import {
   gedragscodeSource,
@@ -36,6 +37,12 @@ export function GedragscodeDetail() {
       >
         {gedragscodeSource.label} →
       </a>
+
+      <GedragscodePoster
+        src={code.poster}
+        alt={code.posterAlt}
+        className="mb-8 w-full max-w-md sm:max-w-lg"
+      />
 
       <ul className="grid gap-3 sm:grid-cols-2">
         {code.bullets.map((bullet) => (

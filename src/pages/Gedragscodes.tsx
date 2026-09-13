@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { GedragscodePoster } from '../components/GedragscodePoster'
 import { SectionHeader } from '../components/SectionHeader'
 import {
   gedragscodes,
@@ -28,8 +29,8 @@ export function Gedragscodes() {
             {gedragscodeSource.label}
           </p>
           <p className="mt-1 text-sm leading-relaxed text-muted">
-            De teksten hieronder komen van de gedragscodeposters van Basketbal
-            Vlaanderen. Clubs mogen ze zo gebruiken.
+            De posters en teksten hieronder komen van Basketbal Vlaanderen.
+            Clubs mogen ze zo gebruiken.
           </p>
         </div>
         <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-hoop px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-hoop/30">
@@ -38,34 +39,37 @@ export function Gedragscodes() {
       </a>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {gedragscodes.map((code, i) => (
-          <Link
+        {gedragscodes.map((code) => (
+          <article
             key={code.slug}
-            to={`/gedragscodes/${code.slug}`}
-            className="card-lift group flex flex-col rounded-3xl border border-white/10 bg-panel p-5 sm:p-6"
-            style={{ animationDelay: `${i * 0.05}s` }}
+            className="card-lift flex flex-col rounded-3xl border border-white/10 bg-panel p-4 sm:p-5"
           >
+            <GedragscodePoster
+              src={code.poster}
+              alt={code.posterAlt}
+              className="mb-4"
+            />
             <div className="flex items-start justify-between gap-3">
-              <span
-                className="inline-block text-3xl transition-transform group-hover:scale-125 group-active:scale-125"
-                aria-hidden
-              >
+              <span className="text-2xl" aria-hidden>
                 {code.emoji}
               </span>
               <span className="rounded-full border border-white/10 bg-ink/40 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
                 {code.eyebrow}
               </span>
             </div>
-            <h2 className="mt-4 font-display text-2xl font-bold text-cream">
+            <h2 className="mt-3 font-display text-2xl font-bold text-cream">
               {code.title}
             </h2>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
               {code.blurb}
             </p>
-            <span className="mt-5 inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition group-hover:bg-hoop/25 group-active:bg-hoop/25">
+            <Link
+              to={`/gedragscodes/${code.slug}`}
+              className="mt-5 inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25"
+            >
               Ontdek →
-            </span>
-          </Link>
+            </Link>
+          </article>
         ))}
       </div>
     </div>
