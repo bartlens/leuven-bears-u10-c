@@ -6,12 +6,7 @@ export const gedragscodeSource = {
   cta: 'Bekijk op Basketbal Vlaanderen',
 } as const
 
-export const gedragscodeSlugs = [
-  'bestuurders',
-  'ouders',
-  'spelers',
-  'trainers',
-] as const
+export const gedragscodeSlugs = ['trainers', 'spelers', 'ouders'] as const
 
 export type GedragscodeSlug = (typeof gedragscodeSlugs)[number]
 
@@ -31,38 +26,24 @@ export type Gedragscode = {
  */
 export const gedragscodes: readonly Gedragscode[] = [
   {
-    slug: 'bestuurders',
-    title: 'Bestuurders',
-    eyebrow: 'Club',
-    emoji: '📋',
+    slug: 'trainers',
+    title: 'Trainers',
+    eyebrow: 'Coaches',
+    emoji: '📢',
     blurb:
-      'Bestuurders maken huisregels en codes duidelijk, zien toe dat ze nageleefd worden en geven zelf het voorbeeld.',
+      'Trainers leiden de kids op — basket én omgang. Zij geven het voorbeeld in de zaal en houden de omgeving veilig.',
     bullets: [
-      'Ik informeer mijn leden over het beleid en huishoudelijk reglement dat binnen de club gevolgd wordt.',
-      'Ik zorg ervoor dat mijn leden kunnen sporten in een veilige omgeving.',
+      'Ik heb kennis van het huishoudelijk reglement van de club.',
+      'Ik respecteer de afspraken die gemaakt zijn met de club, spelers en ouders.',
+      'Ik heb respect voor het materiaal van de club.',
       'Ik discrimineer niet op huidskleur, geloof, afkomst, seksuele voorkeur of andere kenmerken.',
+      'Ik zorg ervoor dat mijn spelers kunnen sporten in een veilige omgeving.',
       'Ik ga zorgvuldig en correct om met de persoonlijke gegevens en informatie van de leden.',
-      'Ik toon respect en geef geen beledigende commentaar op spelers, toeschouwers, ouders, coaches, scheidsrechters en andere doelgroepen.',
+      'Ik toon respect en geef geen beledigende commentaar op spelers, toeschouwers, ouders, coaches, scheidsrechters en ieder ander.',
+      'Ik onthoud mij van grensoverschrijdend gedrag.',
       'Ik neem (meldingen van) grensoverschrijdend gedrag in alle vormen ernstig en verwijs indien nodig verder naar de vertrouwenspersoon of hulporganisaties.',
       'Ik zorg ervoor dat ik alert ben voor waarschuwingssignalen op bovenstaande regels.',
-      'Ik controleer of de gedragscodes door de verschillende doelgroepen worden nageleefd.',
-    ],
-  },
-  {
-    slug: 'ouders',
-    title: 'Ouders',
-    eyebrow: 'Tribune',
-    emoji: '📣',
-    blurb:
-      'Positief supporteren voor je kind én het team. Afspraken respecteren, en de coach het woord laten zodra training of match begint.',
-    bullets: [
-      'Ik respecteer de afspraken die gemaakt zijn met het bestuur, trainer, ouders of anderen.',
-      'Ik supporter positief voor mijn kind en de rest van het team.',
-      'Ik gebruik geen agressieve taal.',
-      'Ik discrimineer niet op huidskleur, geloof, afkomst, seksuele voorkeur of andere kenmerken.',
-      'Ik onthoud mij van beledigende commentaar op het team, de tegenstander, de coaches, de scheidsrechters, de toeschouwers, en ieder ander.',
-      'Ik onthoud mij van grensoverschrijdend gedrag.',
-      'Ik weet dat ik terecht kan bij de vertrouwenspersoon voor het melden van grensoverschrijdend gedrag.',
+      'Ik controleer of de gedragscodes door de spelers nageleefd worden.',
     ],
   },
   {
@@ -84,24 +65,20 @@ export const gedragscodes: readonly Gedragscode[] = [
     ],
   },
   {
-    slug: 'trainers',
-    title: 'Trainers',
-    eyebrow: 'Op de lijn',
-    emoji: '📢',
+    slug: 'ouders',
+    title: 'Ouders',
+    eyebrow: 'Tribune',
+    emoji: '📣',
     blurb:
-      'Trainers leiden de kids op — basket én omgang. Zij geven het voorbeeld in de zaal en houden de omgeving veilig.',
+      'Positief supporteren voor je kind én het team. Afspraken respecteren, en de coach het woord laten zodra training of match begint.',
     bullets: [
-      'Ik heb kennis van het huishoudelijk reglement van de club.',
-      'Ik respecteer de afspraken die gemaakt zijn met de club, spelers en ouders.',
-      'Ik heb respect voor het materiaal van de club.',
+      'Ik respecteer de afspraken die gemaakt zijn met het bestuur, trainer, ouders of anderen.',
+      'Ik supporter positief voor mijn kind en de rest van het team.',
+      'Ik gebruik geen agressieve taal.',
       'Ik discrimineer niet op huidskleur, geloof, afkomst, seksuele voorkeur of andere kenmerken.',
-      'Ik zorg ervoor dat mijn spelers kunnen sporten in een veilige omgeving.',
-      'Ik ga zorgvuldig en correct om met de persoonlijke gegevens en informatie van de leden.',
-      'Ik toon respect en geef geen beledigende commentaar op spelers, toeschouwers, ouders, coaches, scheidsrechters en ieder ander.',
+      'Ik onthoud mij van beledigende commentaar op het team, de tegenstander, de coaches, de scheidsrechters, de toeschouwers, en ieder ander.',
       'Ik onthoud mij van grensoverschrijdend gedrag.',
-      'Ik neem (meldingen van) grensoverschrijdend gedrag in alle vormen ernstig en verwijs indien nodig verder naar de vertrouwenspersoon of hulporganisaties.',
-      'Ik zorg ervoor dat ik alert ben voor waarschuwingssignalen op bovenstaande regels.',
-      'Ik controleer of de gedragscodes door de spelers nageleefd worden.',
+      'Ik weet dat ik terecht kan bij de vertrouwenspersoon voor het melden van grensoverschrijdend gedrag.',
     ],
   },
 ]
