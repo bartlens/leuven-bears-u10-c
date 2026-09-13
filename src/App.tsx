@@ -7,6 +7,8 @@ import { Spelers } from './pages/Spelers'
 import { Trainingen } from './pages/Trainingen'
 import { Matchen } from './pages/Matchen'
 import { Evenementen } from './pages/Evenementen'
+import { Gedragscodes } from './pages/Gedragscodes'
+import { GedragscodeDetail } from './pages/GedragscodeDetail'
 import { Info } from './pages/Info'
 import { Kalender } from './pages/Kalender'
 import { IdleFunProvider } from './fun/IdleFunContext'
@@ -30,6 +32,8 @@ export default function App() {
                 <Route path="/matchen" element={<Matchen />} />
                 <Route path="/kalender" element={<Kalender />} />
                 <Route path="/evenementen" element={<Evenementen />} />
+                <Route path="/gedragscodes" element={<Gedragscodes />} />
+                <Route path="/gedragscodes/:slug" element={<GedragscodeDetail />} />
                 <Route path="/info" element={<Info />} />
               </Routes>
             </main>
