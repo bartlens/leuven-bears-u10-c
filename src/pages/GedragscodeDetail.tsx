@@ -41,7 +41,7 @@ export function GedragscodeDetail() {
       <GedragscodePoster
         src={code.poster}
         alt={code.posterAlt}
-        className="mb-8 w-full max-w-md sm:max-w-lg"
+        className="mb-8 w-full max-w-lg sm:max-w-xl"
       />
 
       <ul className="grid gap-3 sm:grid-cols-2">
