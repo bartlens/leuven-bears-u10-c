@@ -52,6 +52,11 @@ function prefersReducedMotion() {
 
 const jonathan = staffMembers.find((s) => s.id === 'jonathan')!
 
+/** Idle ball scenes only on the Spelers roster — flip via this helper to restore site-wide. */
+function isSpelersPath(pathname: string) {
+  return pathname === '/spelers' || pathname.startsWith('/spelers/')
+}
+
 function pickScene(key: number): Scene {
   const player = players[Math.floor(Math.random() * players.length)]!
   return {
@@ -63,6 +68,12 @@ function pickScene(key: number): Scene {
 }
 
 export function IdleBallEasterEgg() {
+  const { pathname } = useLocation()
+  if (!isSpelersPath(pathname)) return null
+  return <IdleBallEasterEggOnSpelers />
+}
+
+function IdleBallEasterEggOnSpelers() {
   const location = useLocation()
   const { setRosterLaughing } = useIdleFun()
   const [scene, setScene] = useState<Scene | null>(null)
@@ -119,6 +130,7 @@ export function IdleBallEasterEgg() {
 
   const scheduleIdle = () => {
     clearIdle()
+    if (!isSpelersPath(pathRef.current)) return
     if (prefersReducedMotion()) return
     // Browsers block sound until a gesture unlocks AudioContext.
     // Don't start the idle clock until audio is ready — otherwise the
@@ -282,6 +294,7 @@ export function IdleBallEasterEgg() {
   }
 
   const startScene = () => {
+    if (!isSpelersPath(pathRef.current)) return
     if (running.current) return
     if (prefersReducedMotion()) return
     if (document.hidden) return
@@ -367,6 +380,21 @@ export function IdleBallEasterEgg() {
   }, [])
 
   useEffect(() => {
+    if (!isSpelersPath(location.pathname)) {
+      running.current = false
+      stopPhysics()
+      clearIdle()
+      clearPhaseTimers()
+      setHolding(false)
+      setGlance(false)
+      setShowCoach(false)
+      setCoachBlowing(false)
+      setBallStyle(null)
+      setScene(null)
+      setPhase(null)
+      setRosterLaughing(false)
+      return
+    }
     if (idlePathRef.current !== location.pathname) {
       idlePathRef.current = location.pathname
       idlePlayedOnPath.current = false

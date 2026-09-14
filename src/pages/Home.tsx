@@ -42,7 +42,7 @@ export function Home() {
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
             </span>
-            <HeroTitlePeek name={team.name} category={team.category} />
+            <HeroTitlePeek name={team.name} category={team.category} enabled={false} />
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               Jeugdbasket van de Leuven Bears: dribbels, dunk-dromen en
               high-fives. #WEBEARS — ouders juichen, kids scoren (of bijna).
