@@ -14,6 +14,8 @@ import { playStaffClickSound, unlockAudio } from '../audio/playerClickSound'
 
 const COACHES = staffMembers.filter((s) => s.outfit === 'coach')
 const WAVE_MS = 2200
+/** Playful coach-wave on the next-training card. Off — fun stays on /spelers. */
+const COACH_WAVE_EASTER_EGG = false
 
 function formatTrainingDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -42,6 +44,7 @@ export function Trainingen() {
   }, [])
 
   const triggerCoachWave = useCallback(() => {
+    if (!COACH_WAVE_EASTER_EGG) return
     const now = performance.now()
     if (now - lastWaveAt.current < 800) return
     lastWaveAt.current = now
@@ -132,14 +135,20 @@ export function Trainingen() {
                 return (
                   <article
                     key={t.id}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Eerstvolgende training ${formatTrainingDate(t.dateIso)}. Tik om de coaches te laten zwaaien.`}
-                    onClick={triggerCoachWave}
-                    onKeyDown={onNextKeyDown}
-                    className={`training-next card-lift animate-in relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:flex-row sm:items-center sm:justify-between ${
-                      waving ? 'is-waving' : ''
-                    }`}
+                    role={COACH_WAVE_EASTER_EGG ? 'button' : undefined}
+                    tabIndex={COACH_WAVE_EASTER_EGG ? 0 : undefined}
+                    aria-label={
+                      COACH_WAVE_EASTER_EGG
+                        ? `Eerstvolgende training ${formatTrainingDate(t.dateIso)}. Tik om de coaches te laten zwaaien.`
+                        : undefined
+                    }
+                    onClick={COACH_WAVE_EASTER_EGG ? triggerCoachWave : undefined}
+                    onKeyDown={COACH_WAVE_EASTER_EGG ? onNextKeyDown : undefined}
+                    className={`training-next card-lift animate-in relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between ${
+                      COACH_WAVE_EASTER_EGG
+                        ? 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
+                        : ''
+                    } ${waving ? 'is-waving' : ''}`}
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
                     <span className="training-next__glow" aria-hidden="true">

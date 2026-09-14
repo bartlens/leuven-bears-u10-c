@@ -109,9 +109,11 @@ const CONFETTI = ['🐻', '🏀', '🧡', '⭐', '🎉']
 type Props = {
   name: string
   category: string
+  /** Title peek / party / giggle. Off so Home stays calm; set true to restore. */
+  enabled?: boolean
 }
 
-export function HeroTitlePeek({ name, category }: Props) {
+export function HeroTitlePeek({ name, category, enabled = false }: Props) {
   const [burst, setBurst] = useState<Burst | null>(null)
   const lastAt = useRef(0)
   const hasSeenFirst = useRef(false)
@@ -128,6 +130,7 @@ export function HeroTitlePeek({ name, category }: Props) {
   }, [])
 
   const runBurst = useCallback((mode: Mode, cast: Player[], opts?: { giggleChance?: number }) => {
+    if (!enabled) return
     const reduced = prefersReducedMotion()
     const laughingIds = pickLaughers(cast)
     burstKey.current += 1
@@ -158,9 +161,10 @@ export function HeroTitlePeek({ name, category }: Props) {
     clearTimer.current = setTimeout(() => {
       setBurst((cur) => (cur?.key === next.key ? null : cur))
     }, dur)
-  }, [])
+  }, [enabled])
 
   const trigger = useCallback(() => {
+    if (!enabled) return
     const now = performance.now()
     if (now - lastAt.current < DEBOUNCE_MS) return
     lastAt.current = now
@@ -174,10 +178,11 @@ export function HeroTitlePeek({ name, category }: Props) {
       mode = Math.random() < 0.45 ? 'party' : 'peek'
     }
     runBurst(mode, pickCast(mode))
-  }, [runBurst])
+  }, [enabled, runBurst])
 
   // Welcome: 3s after Home loads, all players cheer once
   useEffect(() => {
+    if (!enabled) return
     if (prefersReducedMotion()) return
     const welcome = setTimeout(() => {
       if (hasSeenFirst.current) return
@@ -186,7 +191,7 @@ export function HeroTitlePeek({ name, category }: Props) {
       runBurst('party', [...players], { giggleChance: 0.7 })
     }, WELCOME_DELAY_MS)
     return () => clearTimeout(welcome)
-  }, [runBurst])
+  }, [enabled, runBurst])
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -204,11 +209,24 @@ export function HeroTitlePeek({ name, category }: Props) {
     return `hero-title-peek__fig ${base}${laugh}${red}`
   }
 
+  const titleClass =
+    'hero-title-peek font-display text-4xl font-black leading-[1.05] tracking-tight text-cream break-words sm:text-5xl lg:text-6xl'
+
+  if (!enabled) {
+    return (
+      <h1 id={labelId} className={titleClass}>
+        <span className="relative z-10">{name} </span>
+        <span className="hero-title-peek__cat relative z-10 inline-block overflow-visible">
+          <span className="relative z-10 bg-gradient-to-r from-hoop via-hoop-bright to-warm bg-clip-text text-transparent">
+            {category}
+          </span>
+        </span>
+      </h1>
+    )
+  }
+
   return (
-    <h1
-      id={labelId}
-      className="hero-title-peek font-display text-4xl font-black leading-[1.05] tracking-tight text-cream break-words sm:text-5xl lg:text-6xl"
-    >
+    <h1 id={labelId} className={titleClass}>
       <span
         role="button"
         tabIndex={0}
