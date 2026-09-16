@@ -5,6 +5,7 @@ import { getNextTraining } from '../data/trainings'
 import { UpdatedHint } from '../components/UpdatedHint'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
+import { formatMatchTitle } from '../lib/formatMatchTitle'
 
 const quickLinks = [
   { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Team & staff' },
@@ -77,7 +78,11 @@ export function Home() {
                 <p className="mt-1 font-semibold text-cream">
                   {team.nextHighlight.when}
                 </p>
-                <p className="text-sm text-muted">{team.nextHighlight.where}</p>
+                <p className="text-sm text-muted">
+                  {nextMatch
+                    ? formatMatchTitle(nextMatch.venue, nextMatch.opponent)
+                    : team.nextHighlight.where}
+                </p>
               </div>
             </div>
           </div>
@@ -98,7 +103,7 @@ export function Home() {
                       Volgende match
                     </p>
                     <h2 className="mt-2 font-display text-2xl font-bold text-cream break-words sm:text-3xl">
-                      vs {nextMatch.opponent}
+                      {formatMatchTitle(nextMatch.venue, nextMatch.opponent)}
                     </h2>
                     <p className="mt-2 text-muted">
                       {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
