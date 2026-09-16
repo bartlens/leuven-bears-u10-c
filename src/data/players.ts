@@ -194,7 +194,6 @@ export const players: Player[] = [
     move: 'dunk',
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
-    // Artwork shows #10 — keep the PNG as-is.
     stickerSrc: '/stickers/thomas.webp',
   },
 ]

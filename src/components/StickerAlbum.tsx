@@ -20,8 +20,8 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           <img
             src="/stickers/embleem-u10c.webp"
             alt="Embleemsticker van Leuven Bears U10 C"
-            width={1024}
-            height={1536}
+            width={911}
+            height={1271}
             className="sticker-album__emblem-img"
           />
         </article>
@@ -90,8 +90,8 @@ function PlayerStickerSlot({
         <img
           src={stickerSrc}
           alt={`Sticker van ${player.firstName}, Leuven Bears U10 C`}
-          width={720}
-          height={1080}
+          width={1024}
+          height={1536}
           className="sticker-slot__art"
         />
       </article>
