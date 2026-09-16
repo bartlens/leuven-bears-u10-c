@@ -50,26 +50,6 @@ export function Home() {
               Jeugdbasket van de Leuven Bears: dribbels, dunk-dromen en
               high-fives. #WEBEARS — ouders juichen, kids scoren (of bijna).
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/matchen"
-                className="animate-glow inline-flex min-h-11 items-center justify-center rounded-full bg-hoop px-6 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright active:bg-hoop-bright"
-              >
-                Matchen
-              </Link>
-              <Link
-                to="/kalender"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-cream transition hover:border-hoop/40 hover:bg-hoop/10 active:bg-hoop/10"
-              >
-                Kalender
-              </Link>
-              <Link
-                to="/info"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-cream transition hover:border-hoop/40 hover:bg-hoop/10 active:bg-hoop/10"
-              >
-                Info
-              </Link>
-            </div>
           </div>
 
           <div className="relative flex justify-center lg:justify-end animate-in" style={{ animationDelay: '0.12s' }}>
