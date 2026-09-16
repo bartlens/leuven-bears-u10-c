@@ -44,6 +44,15 @@ export type Player = {
   moveLabel: string
   /** Appearance used by PlayerFigure */
   look: PlayerLook
+  /** Idle Panini sticker. Only set when artwork is ready. */
+  stickerSrc?: string
+}
+
+/** Prefer explicit stickerSrc; Thomas also matches by first name for this preview. */
+export function playerStickerSrc(player: Player): string | undefined {
+  if (player.stickerSrc) return player.stickerSrc
+  if (player.firstName === 'Thomas') return '/stickers/thomas.png'
+  return undefined
 }
 
 export const players: Player[] = [
@@ -185,5 +194,7 @@ export const players: Player[] = [
     move: 'dunk',
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
+    // Artwork shows #10 — keep the PNG as-is.
+    stickerSrc: '/stickers/thomas.png',
   },
 ]

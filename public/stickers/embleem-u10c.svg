@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1080" width="720" height="1080" role="img" aria-label="Leuven Bears U10 C embleem">
+  <defs>
+    <linearGradient id="holo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="14%" stop-color="#d7ecff"/>
+      <stop offset="28%" stop-color="#f3c8ff"/>
+      <stop offset="44%" stop-color="#ffe7a8"/>
+      <stop offset="60%" stop-color="#c8fff4"/>
+      <stop offset="76%" stop-color="#ffd4c4"/>
+      <stop offset="90%" stop-color="#e8f0ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbfbfd"/>
+      <stop offset="35%" stop-color="#e7e8ee"/>
+      <stop offset="70%" stop-color="#f7f7f9"/>
+      <stop offset="100%" stop-color="#d9dce4"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#f4f5f8"/>
+      <stop offset="100%" stop-color="#e4e6ec"/>
+    </linearGradient>
+    <linearGradient id="ball" x1="0.25" y1="0.05" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#ffb14a"/>
+      <stop offset="45%" stop-color="#f38019"/>
+      <stop offset="100%" stop-color="#c45a08"/>
+    </linearGradient>
+    <radialGradient id="dot" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="wood" width="720" height="18" patternUnits="userSpaceOnUse">
+      <rect width="720" height="18" fill="#e9e6de"/>
+      <rect y="9" width="720" height="9" fill="#e3e0d7"/>
+      <path d="M0 4 H720" stroke="#d5d1c7" stroke-width="0.6" opacity="0.7"/>
+    </pattern>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- holographic outer plate -->
+  <rect x="16" y="16" width="688" height="1048" rx="44" fill="url(#holo)"/>
+  <rect x="28" y="28" width="664" height="1024" rx="36" fill="url(#metal)"/>
+
+  <!-- court floor -->
+  <rect x="40" y="168" width="640" height="872" fill="url(#wood)"/>
+  <rect x="40" y="168" width="640" height="872" fill="url(#dot)"/>
+
+  <!-- court lines -->
+  <g fill="none" stroke="#c5c2b8" stroke-width="4">
+    <ellipse cx="360" cy="620" rx="186" ry="186"/>
+    <ellipse cx="360" cy="620" rx="56" ry="56"/>
+    <path d="M40 620 H680"/>
+    <path d="M360 168 V1040"/>
+  </g>
+
+  <!-- diagonal club stripes -->
+  <path d="M40 168 L300 168 L40 428 Z" fill="#f38019"/>
+  <path d="M40 330 L240 168 L328 168 L40 456 Z" fill="#111111"/>
+  <path d="M680 1040 L420 1040 L680 780 Z" fill="#f38019"/>
+  <path d="M680 850 L480 1040 L392 1040 L680 722 Z" fill="#111111"/>
+
+  <!-- header -->
+  <rect x="40" y="40" width="640" height="128" fill="#0a0a0a"/>
+  <polygon points="78,104 86,82 94,104 116,104 98,118 106,140 86,126 66,140 74,118 56,104" fill="#f38019"/>
+  <polygon points="642,104 650,82 658,104 680,104 662,118 670,140 650,126 630,140 638,118 620,104" fill="#f38019"/>
+  <text x="360" y="124" text-anchor="middle" fill="#ffffff" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" letter-spacing="6">LEUVEN BEARS</text>
+
+  <!-- shield -->
+  <g filter="url(#soft)">
+    <path d="M360 248
+             C470 248 538 268 552 286
+             C560 430 548 560 360 742
+             C172 560 160 430 168 286
+             C182 268 250 248 360 248 Z"
+          fill="url(#shield)" stroke="#111111" stroke-width="18"/>
+    <text x="360" y="430" text-anchor="middle" fill="#111111" font-family="Arial Black, Arial, sans-serif" font-size="92" font-weight="900" letter-spacing="2">U10C</text>
+    <circle cx="360" cy="548" r="78" fill="url(#ball)" stroke="#111111" stroke-width="6"/>
+    <path d="M360 470 V626 M282 548 H438
+             M303 498 Q360 528 417 498
+             M303 598 Q360 568 417 598"
+          fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+  </g>
+</svg>

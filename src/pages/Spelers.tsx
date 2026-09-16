@@ -1,6 +1,6 @@
 import { SectionHeader } from '../components/SectionHeader'
-import { PlayerCard } from '../components/PlayerCard'
 import { StaffCard } from '../components/StaffCard'
+import { StickerAlbum } from '../components/StickerAlbum'
 import { players } from '../data/players'
 import { staffMembers, team } from '../data/team'
 
@@ -8,18 +8,14 @@ export function Spelers() {
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
-        eyebrow="Team · Seizoen 2026 - 2027"
+        eyebrow="Stickeralbum · Seizoen 2026 - 2027"
         title="Onze spelers"
-        subtitle={`De beren van seizoen ${team.season} — ${players.length} spelers met elk hun eigen vibe.`}
+        subtitle={`Plak de beren van seizoen ${team.season} in je album. Thomas is er al — de andere stickers volgen binnenkort.`}
       />
 
-      <div className="mb-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {players.map((p, i) => (
-          <PlayerCard key={p.id} player={p} index={i} />
-        ))}
-      </div>
+      <StickerAlbum players={players} />
 
-      <section className="rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+      <section className="mt-12 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
         <h2 className="font-display text-xl font-bold text-cream">Staff</h2>
         <p className="mt-1 text-sm text-muted">
           De coaches en Els houden de beren scherp (en op tijd). Tik of focus voor hun
