@@ -33,7 +33,7 @@ export function Gedragscodes() {
             Clubs mogen ze zo gebruiken.
           </p>
         </div>
-        <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-hoop px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-hoop/30">
+        <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25">
           {gedragscodeSource.cta} →
         </span>
       </a>
