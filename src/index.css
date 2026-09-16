@@ -2491,8 +2491,8 @@ body {
 .sticker-album {
   position: relative;
   border-radius: 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, #16191c 0%, #101214 100%);
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  background: #f3efe6;
   padding: 0.9rem;
 }
 
@@ -2564,7 +2564,7 @@ body {
 .sticker-album__staff {
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(10, 10, 10, 0.12);
 }
 
 .sticker-album__staff-copy {
@@ -2576,13 +2576,13 @@ body {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--color-cream);
+  color: #111111;
 }
 
 .sticker-album__staff-lede {
   margin: 0.3rem 0 0;
   font-size: 0.875rem;
-  color: var(--color-muted);
+  color: #5c5852;
 }
 
 .sticker-slot {
@@ -2623,49 +2623,35 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   overflow: hidden;
-  border-radius: 1.05rem;
-  border: 1.5px dashed #c4bfb6;
-  background:
-    linear-gradient(180deg, #f7f4ee 0%, #efece4 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  border-radius: 0.95rem;
+  border: 1.5px dashed #111111;
+  background: transparent;
   padding: 0.85rem 0.7rem;
   text-align: center;
 }
 
-.sticker-slot__soon,
 .sticker-slot__name,
 .sticker-slot__meta {
   margin: 0;
-}
-
-.sticker-slot__soon {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #9a958c;
-}
-
-.sticker-slot__name {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: var(--font-display);
-  font-size: clamp(0.78rem, 2.7vw, 1rem);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #6f6a63;
-}
-
-.sticker-slot__meta {
-  font-size: clamp(0.68rem, 2.2vw, 0.82rem);
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #8b867e;
+  color: #8a8680;
+}
+
+.sticker-slot__name {
+  font-size: clamp(0.72rem, 2.5vw, 0.92rem);
+}
+
+.sticker-slot__meta {
+  font-size: clamp(0.64rem, 2.1vw, 0.78rem);
+  color: #9c9892;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -29,8 +29,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
         <EmptyAlbumSlot
           variant="group"
           title="Groepsfoto"
-          subtitle="Binnenkort"
-          ariaLabel="Lege stickerslot voor de groepsfoto. Binnenkort."
+          ariaLabel="Lege stickerslot voor de groepsfoto."
         />
       </section>
 
@@ -113,7 +112,7 @@ function PlayerStickerSlot({
 type EmptyAlbumSlotProps = {
   variant: 'player' | 'group' | 'staff'
   title: string
-  subtitle: string
+  subtitle?: string
   ariaLabel: string
   index?: number
 }
@@ -137,9 +136,8 @@ function EmptyAlbumSlot({
       aria-label={ariaLabel}
     >
       <div className="sticker-slot__chrome">
-        <p className="sticker-slot__soon">Binnenkort</p>
         <p className="sticker-slot__name">{title}</p>
-        <p className="sticker-slot__meta">{subtitle}</p>
+        {subtitle ? <p className="sticker-slot__meta">{subtitle}</p> : null}
       </div>
     </article>
   )
