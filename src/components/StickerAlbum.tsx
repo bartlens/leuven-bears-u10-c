@@ -18,7 +18,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
       >
         <article className="sticker-album__emblem">
           <img
-            src="/stickers/embleem-u10c.png"
+            src="/stickers/embleem-u10c.webp"
             alt="Embleemsticker van Leuven Bears U10 C"
             width={720}
             height={1080}

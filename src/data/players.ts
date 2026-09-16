@@ -51,7 +51,7 @@ export type Player = {
 /** Prefer explicit stickerSrc; Thomas also matches by first name for this preview. */
 export function playerStickerSrc(player: Player): string | undefined {
   if (player.stickerSrc) return player.stickerSrc
-  if (player.firstName === 'Thomas') return '/stickers/thomas.png'
+  if (player.firstName === 'Thomas') return '/stickers/thomas.webp'
   return undefined
 }
 
@@ -195,6 +195,6 @@ export const players: Player[] = [
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
     // Artwork shows #10 — keep the PNG as-is.
-    stickerSrc: '/stickers/thomas.png',
+    stickerSrc: '/stickers/thomas.webp',
   },
 ]
