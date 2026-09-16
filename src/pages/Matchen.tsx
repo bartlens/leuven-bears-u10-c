@@ -3,7 +3,7 @@ import { WinBadge } from '../components/WinBadge'
 import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
-import { formatMatchTitle } from '../lib/formatMatchTitle'
+import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
 function formatDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -101,13 +101,15 @@ export function Matchen() {
           Aankomend ({upcoming.length})
         </h2>
         <div className="space-y-3">
-          {upcoming.map((m, i) => (
+          {upcoming.map((m, i) => {
+            const title = formatMatchTitle(m.venue, m.opponent)
+            return (
             <article
               key={m.id}
-              className="card-lift animate-in flex flex-col gap-4 rounded-2xl border border-white/10 bg-panel p-5 sm:flex-row sm:items-center sm:justify-between"
+              className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-panel p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
-              <div>
+              <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${
@@ -122,16 +124,20 @@ export function Matchen() {
                     {formatDate(m.date)} · {m.time}
                   </span>
                 </div>
-                <h3 className="mt-2 font-display text-lg font-bold text-cream">
-                  {formatMatchTitle(m.venue, m.opponent)}
+                <h3
+                  className={`mt-2 font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
+                  title={title}
+                >
+                  {title}
                 </h3>
                 <p className="text-sm text-muted">{m.location}</p>
               </div>
-              <span className="self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
+              <span className="w-fit self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
                 Nog te spelen
               </span>
             </article>
-          ))}
+            )
+          })}
         </div>
       </section>
 
@@ -146,13 +152,15 @@ export function Matchen() {
           </p>
         ) : (
           <div className="space-y-3">
-            {past.map((m, i) => (
+            {past.map((m, i) => {
+              const title = formatMatchTitle(m.venue, m.opponent)
+              return (
               <article
                 key={m.id}
-                className="card-lift animate-in flex flex-col gap-4 rounded-2xl border border-white/10 bg-ink-soft p-5 sm:flex-row sm:items-center sm:justify-between"
+                className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-ink-soft p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
-                <div>
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     {m.result && <WinBadge result={m.result} />}
                     <span className="text-sm text-muted">
@@ -160,8 +168,11 @@ export function Matchen() {
                       {m.venue === 'thuis' ? 'Thuis' : 'Uit'}
                     </span>
                   </div>
-                  <h3 className="mt-2 font-display text-lg font-bold text-cream">
-                    {formatMatchTitle(m.venue, m.opponent)}
+                  <h3
+                    className={`mt-2 font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
+                    title={title}
+                  >
+                    {title}
                   </h3>
                   <p className="text-sm text-muted">{m.location}</p>
                 </div>
@@ -175,7 +186,8 @@ export function Matchen() {
                   </span>
                 </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         )}
       </section>
