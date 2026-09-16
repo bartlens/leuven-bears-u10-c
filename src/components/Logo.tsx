@@ -12,7 +12,7 @@ export function Logo({ className = '', size = 40 }: LogoProps) {
   const width = Math.round((size * SHIELD_WIDTH) / SHIELD_HEIGHT)
 
   return (
-    <picture className={`inline-block ${className}`}>
+    <picture className={`block w-fit ${className}`}>
       <source type="image/webp" srcSet="/brand/academy-logo-shield.webp" />
       <img
         src="/brand/academy-logo-shield.png"
