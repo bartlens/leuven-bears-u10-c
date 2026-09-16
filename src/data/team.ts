@@ -1,6 +1,5 @@
 import { links } from './links'
 import type { PlayerLook } from './players'
-import { formatMatchTitle } from '../lib/formatMatchTitle'
 
 export type StaffMove = 'whistle-clap' | 'laugh' | 'cheer'
 
@@ -113,11 +112,5 @@ export const team = {
     vblCalendarSync: links.vblCalendarSync,
     attendanceSpreadsheet: links.attendanceSpreadsheet,
     herfststageForm: links.herfststageForm,
-  },
-  nextHighlight: {
-    type: 'match' as const,
-    title: 'Volgende match',
-    when: 'Zo 27 sep · 15:15 · Uit',
-    where: formatMatchTitle('uit', 'Clem Scherpenheuvel A'),
   },
 }

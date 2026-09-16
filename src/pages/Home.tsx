@@ -41,7 +41,7 @@ export function Home() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:py-20">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:pb-8 lg:pt-20">
           <div className="min-w-0 animate-in">
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
@@ -68,37 +68,29 @@ export function Home() {
           </div>
 
           <div className="relative flex justify-center animate-in" style={{ animationDelay: '0.12s' }}>
-            <div className="relative w-full max-w-sm rounded-3xl border border-white/10 bg-panel/80 p-6 shadow-2xl shadow-hoop/20 backdrop-blur sm:p-8">
-              <Logo size={120} className="mx-auto" />
-              <p className="mt-4 text-center font-display text-xl font-bold text-cream">
-                {team.fullName}
+            <div className="relative flex w-full max-w-sm flex-col items-center rounded-3xl border border-white/10 bg-panel/80 px-6 py-10 shadow-2xl shadow-hoop/20 backdrop-blur sm:px-8 sm:py-12">
+              <div
+                className="pointer-events-none absolute inset-x-10 top-12 h-44 rounded-full bg-hoop/20 blur-3xl"
+                aria-hidden
+              />
+              <Logo size={220} className="relative mx-auto" />
+              <p className="relative mt-5 text-center text-sm font-semibold tracking-[0.18em] text-hoop-bright">
+                #WEBEARS
               </p>
-              <p className="mt-1 text-center text-sm text-muted">{team.tagline}</p>
-              <div className="mt-6 rounded-2xl border border-hoop/25 bg-hoop/10 p-4">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-                  {team.nextHighlight.title}
-                </p>
-                <p className="mt-1 font-semibold text-cream">
-                  {team.nextHighlight.when}
-                </p>
-                <p className="text-sm text-muted">
-                  {nextMatchTitle ?? team.nextHighlight.where}
-                </p>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {(nextMatch || nextTraining) && (
-        <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-          <div className="grid gap-4 lg:grid-cols-2">
+        <section className="mx-auto max-w-6xl px-4 pb-8 pt-0 sm:px-6">
+          <div className="grid gap-3 lg:grid-cols-2">
             {nextMatch && (
               <div
                 className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft"
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
-                <div className="flex h-full flex-col p-5 sm:p-7">
+                <div className="flex h-full flex-col p-4 sm:p-5">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
                     Volgende match
                   </p>
@@ -135,7 +127,7 @@ export function Home() {
               className="card-lift overflow-hidden rounded-3xl border border-hoop/25 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft"
               style={{ order: trainingFirst ? 1 : 2 }}
             >
-              <div className="flex h-full flex-col p-5 sm:p-7">
+              <div className="flex h-full flex-col p-4 sm:p-5">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
                   {nextTraining.isOngoing
                     ? 'Nu aan de gang'

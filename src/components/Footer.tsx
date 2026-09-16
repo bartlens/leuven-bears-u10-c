@@ -1,7 +1,6 @@
 import { Logo } from './Logo'
 import { UpdatedHint } from './UpdatedHint'
 import { team } from '../data/team'
-import { gedragscodeSource } from '../data/gedragscodes'
 
 export function Footer() {
   return (
@@ -27,14 +26,6 @@ export function Footer() {
             className="font-semibold text-cream underline-offset-4 hover:text-hoop-bright hover:underline"
           >
             leuvenbears.be
-          </a>
-          <a
-            href={gedragscodeSource.url}
-            target="_blank"
-            rel="noreferrer"
-            className="font-semibold text-cream underline-offset-4 hover:text-hoop-bright hover:underline"
-          >
-            Bron: Basketbal Vlaanderen
           </a>
         </div>
         <p className="text-xs text-muted/70">
