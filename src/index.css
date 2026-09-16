@@ -2566,15 +2566,7 @@ body {
   }
 }
 
-.sticker-album__grid--staff {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-@media (min-width: 640px) {
-  .sticker-album__grid--staff {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
+/* Staff uses the same column template as players so empty slots stay the same size. */
 
 .sticker-album__staff {
   margin-top: 1.5rem;
