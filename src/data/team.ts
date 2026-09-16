@@ -92,7 +92,7 @@ export const team = {
   seasonShort: '26–27',
   hall: {
     name: 'Campus Redingenhof',
-    address: 'Remi Vandervaerenlaan',
+    address: 'Remi Vandervaerenlaan 16',
     city: '3000 Leuven',
     notes:
       'Thuiswedstrijden in Campus Redingenhof. Trainingen: maandag Heilig-Hart Heverlee, donderdag Redingenhof.',
