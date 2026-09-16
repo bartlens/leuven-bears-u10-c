@@ -222,13 +222,13 @@ export function Trainingen() {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <section className={`${card} rounded-3xl p-6`}>
-          <h3 className="font-display text-lg font-bold text-warm">
+          <h3 className="font-display text-lg font-bold text-cream">
             Wat meebrengen?
           </h3>
           <ul className="mt-4 space-y-2">
             {whatToBring.map((item) => (
               <li key={item} className="flex gap-3 text-sm text-cream/90">
-                <span className="text-warm" aria-hidden>
+                <span className="text-cream/60" aria-hidden>
                   ✓
                 </span>
                 {item}
@@ -238,7 +238,7 @@ export function Trainingen() {
         </section>
 
         <section className={`${card} rounded-3xl p-6`}>
-          <h3 className="font-display text-lg font-bold text-warm">
+          <h3 className="font-display text-lg font-bold text-cream">
             Coach notes
           </h3>
           <ul className="mt-4 space-y-3">
