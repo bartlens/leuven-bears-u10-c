@@ -12,14 +12,16 @@ export function Footer() {
             {team.fullName}
           </p>
           <p className="mt-0.5 text-sm text-muted">
-            {team.club} · Seizoen {team.season}
+            {team.club} ·{' '}
+            <span className="whitespace-nowrap">Seizoen {team.season}</span>
           </p>
         </div>
         <p className="rounded-full border border-hoop/40 bg-hoop/10 px-4 py-1.5 text-sm font-semibold text-hoop-bright">
           {team.tagline}
         </p>
         <p className="text-xs text-muted/70">
-          Leuven Bears · Jeugdteam U10 C · Seizoen {team.season}
+          Leuven Bears · Jeugdteam U10 C ·{' '}
+          <span className="whitespace-nowrap">Seizoen {team.season}</span>
         </p>
         <p className="text-xs text-muted/70">
           © Blits BV (Bart, papa van Thomas)

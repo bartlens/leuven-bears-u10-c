@@ -42,7 +42,7 @@ export function Home() {
       <section className="relative overflow-x-hidden grain mesh-grid">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:pb-8 lg:pt-20">
           <div className="min-w-0 animate-in">
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
+            <span className="mb-4 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
             </span>
             <HeroTitlePeek name={team.name} category={team.category} enabled={false} />
