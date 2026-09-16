@@ -43,7 +43,10 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
       <section className="sticker-album__staff" aria-labelledby="sticker-staff-heading">
         <div className="sticker-album__staff-copy">
-          <h2 id="sticker-staff-heading" className="sticker-album__staff-title">
+          <h2
+            id="sticker-staff-heading"
+            className="sticker-album__staff-title font-display text-3xl font-bold tracking-tight text-cream sm:text-4xl"
+          >
             Staff
           </h2>
         </div>
