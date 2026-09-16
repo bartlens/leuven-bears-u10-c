@@ -16,6 +16,16 @@ export type StaffMember = {
   /** Short Dutch label under the name */
   moveLabel: string
   look: PlayerLook
+  /** Idle Panini sticker. Only set when artwork is ready. */
+  stickerSrc?: string
+}
+
+/** Prefer explicit stickerSrc; Els also matches by first name for this preview. */
+export function staffStickerSrc(staff: StaffMember): string | undefined {
+  if (staff.stickerSrc) return staff.stickerSrc
+  const firstName = staff.name.split(/\s+/)[0] ?? staff.name
+  if (firstName === 'Els') return '/stickers/els.webp'
+  return undefined
 }
 
 export const staffMembers: StaffMember[] = [
@@ -54,8 +64,9 @@ export const staffMembers: StaffMember[] = [
   {
     id: 'els',
     name: 'Els',
-    role: 'Ploegafgevaardigde',
+    role: 'Ploegverantwoordelijke',
     note: 'mama van Sam',
+    stickerSrc: '/stickers/els.webp',
     emoji: '🙌',
     outfit: 'volunteer',
     move: 'cheer',
@@ -88,7 +99,7 @@ export const team = {
   },
   staff: {
     coaches: staffMembers.filter((s) => s.outfit === 'coach'),
-    ploegafgevaardigde: staffMembers.find((s) => s.id === 'els')!,
+    ploegverantwoordelijke: staffMembers.find((s) => s.id === 'els')!,
   },
   contact: {
     clubEmail: 'secretariaat@leuvenbears.be',

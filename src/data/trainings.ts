@@ -119,7 +119,7 @@ export const whatToBring = [
 export const coachNotes = [
   'Elke maandag 17:30–19:00 in Heilig-Hart Heverlee; elke donderdag 17:30–19:00 in Campus Redingenhof.',
   'Datums tot eind oktober staan in de aanwezigheid-spreadsheet; daarna geldt het vaste Ma/Do-schema.',
-  'Bij ziekte of afwezigheid: even de coach of Els (ploegafgevaardigde) een seintje geven.',
+  'Bij ziekte of afwezigheid: even de coach of Els (ploegverantwoordelijke) een seintje geven.',
   'We spelen fair, juichen hard en lachen nog harder. #WEBEARS',
   'Ouders mogen kijken vanaf de tribune — high-fives na afloop zijn verplicht!',
 ]
