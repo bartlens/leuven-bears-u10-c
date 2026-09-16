@@ -9,7 +9,7 @@ export function Spelers() {
       <SectionHeader
         eyebrow="Stickeralbum · Seizoen 2026 - 2027"
         title="Onze spelers"
-        subtitle={`Plak de beren van seizoen ${team.season} in je album. Thomas is er al — de andere spelers- en staffstickers volgen binnenkort.`}
+        subtitle={`Plak de beren van seizoen ${team.season} in je album. Sam en Thomas zijn er al — de andere spelers- en staffstickers volgen binnenkort.`}
       />
 
       <StickerAlbum players={players} staff={staffMembers} />
