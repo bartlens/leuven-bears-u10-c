@@ -2491,8 +2491,8 @@ body {
 .sticker-album {
   position: relative;
   border-radius: 1.75rem;
-  border: 1px solid rgba(10, 10, 10, 0.12);
-  background: #f3efe6;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0a0a0a;
   padding: 0.9rem;
 }
 
@@ -2564,7 +2564,7 @@ body {
 .sticker-album__staff {
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(10, 10, 10, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sticker-album__staff-copy {
@@ -2576,13 +2576,13 @@ body {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 700;
-  color: #111111;
+  color: var(--color-cream);
 }
 
 .sticker-album__staff-lede {
   margin: 0.3rem 0 0;
   font-size: 0.875rem;
-  color: #5c5852;
+  color: var(--color-muted);
 }
 
 .sticker-slot {
@@ -2626,7 +2626,7 @@ body {
   gap: 0.3rem;
   overflow: hidden;
   border-radius: 0.95rem;
-  border: 1.5px dashed #111111;
+  border: 1.5px dashed #5a5a5a;
   background: transparent;
   padding: 0.85rem 0.7rem;
   text-align: center;
@@ -2642,7 +2642,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #8a8680;
+  color: #7a7a7a;
 }
 
 .sticker-slot__name {
@@ -2651,7 +2651,7 @@ body {
 
 .sticker-slot__meta {
   font-size: clamp(0.64rem, 2.1vw, 0.78rem);
-  color: #9c9892;
+  color: #6a6a6a;
 }
 
 @media (prefers-reduced-motion: reduce) {
