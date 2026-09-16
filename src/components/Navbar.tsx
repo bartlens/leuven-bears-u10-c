@@ -23,13 +23,10 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6">
         <NavLink
           to="/"
-          className="group flex min-w-0 items-center gap-2.5 sm:gap-3"
+          className="flex min-w-0 items-center gap-2.5 sm:gap-3"
           onClick={() => setOpen(false)}
         >
-          <Logo
-            size={42}
-            className="shrink-0 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-active:rotate-12 group-active:scale-110"
-          />
+          <Logo size={42} className="shrink-0" />
           <div className="min-w-0 leading-tight">
             <p className="truncate font-display text-sm font-bold tracking-wide text-cream sm:text-base">
               {team.name}
