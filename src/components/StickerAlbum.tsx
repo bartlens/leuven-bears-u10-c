@@ -1,6 +1,6 @@
 import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
-import type { StaffMember } from '../data/team'
+import { staffStickerSrc, type StaffMember } from '../data/team'
 
 const STICKER_ASPECT = '2 / 3'
 
@@ -47,19 +47,13 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
             Staff
           </h2>
           <p className="sticker-album__staff-lede">
-            Coaches en ploegafgevaardigde — stickers volgen binnenkort.
+            Els is er al — coachstickers volgen binnenkort.
           </p>
         </div>
         <ul className="sticker-album__grid sticker-album__grid--staff">
           {staff.map((member, index) => (
             <li key={member.id} className="min-w-0">
-              <EmptyAlbumSlot
-                variant="staff"
-                title={staffSlotName(member)}
-                subtitle={member.role}
-                ariaLabel={`Lege stickerslot voor ${member.name}, ${member.role}${member.note ? `, ${member.note}` : ''}. Binnenkort.`}
-                index={index}
-              />
+              <StaffStickerSlot member={member} index={index} />
             </li>
           ))}
         </ul>
@@ -70,6 +64,43 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
 function staffSlotName(member: StaffMember) {
   return member.name.split(/\s+/)[0] ?? member.name
+}
+
+function StaffStickerSlot({
+  member,
+  index,
+}: {
+  member: StaffMember
+  index: number
+}) {
+  const stickerSrc = staffStickerSrc(member)
+
+  if (stickerSrc) {
+    return (
+      <article
+        className="sticker-slot sticker-slot--filled animate-in"
+        style={{ animationDelay: `${index * 0.04}s` }}
+      >
+        <img
+          src={stickerSrc}
+          alt={`Sticker van ${staffSlotName(member)}, ${member.role}`}
+          width={693}
+          height={1080}
+          className="sticker-slot__art"
+        />
+      </article>
+    )
+  }
+
+  return (
+    <EmptyAlbumSlot
+      variant="staff"
+      title={staffSlotName(member)}
+      subtitle={member.role}
+      ariaLabel={`Lege stickerslot voor ${member.name}, ${member.role}${member.note ? `, ${member.note}` : ''}. Binnenkort.`}
+      index={index}
+    />
+  )
 }
 
 function PlayerStickerSlot({

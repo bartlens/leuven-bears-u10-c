@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SectionHeader } from '../components/SectionHeader'
-import { StaffCard } from '../components/StaffCard'
-import { staffMembers, team } from '../data/team'
+import { team } from '../data/team'
 import {
   attendanceCopy,
   herfststage,
@@ -13,7 +12,7 @@ const parentTips = [
   'Zorg voor naamlabels in jas & drinkbus — de kleedkamer is een jungle.',
   'Kom op tijd: 10 min vroeger = rustig aankleden + high-five met de coach.',
   'Na de match: eerst water, dan snack. Suikerstorms later 😄',
-  'Carpoolen? Vragen via coaches of Els (ploegafgevaardigde).',
+  'Carpoolen? Vragen via coaches of Els (ploegverantwoordelijke).',
   'Juichen mag luid — schelden niet. We zijn jeugdbasket, geen Champions League.',
   'Vragen over inschrijving of lidgeld? Mail het clubsecretariaat.',
 ]
@@ -46,14 +45,8 @@ export function Info() {
       <SectionHeader
         eyebrow="Praktisch"
         title="Info voor ouders"
-        subtitle={`Alles voor ${team.fullName} — coaches, ploegafgevaardigde, zaal en clubcontact. Seizoen ${team.season}.`}
+        subtitle={`Alles voor ${team.fullName} — coaches, ploegverantwoordelijke, zaal en clubcontact. Seizoen ${team.season}.`}
       />
-
-      <div className="mb-8 grid gap-4 sm:grid-cols-3">
-        {staffMembers.map((s, i) => (
-          <StaffCard key={s.id} staff={s} index={i} />
-        ))}
-      </div>
 
       {/* Herfststage */}
       <article className="mb-8 rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 sm:p-8">
@@ -201,7 +194,7 @@ export function Info() {
             <div>
               <dt className="text-muted">Teamcontact</dt>
               <dd className="font-semibold text-cream">
-                Coaches Jonathan & Rafa · Els (ploegafgevaardigde)
+                Coaches Jonathan & Rafa · Els (ploegverantwoordelijke)
               </dd>
             </div>
           </dl>
