@@ -67,6 +67,10 @@ export function Trainingen() {
     }
   }
 
+  const card = 'border border-white/10 bg-panel'
+  const cardPad = 'card-lift animate-in rounded-2xl px-5 py-4'
+  const cardLg = 'card-lift animate-in rounded-3xl p-6'
+
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
@@ -79,7 +83,7 @@ export function Trainingen() {
         {trainings.map((t, i) => (
           <article
             key={t.id}
-            className="card-lift animate-in rounded-3xl border border-hoop/30 bg-hoop/10 p-6"
+            className={`${cardLg} ${card}`}
             style={{ animationDelay: `${i * 0.06}s` }}
           >
             <div className="flex items-center justify-between gap-3">
@@ -90,11 +94,11 @@ export function Trainingen() {
                 Wekelijks
               </span>
             </div>
+            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
+            <p className="mt-1 text-muted">{t.location}</p>
             <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
               Focus: {t.focus}
             </p>
-            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
-            <p className="mt-1 text-muted">{t.location}</p>
           </article>
         ))}
       </div>
@@ -103,7 +107,7 @@ export function Trainingen() {
         href={links.attendanceSpreadsheet}
         target="_blank"
         rel="noreferrer"
-        className="card-lift mb-8 flex flex-col gap-2 rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
+        className={`${cardPad} ${card} mb-8 flex flex-col gap-2 transition hover:bg-white/5 sm:flex-row sm:items-center sm:justify-between`}
       >
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
@@ -116,7 +120,7 @@ export function Trainingen() {
             {attendanceCopy.blurb}
           </p>
         </div>
-        <span className="shrink-0 self-start rounded-full bg-hoop px-4 py-2 text-sm font-bold text-white sm:self-center">
+        <span className="inline-flex shrink-0 self-start items-center justify-center rounded-full border border-white/15 bg-transparent px-4 py-2 text-sm font-bold text-cream transition hover:border-white/30 hover:bg-white/5 sm:self-center">
           Openen →
         </span>
       </a>
@@ -147,16 +151,13 @@ export function Trainingen() {
                     }
                     onClick={COACH_WAVE_EASTER_EGG ? triggerCoachWave : undefined}
                     onKeyDown={COACH_WAVE_EASTER_EGG ? onNextKeyDown : undefined}
-                    className={`training-next card-lift animate-in relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between ${
+                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden sm:flex-row sm:items-center sm:justify-between ${
                       COACH_WAVE_EASTER_EGG
                         ? 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
                         : ''
                     } ${waving ? 'is-waving' : ''}`}
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
-                    <span className="training-next__glow" aria-hidden="true">
-                      <span className="training-next__border-swoosh" />
-                    </span>
                     {waving && (
                       <div
                         className="training-coach-pop pointer-events-none absolute inset-0 z-[5] flex items-center justify-center gap-3 overflow-hidden rounded-2xl"
@@ -179,7 +180,7 @@ export function Trainingen() {
                       </div>
                     )}
                     <div className="relative z-10">
-                      <p className="training-next__badge text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
                         Eerstvolgende
                       </p>
                       <p className="mt-0.5 font-display text-lg font-bold text-cream">
@@ -198,7 +199,7 @@ export function Trainingen() {
               return (
                 <article
                   key={t.id}
-                  className="card-lift animate-in flex flex-col gap-2 rounded-2xl border border-white/10 bg-panel px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+                  className={`${cardPad} ${card} flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between`}
                   style={{ animationDelay: `${i * 0.03}s` }}
                 >
                   <div>
@@ -220,7 +221,7 @@ export function Trainingen() {
       </section>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-white/10 bg-bear/30 p-6">
+        <section className={`${card} rounded-3xl p-6`}>
           <h3 className="font-display text-lg font-bold text-warm">
             Wat meebrengen?
           </h3>
@@ -236,7 +237,7 @@ export function Trainingen() {
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-bear/30 p-6">
+        <section className={`${card} rounded-3xl p-6`}>
           <h3 className="font-display text-lg font-bold text-warm">
             Coach notes
           </h3>
