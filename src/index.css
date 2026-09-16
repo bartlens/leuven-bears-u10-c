@@ -2567,6 +2567,18 @@ body {
   min-height: 0;
 }
 
+.sticker-album__hero .sticker-slot--group.sticker-slot--filled {
+  display: flex;
+  align-items: stretch;
+}
+
+.sticker-album__hero .sticker-album__group-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 .sticker-album__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
