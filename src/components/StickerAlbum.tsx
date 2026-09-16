@@ -1,6 +1,6 @@
 import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
-import { staffStickerSrc, type StaffMember } from '../data/team'
+import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
 const STICKER_ASPECT = '2 / 3'
 
@@ -26,11 +26,15 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           />
         </article>
 
-        <EmptyAlbumSlot
-          variant="group"
-          title="Groepsfoto"
-          ariaLabel="Lege stickerslot voor de groepsfoto."
-        />
+        <article className="sticker-slot sticker-slot--filled sticker-slot--group animate-in">
+          <img
+            src="/stickers/groep-u10c-2026.webp"
+            alt={`Leuven Bears U10C groepsfoto ${team.season}`}
+            width={1920}
+            height={859}
+            className="sticker-slot__art sticker-album__group-img"
+          />
+        </article>
       </section>
 
       <ul className="sticker-album__grid">
@@ -43,7 +47,10 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
       <section className="sticker-album__staff" aria-labelledby="sticker-staff-heading">
         <div className="sticker-album__staff-copy">
-          <h2 id="sticker-staff-heading" className="sticker-album__staff-title">
+          <h2
+            id="sticker-staff-heading"
+            className="sticker-album__staff-title font-display text-3xl font-bold tracking-tight text-cream sm:text-4xl"
+          >
             Staff
           </h2>
         </div>
