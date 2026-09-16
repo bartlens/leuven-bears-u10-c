@@ -76,7 +76,12 @@ export function Trainingen() {
       <SectionHeader
         eyebrow="Schedule"
         title="Trainingen"
-        subtitle={`Vaste planning · seizoen ${team.season}`}
+        subtitle={
+          <>
+            Vaste planning ·{' '}
+            <span className="whitespace-nowrap">seizoen {team.season}</span>
+          </>
+        }
       />
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2">

@@ -88,7 +88,7 @@ export const team = {
   tagline: '#WEBEARS · Klein van stuk, groot van hart 🐻🏀',
   club: 'Leuven Bears',
   competition: 'U10 C',
-  season: '2026 - 2027',
+  season: '2026–2027',
   seasonShort: '26–27',
   hall: {
     name: 'Campus Redingenhof',

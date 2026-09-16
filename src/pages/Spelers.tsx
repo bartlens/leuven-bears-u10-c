@@ -7,7 +7,7 @@ export function Spelers() {
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
-        eyebrow="Stickeralbum · Seizoen 2026 - 2027"
+        eyebrow={`Stickeralbum · Seizoen ${team.season}`}
         title="Onze spelers"
         subtitle={`Plak de beren van seizoen ${team.season} in je album. Thomas, Sam en Els zijn er al — de andere spelers- en staffstickers volgen binnenkort.`}
       />
