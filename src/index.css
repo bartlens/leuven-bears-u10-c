@@ -2487,268 +2487,192 @@ body {
   }
 }
 
-/* ========== IDLE BALL EASTER EGG ========== */
-.idle-fun {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  overflow: hidden;
+/* ========== PANINI STICKER ALBUM ========== */
+.sticker-album {
+  position: relative;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0a0a0a;
+  padding: 0.9rem;
 }
 
-.idle-fun__ball {
-  position: absolute;
-  width: 2.75rem;
-  height: 2.75rem;
-  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
-  will-change: left, top, transform;
-}
-
-.idle-fun__ball-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.idle-fun__walker {
-  position: absolute;
-  bottom: 3%;
-  width: 5.8rem;
-  height: 8.4rem;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
-  will-change: left, transform;
-  overflow: visible;
-}
-
-.idle-fun__walker-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-}
-
-.idle-fun__walker--peek {
-  animation: idle-peek 1.15s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-}
-.idle-fun__walker--left.idle-fun__walker--peek { left: 0%; }
-.idle-fun__walker--right.idle-fun__walker--peek { left: 100%; }
-
-@keyframes idle-peek {
-  0% { transform: translateX(-50%) translateY(24%); opacity: 0; }
-  40% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-}
-
-.idle-fun__walker--left.idle-fun__walker--walk-in {
-  animation: idle-walk-in-l 1.65s cubic-bezier(0.33, 1, 0.4, 1) both;
-}
-.idle-fun__walker--right.idle-fun__walker--walk-in {
-  animation: idle-walk-in-r 1.65s cubic-bezier(0.33, 1, 0.4, 1) both;
-}
-.idle-fun__walker--left.idle-fun__walker--pickup,
-.idle-fun__walker--right.idle-fun__walker--pickup {
-  left: var(--ball-x, 50%);
-  animation: idle-pickup-bob 0.65s ease-in-out both;
-}
-.idle-fun__walker--left.idle-fun__walker--walk-out {
-  left: var(--ball-x, 50%);
-  animation: idle-walk-out-l 1.95s cubic-bezier(0.4, 0, 0.55, 1) both;
-}
-.idle-fun__walker--right.idle-fun__walker--walk-out {
-  left: var(--ball-x, 50%);
-  animation: idle-walk-out-r 1.95s cubic-bezier(0.4, 0, 0.55, 1) both;
-}
-
-@keyframes idle-walk-in-l {
-  0% { left: -14%; opacity: 1; }
-  100% { left: var(--ball-x, 50%); opacity: 1; }
-}
-@keyframes idle-walk-in-r {
-  0% { left: 114%; opacity: 1; }
-  100% { left: var(--ball-x, 50%); opacity: 1; }
-}
-@keyframes idle-pickup-bob {
-  0% { transform: translateX(-50%) translateY(0); }
-  45% { transform: translateX(-50%) translateY(10px) scale(0.97); }
-  100% { transform: translateX(-50%) translateY(0); }
-}
-@keyframes idle-walk-out-l {
-  0% { left: var(--ball-x, 50%); opacity: 1; }
-  100% { left: -16%; opacity: 1; }
-}
-@keyframes idle-walk-out-r {
-  0% { left: var(--ball-x, 50%); opacity: 1; }
-  100% { left: 116%; opacity: 1; }
-}
-
-.idle-fun__walker--walk-in .idle-side-char,
-.idle-fun__walker--walk-out .idle-side-char {
-  animation: idle-walk-char 0.36s ease-in-out infinite;
-}
-.idle-fun__walker--walk-in .idle-side-leg--front,
-.idle-fun__walker--walk-out .idle-side-leg--front {
-  animation: idle-walk-leg-f 0.36s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: top center;
-}
-.idle-fun__walker--walk-in .idle-side-leg--back,
-.idle-fun__walker--walk-out .idle-side-leg--back {
-  animation: idle-walk-leg-b 0.36s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: top center;
-}
-
-@keyframes idle-walk-char {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-@keyframes idle-walk-leg-f {
-  0%, 100% { transform: rotate(8deg); }
-  50% { transform: rotate(-10deg); }
-}
-@keyframes idle-walk-leg-b {
-  0%, 100% { transform: rotate(-8deg); }
-  50% { transform: rotate(10deg); }
-}
-
-.idle-fun__walker .idle-side-head {
-  transform-box: fill-box;
-  transform-origin: center bottom;
-}
-.idle-fun__walker.is-holding .idle-side-head {
-  /* keep */
-}
-
-
-/* Jonathan peeks from the opposite edge on /spelers idle egg */
-.idle-fun__coach {
-  position: absolute;
-  bottom: 2.5%;
-  width: 5.4rem;
-  height: 7.8rem;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
-  overflow: visible;
-  pointer-events: none;
-  animation: idle-coach-peek 0.55s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-}
-.idle-fun__coach--left { left: 6%; }
-.idle-fun__coach--right { left: 94%; }
-.idle-fun__coach-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-}
-@keyframes idle-coach-peek {
-  0% { transform: translateX(-50%) translateY(28%); opacity: 0; }
-  55% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-}
-
-/* One-shot whistle pose (reuse Jonathan keyframes, play once) */
-.idle-fun__coach.is-blowing .pf-char {
-  animation: sf-whistleclap-char 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .pf-arm-l {
-  animation: sf-whistleclap-arm-l 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .pf-arm-r {
-  animation: sf-whistleclap-arm-r 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .pf-head {
-  animation: sf-whistleclap-head 1.15s ease-in-out 1 both;
-}
-.idle-fun__coach.is-blowing .sf-whistle-mouth {
-  animation: sf-whistleclap-mouth 1.15s ease-in-out 1 both;
-}
-.idle-fun__coach.is-blowing .sf-smile-idle {
-  animation: sf-whistleclap-smile 1.15s ease-in-out 1 both;
-}
-.idle-fun__coach.is-blowing .sf-whistle {
-  animation: sf-whistleclap-whistle-chest 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .sf-whistle-hand {
-  animation: sf-whistleclap-whistle-hand 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .sf-whistle-blow {
-  animation: sf-whistleclap-whistle-blow 1.15s cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 both;
-}
-.idle-fun__coach.is-blowing .sf-whistle-sound {
-  animation: sf-whistleclap-sound 1.15s ease-in-out 1 both;
-}
-.idle-fun__coach.is-blowing .sf-clipboard {
-  animation: sf-clipboard-tilt 1.15s ease-in-out 1 both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .idle-fun { display: none !important; }
-}
-
-/* Roster laugh-along on Spelers cards */
-.player-card.is-laughing .pf-eyes > ellipse:not(.pf-lid) {
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: scaleY(0.22);
-}
-
-.player-card.is-laughing .pf-eye-shine {
-  opacity: 0;
-}
-
-.player-card.is-laughing .pf-lid {
-  opacity: 0.95;
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: scaleY(8);
-}
-
-.player-card.is-laughing .pf-smile {
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: translateY(1px) scaleY(1.5) scaleX(1.1);
-  stroke-width: 2.5;
-}
-
-.player-card.is-laughing .pf-head {
-  transform-box: fill-box;
-  transform-origin: center bottom;
-  animation: hero-laugh-bob 0.34s ease-in-out infinite !important;
-}
-
-.player-card.is-laughing .pf-char {
-  animation: idle-roster-bounce 0.55s ease-in-out infinite !important;
-  transform-box: fill-box;
-  transform-origin: center bottom;
-}
-
-.player-card.is-laughing .pf-arm-l,
-.player-card.is-laughing .pf-arm-r {
-  animation: idle-roster-arms 0.45s ease-in-out infinite !important;
-  transform-box: fill-box;
-  transform-origin: 50% 10%;
-}
-
-@keyframes idle-roster-bounce {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-4px) rotate(2deg); }
-}
-
-@keyframes idle-roster-arms {
-  0%, 100% { transform: rotate(-8deg); }
-  50% { transform: rotate(18deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .idle-fun {
-    display: none !important;
+@media (min-width: 640px) {
+  .sticker-album {
+    padding: 1.25rem;
   }
+}
 
-  .player-card.is-laughing .pf-head,
-  .player-card.is-laughing .pf-char,
-  .player-card.is-laughing .pf-arm-l,
-  .player-card.is-laughing .pf-arm-r {
-    animation: none !important;
+.sticker-album__hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .sticker-album__hero {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sticker-album__hero {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.sticker-album__emblem {
+  min-width: 0;
+  max-width: 100%;
+  align-self: start;
+}
+
+.sticker-album__emblem-img,
+.sticker-slot__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+.sticker-album__hero .sticker-slot--group {
+  grid-column: 2 / -1;
+  height: 100%;
+  min-height: 0;
+}
+
+.sticker-album__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .sticker-album__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sticker-album__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.sticker-album__grid--staff {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .sticker-album__grid--staff {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sticker-album__staff {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sticker-album__staff-copy {
+  margin-bottom: 0.85rem;
+}
+
+.sticker-album__staff-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-cream);
+}
+
+.sticker-album__staff-lede {
+  margin: 0.3rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.sticker-slot {
+  position: relative;
+  min-width: 0;
+}
+
+.sticker-slot--filled {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sticker-slot--filled:hover,
+.sticker-slot--filled:focus-within {
+  transform: translateY(-4px);
+}
+
+.sticker-slot--empty {
+  display: flex;
+  height: 100%;
+}
+
+.sticker-slot--player,
+.sticker-slot--staff {
+  padding: 3.4%;
+}
+
+.sticker-slot--group {
+  height: 100%;
+  padding: 0;
+}
+
+.sticker-slot__chrome {
+  position: relative;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  overflow: hidden;
+  border-radius: 0.95rem;
+  border: 1.5px dashed #5a5a5a;
+  background: transparent;
+  padding: 0.85rem 0.7rem;
+  text-align: center;
+}
+
+.sticker-slot__name,
+.sticker-slot__meta {
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7a7a7a;
+}
+
+.sticker-slot__name {
+  font-size: clamp(0.72rem, 2.5vw, 0.92rem);
+}
+
+.sticker-slot__meta {
+  font-size: clamp(0.64rem, 2.1vw, 0.78rem);
+  color: #6a6a6a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker-slot--filled,
+  .sticker-slot--filled:hover,
+  .sticker-slot--filled:focus-within {
+    transform: none;
   }
 }
