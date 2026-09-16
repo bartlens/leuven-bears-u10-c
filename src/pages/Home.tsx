@@ -119,7 +119,7 @@ export function Home() {
                     </div>
                     <Link
                       to="/matchen"
-                      className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl bg-hoop px-5 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright active:bg-hoop-bright sm:self-center"
+                      className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl border border-hoop/40 bg-hoop/20 px-5 py-3 text-sm font-bold text-hoop-bright transition hover:bg-hoop/30 active:bg-hoop/30 sm:self-center"
                     >
                       Alle matchen →
                     </Link>
