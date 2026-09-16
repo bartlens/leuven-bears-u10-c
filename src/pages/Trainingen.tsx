@@ -75,32 +75,35 @@ export function Trainingen() {
         subtitle={`Vaste planning · seizoen ${team.season}`}
       />
 
-      <div className="mb-8 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-2xl border border-hoop/30 bg-hoop/10 px-5 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-            Maandag
-          </p>
-          <p className="mt-1 font-display text-lg font-bold text-cream">
-            17:30–19:00
-          </p>
-          <p className="mt-1 text-sm text-muted">Heilig-Hart Heverlee</p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-panel px-5 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-            Donderdag
-          </p>
-          <p className="mt-1 font-display text-lg font-bold text-cream">
-            17:30–19:00
-          </p>
-          <p className="mt-1 text-sm text-muted">Campus Redingenhof</p>
-        </div>
+      <div className="mb-5 grid gap-4 sm:grid-cols-2">
+        {trainings.map((t, i) => (
+          <article
+            key={t.id}
+            className="card-lift animate-in rounded-3xl border border-white/10 bg-panel p-6"
+            style={{ animationDelay: `${i * 0.06}s` }}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-display text-2xl font-bold text-cream">
+                {t.day}
+              </h2>
+              <span className="rounded-full bg-hoop/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright">
+                Wekelijks
+              </span>
+            </div>
+            <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
+              Focus: {t.focus}
+            </p>
+            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
+            <p className="mt-1 text-muted">{t.location}</p>
+          </article>
+        ))}
       </div>
 
       <a
         href={links.attendanceSpreadsheet}
         target="_blank"
         rel="noreferrer"
-        className="card-lift mb-8 flex flex-col gap-2 rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
+        className="card-lift mb-5 flex flex-col gap-2 rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
@@ -118,14 +121,14 @@ export function Trainingen() {
         </span>
       </a>
 
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="mb-4 font-display text-xl font-bold text-cream">
           Aankomende trainingen ({upcomingDated.length})
         </h2>
         {upcomingDated.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-white/15 bg-ink-soft px-5 py-6 text-sm text-muted">
             Geen gedateerde trainingen meer in de spreadsheet — daarna geldt het
-            vaste Ma/Do-schema hieronder.
+            vaste Ma/Do-schema hierboven.
           </p>
         ) : (
           <div className="space-y-2">
@@ -216,31 +219,7 @@ export function Trainingen() {
         )}
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        {trainings.map((t, i) => (
-          <article
-            key={t.id}
-            className="card-lift animate-in rounded-3xl border border-white/10 bg-panel p-6"
-            style={{ animationDelay: `${i * 0.06}s` }}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="font-display text-2xl font-bold text-cream">
-                {t.day}
-              </h2>
-              <span className="rounded-full bg-hoop/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright">
-                Wekelijks
-              </span>
-            </div>
-            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
-            <p className="mt-1 text-muted">{t.location}</p>
-            <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
-              Focus: {t.focus}
-            </p>
-          </article>
-        ))}
-      </div>
-
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section className="rounded-3xl border border-hoop/25 bg-hoop/5 p-6">
           <h3 className="font-display text-lg font-bold text-hoop-bright">
             Wat meebrengen?
