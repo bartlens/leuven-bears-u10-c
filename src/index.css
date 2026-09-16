@@ -2593,12 +2593,6 @@ body {
   color: var(--color-cream);
 }
 
-.sticker-album__staff-lede {
-  margin: 0.3rem 0 0;
-  font-size: 0.875rem;
-  color: var(--color-muted);
-}
-
 .sticker-slot {
   position: relative;
   min-width: 0;

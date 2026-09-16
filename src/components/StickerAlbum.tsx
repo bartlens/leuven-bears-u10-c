@@ -46,9 +46,6 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           <h2 id="sticker-staff-heading" className="sticker-album__staff-title">
             Staff
           </h2>
-          <p className="sticker-album__staff-lede">
-            Els is er al — coachstickers volgen binnenkort.
-          </p>
         </div>
         <ul className="sticker-album__grid sticker-album__grid--staff">
           {staff.map((member, index) => (
