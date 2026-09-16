@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SectionHeader } from '../components/SectionHeader'
+import { matchTitleClass } from '../lib/formatMatchTitle'
 import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import {
@@ -214,7 +215,12 @@ export function Kalender() {
                 }`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="font-display text-base font-bold text-cream">{e.title}</p>
+                  <p
+                    className={`min-w-0 flex-1 font-display text-base font-bold text-cream ${matchTitleClass}`}
+                    title={e.title}
+                  >
+                    {e.title}
+                  </p>
                   <p
                     className={`text-sm font-bold ${
                       e.kind === 'match' ? 'text-hoop-bright' : 'text-warm'
@@ -263,7 +269,12 @@ export function Kalender() {
                     <span className="block text-xs font-bold uppercase tracking-wider text-muted">
                       {formatDayHeading(e.dateIso)} · {e.time}
                     </span>
-                    <span className="mt-0.5 block font-semibold text-cream">{e.title}</span>
+                    <span
+                      className={`mt-0.5 block font-semibold text-cream ${matchTitleClass}`}
+                      title={e.title}
+                    >
+                      {e.title}
+                    </span>
                     <span className="block truncate text-sm text-muted">{e.location}</span>
                   </span>
                 </button>

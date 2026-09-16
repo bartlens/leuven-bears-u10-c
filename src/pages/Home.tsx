@@ -5,7 +5,7 @@ import { getNextTraining } from '../data/trainings'
 import { UpdatedHint } from '../components/UpdatedHint'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
-import { formatMatchTitle } from '../lib/formatMatchTitle'
+import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
 const quickLinks = [
   { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Team & staff' },
@@ -26,6 +26,9 @@ function startMs(dateIso: string, timeHHmm: string) {
 export function Home() {
   const { matches, datedTrainings } = useSheetData()
   const nextMatch = matches.find((m) => m.status === 'upcoming')
+  const nextMatchTitle = nextMatch
+    ? formatMatchTitle(nextMatch.venue, nextMatch.opponent)
+    : null
   const nextTraining = getNextTraining(new Date(), datedTrainings)
 
   const matchAt = nextMatch
@@ -79,9 +82,7 @@ export function Home() {
                   {team.nextHighlight.when}
                 </p>
                 <p className="text-sm text-muted">
-                  {nextMatch
-                    ? formatMatchTitle(nextMatch.venue, nextMatch.opponent)
-                    : team.nextHighlight.where}
+                  {nextMatchTitle ?? team.nextHighlight.where}
                 </p>
               </div>
             </div>
@@ -97,13 +98,16 @@ export function Home() {
                 className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft"
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
-                <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-                  <div className="min-w-0">
+                <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-start sm:justify-between sm:p-7">
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
                       Volgende match
                     </p>
-                    <h2 className="mt-2 font-display text-2xl font-bold text-cream break-words sm:text-3xl">
-                      {formatMatchTitle(nextMatch.venue, nextMatch.opponent)}
+                    <h2
+                      className={`mt-2 font-display text-xl font-bold tracking-tight text-cream sm:text-2xl ${matchTitleClass}`}
+                      title={nextMatchTitle ?? undefined}
+                    >
+                      {nextMatchTitle}
                     </h2>
                     <p className="mt-2 text-muted">
                       {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}

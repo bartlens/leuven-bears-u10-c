@@ -70,6 +70,13 @@ body {
   animation: slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Match titles: 2 lines max, no mid-word breaks. Tailwind line-clamp-2 + text-balance do the wrap. */
+.match-title {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
 .card-lift {
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
