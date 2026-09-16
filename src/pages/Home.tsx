@@ -66,7 +66,7 @@ export function Home() {
 
           <div className="relative flex justify-center animate-in" style={{ animationDelay: '0.12s' }}>
             <div className="relative w-full max-w-sm rounded-3xl border border-white/10 bg-panel/80 p-6 shadow-2xl shadow-hoop/20 backdrop-blur sm:p-8">
-              <Logo size={120} className="mx-auto animate-float" />
+              <Logo size={120} className="mx-auto" />
               <p className="mt-4 text-center font-display text-xl font-bold text-cream">
                 {team.fullName}
               </p>
