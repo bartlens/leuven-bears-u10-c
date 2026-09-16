@@ -1,13 +1,15 @@
 import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
+import type { StaffMember } from '../data/team'
 
 const STICKER_ASPECT = '2 / 3'
 
 type StickerAlbumProps = {
   players: Player[]
+  staff: StaffMember[]
 }
 
-export function StickerAlbum({ players }: StickerAlbumProps) {
+export function StickerAlbum({ players, staff }: StickerAlbumProps) {
   return (
     <div className="sticker-album">
       <section
@@ -39,8 +41,36 @@ export function StickerAlbum({ players }: StickerAlbumProps) {
           </li>
         ))}
       </ul>
+
+      <section className="sticker-album__staff" aria-labelledby="sticker-staff-heading">
+        <div className="sticker-album__staff-copy">
+          <h2 id="sticker-staff-heading" className="sticker-album__staff-title">
+            Staff
+          </h2>
+          <p className="sticker-album__staff-lede">
+            Coaches en ploegafgevaardigde — stickers volgen binnenkort.
+          </p>
+        </div>
+        <ul className="sticker-album__grid sticker-album__grid--staff">
+          {staff.map((member, index) => (
+            <li key={member.id} className="min-w-0">
+              <EmptyAlbumSlot
+                variant="staff"
+                title={staffSlotName(member)}
+                subtitle={member.role}
+                ariaLabel={`Lege stickerslot voor ${member.name}, ${member.role}${member.note ? `, ${member.note}` : ''}. Binnenkort.`}
+                index={index}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   )
+}
+
+function staffSlotName(member: StaffMember) {
+  return member.name.split(/\s+/)[0] ?? member.name
 }
 
 function PlayerStickerSlot({
@@ -81,7 +111,7 @@ function PlayerStickerSlot({
 }
 
 type EmptyAlbumSlotProps = {
-  variant: 'player' | 'group'
+  variant: 'player' | 'group' | 'staff'
   title: string
   subtitle: string
   ariaLabel: string
@@ -106,30 +136,10 @@ function EmptyAlbumSlot({
       }}
       aria-label={ariaLabel}
     >
-      <div className="sticker-slot__chrome" aria-hidden>
-        <header className="sticker-slot__header">
-          <span className="sticker-slot__star">★</span>
-          <span className="sticker-slot__brand">Leuven Bears</span>
-          <span className="sticker-slot__star">★</span>
-        </header>
-
-        <div className="sticker-slot__field">
-          <div className="sticker-slot__dash">
-            <span className="sticker-slot__soon">Binnenkort</span>
-            {isGroup ? (
-              <span className="sticker-slot__hint">Groepsfoto</span>
-            ) : (
-              <span className="sticker-slot__ghost-num">{subtitle}</span>
-            )}
-          </div>
-        </div>
-
-        <footer className="sticker-slot__footer">
-          <span className="sticker-slot__name">{title}</span>
-          <span className="sticker-slot__meta">
-            {isGroup ? 'U10 C' : subtitle}
-          </span>
-        </footer>
+      <div className="sticker-slot__chrome">
+        <p className="sticker-slot__soon">Binnenkort</p>
+        <p className="sticker-slot__name">{title}</p>
+        <p className="sticker-slot__meta">{subtitle}</p>
       </div>
     </article>
   )
