@@ -67,6 +67,10 @@ export function Trainingen() {
     }
   }
 
+  const card = 'border border-white/10 bg-panel'
+  const cardPad = 'card-lift animate-in rounded-2xl px-5 py-4'
+  const cardLg = 'card-lift animate-in rounded-3xl p-6'
+
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
@@ -75,32 +79,35 @@ export function Trainingen() {
         subtitle={`Vaste planning · seizoen ${team.season}`}
       />
 
-      <div className="mb-8 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-2xl border border-hoop/30 bg-hoop/10 px-5 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-            Maandag
-          </p>
-          <p className="mt-1 font-display text-lg font-bold text-cream">
-            17:30–19:00
-          </p>
-          <p className="mt-1 text-sm text-muted">Heilig-Hart Heverlee</p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-panel px-5 py-4">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-            Donderdag
-          </p>
-          <p className="mt-1 font-display text-lg font-bold text-cream">
-            17:30–19:00
-          </p>
-          <p className="mt-1 text-sm text-muted">Campus Redingenhof</p>
-        </div>
+      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+        {trainings.map((t, i) => (
+          <article
+            key={t.id}
+            className={`${cardLg} ${card}`}
+            style={{ animationDelay: `${i * 0.06}s` }}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-display text-2xl font-bold text-cream">
+                {t.day}
+              </h2>
+              <span className="rounded-full bg-hoop/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright">
+                Wekelijks
+              </span>
+            </div>
+            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
+            <p className="mt-1 text-muted">{t.location}</p>
+            <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
+              Focus: {t.focus}
+            </p>
+          </article>
+        ))}
       </div>
 
       <a
         href={links.attendanceSpreadsheet}
         target="_blank"
         rel="noreferrer"
-        className="card-lift mb-8 flex flex-col gap-2 rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
+        className={`${cardPad} ${card} mb-8 flex flex-col gap-2 transition hover:bg-white/5 sm:flex-row sm:items-center sm:justify-between`}
       >
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
@@ -113,7 +120,7 @@ export function Trainingen() {
             {attendanceCopy.blurb}
           </p>
         </div>
-        <span className="shrink-0 self-start rounded-full bg-hoop px-4 py-2 text-sm font-bold text-white sm:self-center">
+        <span className="inline-flex shrink-0 self-start items-center justify-center rounded-full border border-hoop/50 bg-hoop/10 px-4 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/20 sm:self-center">
           Openen →
         </span>
       </a>
@@ -125,7 +132,7 @@ export function Trainingen() {
         {upcomingDated.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-white/15 bg-ink-soft px-5 py-6 text-sm text-muted">
             Geen gedateerde trainingen meer in de spreadsheet — daarna geldt het
-            vaste Ma/Do-schema hieronder.
+            vaste Ma/Do-schema hierboven.
           </p>
         ) : (
           <div className="space-y-2">
@@ -144,16 +151,13 @@ export function Trainingen() {
                     }
                     onClick={COACH_WAVE_EASTER_EGG ? triggerCoachWave : undefined}
                     onKeyDown={COACH_WAVE_EASTER_EGG ? onNextKeyDown : undefined}
-                    className={`training-next card-lift animate-in relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-hoop/40 bg-hoop/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between ${
+                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden sm:flex-row sm:items-center sm:justify-between ${
                       COACH_WAVE_EASTER_EGG
                         ? 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
                         : ''
                     } ${waving ? 'is-waving' : ''}`}
                     style={{ animationDelay: `${i * 0.03}s` }}
                   >
-                    <span className="training-next__glow" aria-hidden="true">
-                      <span className="training-next__border-swoosh" />
-                    </span>
                     {waving && (
                       <div
                         className="training-coach-pop pointer-events-none absolute inset-0 z-[5] flex items-center justify-center gap-3 overflow-hidden rounded-2xl"
@@ -176,7 +180,7 @@ export function Trainingen() {
                       </div>
                     )}
                     <div className="relative z-10">
-                      <p className="training-next__badge text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
                         Eerstvolgende
                       </p>
                       <p className="mt-0.5 font-display text-lg font-bold text-cream">
@@ -195,7 +199,7 @@ export function Trainingen() {
               return (
                 <article
                   key={t.id}
-                  className="card-lift animate-in flex flex-col gap-2 rounded-2xl border border-white/10 bg-panel px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+                  className={`${cardPad} ${card} flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between`}
                   style={{ animationDelay: `${i * 0.03}s` }}
                 >
                   <div>
@@ -216,39 +220,15 @@ export function Trainingen() {
         )}
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        {trainings.map((t, i) => (
-          <article
-            key={t.id}
-            className="card-lift animate-in rounded-3xl border border-white/10 bg-panel p-6"
-            style={{ animationDelay: `${i * 0.06}s` }}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="font-display text-2xl font-bold text-cream">
-                {t.day}
-              </h2>
-              <span className="rounded-full bg-hoop/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright">
-                Wekelijks
-              </span>
-            </div>
-            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
-            <p className="mt-1 text-muted">{t.location}</p>
-            <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
-              Focus: {t.focus}
-            </p>
-          </article>
-        ))}
-      </div>
-
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-hoop/25 bg-hoop/5 p-6">
-          <h3 className="font-display text-lg font-bold text-hoop-bright">
+        <section className={`${card} rounded-3xl p-6`}>
+          <h3 className="font-display text-lg font-bold text-cream">
             Wat meebrengen?
           </h3>
           <ul className="mt-4 space-y-2">
             {whatToBring.map((item) => (
               <li key={item} className="flex gap-3 text-sm text-cream/90">
-                <span className="text-hoop-bright" aria-hidden>
+                <span className="text-cream/60" aria-hidden>
                   ✓
                 </span>
                 {item}
@@ -257,8 +237,8 @@ export function Trainingen() {
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-bear/30 p-6">
-          <h3 className="font-display text-lg font-bold text-warm">
+        <section className={`${card} rounded-3xl p-6`}>
+          <h3 className="font-display text-lg font-bold text-cream">
             Coach notes
           </h3>
           <ul className="mt-4 space-y-3">
