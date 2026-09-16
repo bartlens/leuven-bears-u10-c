@@ -1,5 +1,6 @@
 import { links } from './links'
 import type { PlayerLook } from './players'
+import { formatMatchTitle } from '../lib/formatMatchTitle'
 
 export type StaffMove = 'whistle-clap' | 'laugh' | 'cheer'
 
@@ -117,6 +118,6 @@ export const team = {
     type: 'match' as const,
     title: 'Volgende match',
     when: 'Zo 27 sep · 15:15 · Uit',
-    where: 'vs Clem Scherpenheuvel A',
+    where: formatMatchTitle('uit', 'Clem Scherpenheuvel A'),
   },
 }

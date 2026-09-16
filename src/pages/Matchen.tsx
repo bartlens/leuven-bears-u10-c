@@ -3,6 +3,7 @@ import { WinBadge } from '../components/WinBadge'
 import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
+import { formatMatchTitle } from '../lib/formatMatchTitle'
 
 function formatDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
@@ -122,7 +123,7 @@ export function Matchen() {
                   </span>
                 </div>
                 <h3 className="mt-2 font-display text-lg font-bold text-cream">
-                  vs {m.opponent}
+                  {formatMatchTitle(m.venue, m.opponent)}
                 </h3>
                 <p className="text-sm text-muted">{m.location}</p>
               </div>
@@ -160,7 +161,7 @@ export function Matchen() {
                     </span>
                   </div>
                   <h3 className="mt-2 font-display text-lg font-bold text-cream">
-                    vs {m.opponent}
+                    {formatMatchTitle(m.venue, m.opponent)}
                   </h3>
                   <p className="text-sm text-muted">{m.location}</p>
                 </div>

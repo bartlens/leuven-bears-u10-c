@@ -1,6 +1,7 @@
 import type { Match } from '../data/matches'
 import type { DatedTraining } from '../data/trainings'
 import { trainings } from '../data/trainings'
+import { formatMatchTitle } from './formatMatchTitle'
 
 export type CalKind = 'training' | 'match'
 
@@ -87,10 +88,7 @@ export function buildCalendarEvents(
     kind: 'match',
     dateIso: m.date,
     time: m.time,
-    title:
-      m.venue === 'thuis'
-        ? `Thuis vs ${m.opponent}`
-        : `Uit vs ${m.opponent}`,
+    title: formatMatchTitle(m.venue, m.opponent),
     location: m.location,
     meta:
       m.status === 'played' && m.scoreUs != null && m.scoreThem != null
