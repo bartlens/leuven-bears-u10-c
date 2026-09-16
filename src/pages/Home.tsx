@@ -55,13 +55,19 @@ export function Home() {
                 to="/matchen"
                 className="animate-glow inline-flex min-h-11 items-center justify-center rounded-full bg-hoop px-6 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright active:bg-hoop-bright"
               >
-                Matchkalender
+                Matchen
+              </Link>
+              <Link
+                to="/kalender"
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-cream transition hover:border-hoop/40 hover:bg-hoop/10 active:bg-hoop/10"
+              >
+                Kalender
               </Link>
               <Link
                 to="/info"
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-cream transition hover:border-hoop/40 hover:bg-hoop/10 active:bg-hoop/10"
               >
-                Info & contact
+                Info
               </Link>
             </div>
           </div>
