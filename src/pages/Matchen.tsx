@@ -106,10 +106,10 @@ export function Matchen() {
             return (
             <article
               key={m.id}
-              className="card-lift animate-in flex flex-col gap-4 rounded-2xl border border-white/10 bg-panel p-5 sm:flex-row sm:items-center sm:justify-between"
+              className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-panel p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${
@@ -132,7 +132,7 @@ export function Matchen() {
                 </h3>
                 <p className="text-sm text-muted">{m.location}</p>
               </div>
-              <span className="self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
+              <span className="w-fit self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
                 Nog te spelen
               </span>
             </article>
@@ -157,10 +157,10 @@ export function Matchen() {
               return (
               <article
                 key={m.id}
-                className="card-lift animate-in flex flex-col gap-4 rounded-2xl border border-white/10 bg-ink-soft p-5 sm:flex-row sm:items-center sm:justify-between"
+                className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-ink-soft p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     {m.result && <WinBadge result={m.result} />}
                     <span className="text-sm text-muted">

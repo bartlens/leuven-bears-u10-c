@@ -214,9 +214,9 @@ export function Kalender() {
                     : 'border-warm/30 bg-warm/10'
                 }`}
               >
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <p
-                    className={`min-w-0 flex-1 font-display text-base font-bold text-cream ${matchTitleClass}`}
+                    className={`min-w-0 font-display text-base font-bold text-cream ${matchTitleClass}`}
                     title={e.title}
                   >
                     {e.title}

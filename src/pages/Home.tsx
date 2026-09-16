@@ -98,33 +98,35 @@ export function Home() {
                 className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft"
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
-                <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-start sm:justify-between sm:p-7">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
-                      Volgende match
-                    </p>
-                    <h2
-                      className={`mt-2 font-display text-xl font-bold tracking-tight text-cream sm:text-2xl ${matchTitleClass}`}
-                      title={nextMatchTitle ?? undefined}
+                <div className="flex h-full flex-col p-5 sm:p-7">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+                    Volgende match
+                  </p>
+                  <div className="mt-2 grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6">
+                    <div className="min-w-0">
+                      <h2
+                        className={`font-display text-xl font-bold tracking-tight text-cream sm:text-2xl ${matchTitleClass}`}
+                        title={nextMatchTitle ?? undefined}
+                      >
+                        {nextMatchTitle}
+                      </h2>
+                      <p className="mt-2 text-muted">
+                        {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
+                        <span className="font-semibold text-warm">
+                          {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
+                        </span>
+                      </p>
+                      <p className="mt-1 text-sm text-muted break-words">
+                        {nextMatch.location}
+                      </p>
+                    </div>
+                    <Link
+                      to="/matchen"
+                      className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl bg-hoop px-5 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright active:bg-hoop-bright sm:self-center"
                     >
-                      {nextMatchTitle}
-                    </h2>
-                    <p className="mt-2 text-muted">
-                      {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
-                      <span className="font-semibold text-warm">
-                        {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
-                      </span>
-                    </p>
-                    <p className="mt-1 text-sm text-muted break-words">
-                      {nextMatch.location}
-                    </p>
+                      Alle matchen →
+                    </Link>
                   </div>
-                  <Link
-                    to="/matchen"
-                    className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-hoop px-5 py-3 text-sm font-bold text-white transition hover:bg-hoop-bright active:bg-hoop-bright"
-                  >
-                    Alle matchen →
-                  </Link>
                 </div>
               </div>
             )}
@@ -133,35 +135,37 @@ export function Home() {
               className="card-lift overflow-hidden rounded-3xl border border-hoop/25 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft"
               style={{ order: trainingFirst ? 1 : 2 }}
             >
-              <div className="flex h-full flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-                <div className="min-w-0">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
-                    {nextTraining.isOngoing
-                      ? 'Nu aan de gang'
-                      : 'Volgende training'}
-                  </p>
-                  <h2 className="mt-2 font-display text-2xl font-bold text-cream sm:text-3xl">
-                    {nextTraining.training.day}
-                  </h2>
-                  <p className="mt-2 text-muted">
-                    {nextTraining.whenLabel} ·{' '}
-                    <span className="font-semibold text-warm">
-                      {nextTraining.training.time}
-                    </span>
-                  </p>
-                  <p className="mt-1 text-sm text-muted break-words">
-                    {nextTraining.training.location}
-                  </p>
-                  <p className="mt-2 text-sm text-cream/80">
-                    {nextTraining.training.focus}
-                  </p>
+              <div className="flex h-full flex-col p-5 sm:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+                  {nextTraining.isOngoing
+                    ? 'Nu aan de gang'
+                    : 'Volgende training'}
+                </p>
+                <div className="mt-2 grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6">
+                  <div className="min-w-0">
+                    <h2 className="font-display text-2xl font-bold text-cream sm:text-3xl">
+                      {nextTraining.training.day}
+                    </h2>
+                    <p className="mt-2 text-muted">
+                      {nextTraining.whenLabel} ·{' '}
+                      <span className="font-semibold text-warm">
+                        {nextTraining.training.time}
+                      </span>
+                    </p>
+                    <p className="mt-1 text-sm text-muted break-words">
+                      {nextTraining.training.location}
+                    </p>
+                    <p className="mt-2 text-sm text-cream/80">
+                      {nextTraining.training.focus}
+                    </p>
+                  </div>
+                  <Link
+                    to="/trainingen"
+                    className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl border border-hoop/40 bg-hoop/20 px-5 py-3 text-sm font-bold text-hoop-bright transition hover:bg-hoop/30 active:bg-hoop/30 sm:self-center"
+                  >
+                    Alle trainingen →
+                  </Link>
                 </div>
-                <Link
-                  to="/trainingen"
-                  className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl border border-hoop/40 bg-hoop/20 px-5 py-3 text-sm font-bold text-hoop-bright transition hover:bg-hoop/30 active:bg-hoop/30"
-                >
-                  Alle trainingen →
-                </Link>
               </div>
             </div>
           </div>
