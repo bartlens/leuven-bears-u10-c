@@ -120,7 +120,7 @@ export function Trainingen() {
             {attendanceCopy.blurb}
           </p>
         </div>
-        <span className="shrink-0 self-start rounded-full bg-hoop px-4 py-2 text-sm font-bold text-white sm:self-center">
+        <span className="inline-flex shrink-0 self-start items-center justify-center rounded-full border border-hoop/50 bg-hoop/10 px-4 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/20 sm:self-center">
           Openen →
         </span>
       </a>
