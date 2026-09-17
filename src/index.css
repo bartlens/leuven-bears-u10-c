@@ -2495,7 +2495,7 @@ body {
 }
 
 /* ========== PANINI STICKER ALBUM ========== */
-/* Shared inset so page titles line up with sticker-grid content. */
+/* Shared inset so the page header (eyebrow + title) lines up with sticker-grid content. */
 .spelers-page {
   --sticker-album-pad: 0.9rem;
 }

@@ -7,9 +7,9 @@ export function Spelers() {
   return (
     <div className="spelers-page mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
       <SectionHeader
-        eyebrow={`Stickeralbum · Seizoen ${team.season}`}
+        eyebrow={`Seizoen ${team.season}`}
         title="Onze spelers"
-        titleClassName="spelers-page__title"
+        className="spelers-page__title"
       />
 
       <StickerAlbum players={players} staff={staffMembers} />
