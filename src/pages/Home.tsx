@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { Logo } from '../components/Logo'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
@@ -40,7 +39,7 @@ export function Home() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:pb-8 lg:pt-20">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-8 lg:pb-8 lg:pt-20">
           <div className="min-w-0 animate-in">
             <span className="mb-4 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
@@ -52,17 +51,17 @@ export function Home() {
             </p>
           </div>
 
-          <div className="relative flex justify-center lg:justify-end animate-in" style={{ animationDelay: '0.12s' }}>
-            <div className="relative flex h-full w-full max-w-sm flex-col items-center justify-center rounded-3xl border border-white/10 bg-panel/80 px-5 py-6 shadow-2xl shadow-hoop/20 backdrop-blur sm:px-6 sm:py-7">
-              <div
-                className="pointer-events-none absolute inset-x-8 inset-y-8 rounded-full bg-hoop/15 blur-3xl"
-                aria-hidden
-              />
-              <Logo size={220} className="relative mx-auto" />
-              <p className="relative mt-3 text-center text-sm font-semibold tracking-[0.18em] text-hoop-bright">
-                #WEBEARS
-              </p>
-            </div>
+          <div
+            className="home-hero-photo animate-in"
+            style={{ animationDelay: '0.12s' }}
+          >
+            <img
+              src="/stickers/groep-u10c-2026.webp"
+              alt={`Leuven Bears U10C groepsfoto ${team.season}`}
+              width={1280}
+              height={573}
+              className="home-hero-photo__img"
+            />
           </div>
         </div>
       </section>
