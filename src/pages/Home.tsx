@@ -2,11 +2,18 @@ import { Link } from 'react-router-dom'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
+import { U10cJerseyIcon } from '../components/U10cJerseyIcon'
 import { useSheetData } from '../sheet/SheetProvider'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
-const quickLinks = [
-  { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Team & staff' },
+const quickLinks: {
+  to: string
+  label: string
+  desc: string
+  emoji?: string
+  icon?: 'jersey'
+}[] = [
+  { to: '/spelers', label: 'Spelers', icon: 'jersey', desc: 'Team & staff' },
   { to: '/trainingen', label: 'Trainingen', emoji: '⏱️', desc: 'Ma & Do 17:30' },
   { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
   { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
@@ -159,8 +166,12 @@ export function Home() {
               to={item.to}
               className="card-lift group rounded-2xl border border-white/10 bg-panel p-5"
             >
-              <span className="inline-block text-2xl transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
-                {item.emoji}
+              <span className="inline-flex h-8 w-8 items-center justify-center text-[32px] leading-none transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
+                {item.icon === 'jersey' ? (
+                  <U10cJerseyIcon />
+                ) : (
+                  <span className="text-2xl leading-none">{item.emoji}</span>
+                )}
               </span>
               <p className="mt-3 font-display text-lg font-bold text-cream">
                 {item.label}
