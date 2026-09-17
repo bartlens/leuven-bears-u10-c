@@ -2527,8 +2527,8 @@ body {
 
 .sticker-album__hero {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: 0.75rem;
   margin-bottom: 0.9rem;
 }
@@ -2536,6 +2536,7 @@ body {
 @media (min-width: 640px) {
   .sticker-album__hero {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
     gap: 1rem;
     margin-bottom: 1.25rem;
   }
@@ -2549,8 +2550,14 @@ body {
 
 .sticker-album__emblem {
   min-width: 0;
-  max-width: 100%;
+  max-width: min(50%, 14rem);
   align-self: start;
+}
+
+@media (min-width: 640px) {
+  .sticker-album__emblem {
+    max-width: 100%;
+  }
 }
 
 .sticker-album__emblem-img,
@@ -2562,10 +2569,16 @@ body {
 }
 
 .sticker-album__hero .sticker-slot--group {
-  grid-column: 2 / -1;
+  grid-column: 1;
   min-width: 0;
   height: auto;
   align-self: start;
+}
+
+@media (min-width: 640px) {
+  .sticker-album__hero .sticker-slot--group {
+    grid-column: 2 / -1;
+  }
 }
 
 .sticker-album__hero .sticker-album__group-img {
