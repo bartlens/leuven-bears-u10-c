@@ -39,7 +39,7 @@ export function Home() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-8 lg:pb-8 lg:pt-20">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.2fr)] lg:items-center lg:gap-6 lg:pb-8 lg:pt-20">
           <div className="min-w-0 animate-in">
             <span className="mb-4 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}

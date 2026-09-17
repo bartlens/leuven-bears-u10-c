@@ -109,28 +109,32 @@ body {
 .home-hero-photo {
   position: relative;
   width: 100%;
-}
-
-.home-hero-photo__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* Four-side fade + radial so the baked orange sticker stroke melts into #0a0a0a. */
+  overflow: hidden;
+  /* Mask the cropped frame so remaining edges melt into #0a0a0a / site bg. */
   -webkit-mask-image:
-    radial-gradient(ellipse 82% 78% at 50% 48%, #000 36%, transparent 76%),
-    linear-gradient(to right, transparent 0%, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    radial-gradient(ellipse 88% 84% at 50% 46%, #000 48%, transparent 78%),
+    linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 88%, transparent 100%);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   -webkit-mask-composite: source-in;
   mask-image:
-    radial-gradient(ellipse 82% 78% at 50% 48%, #000 36%, transparent 76%),
-    linear-gradient(to right, transparent 0%, #000 11%, #000 89%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    radial-gradient(ellipse 88% 84% at 50% 46%, #000 48%, transparent 78%),
+    linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 88%, transparent 100%);
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
   mask-composite: intersect;
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.35));
+}
+
+.home-hero-photo__img {
+  display: block;
+  /* Oversize + shift crops the baked orange stroke and U10C caption bar. */
+  width: 112%;
+  max-width: none;
+  height: auto;
+  margin: -2.4% 0 -9.5% -6%;
 }
 
 /* —— Spelers mannetjes —— */
