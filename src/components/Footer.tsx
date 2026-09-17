@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Logo } from './Logo'
 import { UpdatedHint } from './UpdatedHint'
 import { team } from '../data/team'
@@ -19,6 +20,20 @@ export function Footer() {
         <p className="rounded-full border border-hoop/40 bg-hoop/10 px-4 py-1.5 text-sm font-semibold text-hoop-bright">
           {team.tagline}
         </p>
+        <nav
+          aria-label="Secundaire links"
+          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-semibold text-muted"
+        >
+          <Link to="/info" className="hover:text-hoop-bright">
+            Info
+          </Link>
+          <Link to="/evenementen" className="hover:text-hoop-bright">
+            Evenementen
+          </Link>
+          <Link to="/gedragscodes" className="hover:text-hoop-bright">
+            Gedragscodes
+          </Link>
+        </nav>
         <p className="text-xs text-muted/70">
           Leuven Bears · Jeugdteam U10 C ·{' '}
           <span className="whitespace-nowrap">Seizoen {team.season}</span>

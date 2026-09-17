@@ -54,6 +54,44 @@ export function Info() {
         }
       />
 
+      <section className="mb-8 grid gap-4 sm:grid-cols-2">
+        <Link
+          to="/evenementen"
+          className="card-lift rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 transition hover:border-warm/50"
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
+            Onder Info
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-cream">
+            Evenementen
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Tornooien, herfststage en extra teamfun — inschrijvingen en data.
+          </p>
+          <p className="mt-5 text-sm font-bold text-warm">
+            Bekijk evenementen →
+          </p>
+        </Link>
+        <Link
+          to="/gedragscodes"
+          className="card-lift rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel p-6 transition hover:border-hoop/45"
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+            Onder Info
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-cream">
+            Gedragscodes
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Afspraken van Basketbal Vlaanderen voor trainers, spelers en
+            ouders.
+          </p>
+          <p className="mt-5 text-sm font-bold text-hoop-bright">
+            Bekijk de gedragscodes →
+          </p>
+        </Link>
+      </section>
+
       {/* Herfststage */}
       <article className="mb-8 rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 sm:p-8">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
@@ -262,25 +300,6 @@ export function Info() {
           Handig voor snelle toegang tot kalender & team — geen app-store nodig.
         </p>
       </section>
-
-      <article className="mt-8 rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel p-6 sm:p-8">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
-          Veilig sporten
-        </p>
-        <h2 className="mt-2 font-display text-2xl font-bold text-cream">
-          Gedragscodes
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-          Afspraken van Basketbal Vlaanderen voor trainers, spelers en ouders —
-          respect, fairplay en een veilige zaal voor de U10 C-kids.
-        </p>
-        <Link
-          to="/gedragscodes"
-          className="mt-5 inline-flex min-h-11 items-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2.5 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25"
-        >
-          Bekijk de gedragscodes →
-        </Link>
-      </article>
 
       <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
         <h2 className="font-display text-xl font-bold text-cream">
