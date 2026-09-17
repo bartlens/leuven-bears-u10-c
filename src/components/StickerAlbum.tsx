@@ -20,8 +20,8 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           <img
             src="/stickers/embleem-u10c.webp"
             alt="Embleemsticker van Leuven Bears U10 C"
-            width={911}
-            height={1271}
+            width={800}
+            height={1116}
             className="sticker-album__emblem-img"
           />
         </article>
@@ -30,8 +30,8 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           <img
             src="/stickers/groep-u10c-2026.webp"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
-            width={1920}
-            height={859}
+            width={1280}
+            height={573}
             className="sticker-slot__art sticker-album__group-img"
           />
         </article>
