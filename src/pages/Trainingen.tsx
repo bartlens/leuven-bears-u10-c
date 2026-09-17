@@ -14,6 +14,8 @@ import { playStaffClickSound, unlockAudio } from '../audio/playerClickSound'
 
 const COACHES = staffMembers.filter((s) => s.outfit === 'coach')
 const WAVE_MS = 2200
+/** First batch of upcoming trainings; the rest opens via “Laad meer…”. */
+const INITIAL_UPCOMING = 4
 /** Playful coach-wave on the next-training card. Off — fun stays on /spelers. */
 const COACH_WAVE_EASTER_EGG = false
 
@@ -33,6 +35,11 @@ function prefersReducedMotion(): boolean {
 export function Trainingen() {
   const { datedTrainings } = useSheetData()
   const upcomingDated = getUpcomingDatedTrainings(new Date(), datedTrainings)
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false)
+  const visibleUpcoming = showAllUpcoming
+    ? upcomingDated
+    : upcomingDated.slice(0, INITIAL_UPCOMING)
+  const hasMoreUpcoming = upcomingDated.length > INITIAL_UPCOMING
   const [waving, setWaving] = useState(false)
   const waveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastWaveAt = useRef(0)
@@ -141,7 +148,7 @@ export function Trainingen() {
           </p>
         ) : (
           <div className="space-y-2">
-            {upcomingDated.map((t, i) => {
+            {visibleUpcoming.map((t, i) => {
               const isNext = i === 0
               if (isNext) {
                 return (
@@ -221,6 +228,17 @@ export function Trainingen() {
                 </article>
               )
             })}
+            {hasMoreUpcoming && !showAllUpcoming && (
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAllUpcoming(true)}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25 sm:w-auto"
+                >
+                  Laad meer…
+                </button>
+              </div>
+            )}
           </div>
         )}
       </section>
