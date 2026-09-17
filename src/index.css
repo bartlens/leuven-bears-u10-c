@@ -130,11 +130,8 @@ body {
 
 .home-hero-photo__img {
   display: block;
-  /* Oversize + shift crops the baked orange stroke and U10C caption bar. */
-  width: 112%;
-  max-width: none;
+  width: 100%;
   height: auto;
-  margin: -2.4% 0 -9.5% -6%;
 }
 
 /* —— Spelers mannetjes —— */

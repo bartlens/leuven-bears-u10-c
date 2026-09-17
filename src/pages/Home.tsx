@@ -63,10 +63,10 @@ export function Home() {
             style={{ animationDelay: '0.12s' }}
           >
             <img
-              src="/stickers/groep-u10c-2026.webp"
+              src="/stickers/groep-u10c-2026-home.webp"
               alt={`Leuven Bears U10C groepsfoto ${team.season}`}
               width={1280}
-              height={573}
+              height={505}
               className="home-hero-photo__img"
             />
           </div>
