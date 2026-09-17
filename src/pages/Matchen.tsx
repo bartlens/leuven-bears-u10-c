@@ -1,3 +1,4 @@
+import { useId, useState } from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { WinBadge } from '../components/WinBadge'
 import { useSheetData } from '../sheet/SheetProvider'
@@ -17,6 +18,8 @@ export function Matchen() {
   const { matches, afspraken: matchAfspraken } = useSheetData()
   const upcoming = matches.filter((m) => m.status === 'upcoming')
   const past = matches.filter((m) => m.status === 'played')
+  const [afsprakenOpen, setAfsprakenOpen] = useState(false)
+  const afsprakenPanelId = useId()
 
   return (
     <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
@@ -59,41 +62,65 @@ export function Matchen() {
         </a>
       </div>
 
-      <section className="mb-10 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
-        <h2 className="font-display text-xl font-bold text-cream">
-          {matchAfspraken.title}
+      <section className="mb-10 overflow-hidden rounded-3xl border border-white/10 bg-ink-soft">
+        <h2 className="m-0">
+          <button
+            type="button"
+            aria-expanded={afsprakenOpen}
+            aria-controls={afsprakenPanelId}
+            onClick={() => setAfsprakenOpen((open) => !open)}
+            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left touch-manipulation transition hover:bg-white/4 sm:px-6 sm:py-5"
+          >
+            <span className="font-display text-xl font-bold text-cream">
+              {matchAfspraken.title}
+            </span>
+            <span
+              aria-hidden
+              className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-panel text-hoop-bright transition-transform duration-200 ${
+                afsprakenOpen ? 'rotate-180' : ''
+              }`}
+            >
+              ▾
+            </span>
+          </button>
         </h2>
-        <ul className="mt-4 space-y-2">
-          {matchAfspraken.bullets.map((b) => (
-            <li key={b} className="flex gap-3 text-sm leading-relaxed text-cream/90">
-              <span className="shrink-0 text-hoop-bright" aria-hidden>
-                ●
-              </span>
-              {b}
-            </li>
-          ))}
-        </ul>
-        <h3 className="mt-6 font-display text-lg font-bold text-warm">
-          {matchAfspraken.draaischema.title}
-        </h3>
-        <ul className="mt-3 space-y-2">
-          {matchAfspraken.draaischema.bullets.map((b) => (
-            <li key={b} className="flex gap-3 text-sm leading-relaxed text-cream/90">
-              <span className="shrink-0 text-warm" aria-hidden>
-                →
-              </span>
-              {b}
-            </li>
-          ))}
-        </ul>
-        <a
-          href={links.attendanceSpreadsheet}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-5 inline-flex text-sm font-bold text-hoop-bright hover:underline"
+        <div
+          id={afsprakenPanelId}
+          hidden={!afsprakenOpen}
+          className="border-t border-white/8 px-5 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-5"
         >
-          Aanwezigheid & afspraken in de spreadsheet →
-        </a>
+          <ul className="space-y-2">
+            {matchAfspraken.bullets.map((b) => (
+              <li key={b} className="flex gap-3 text-sm leading-relaxed text-cream/90">
+                <span className="shrink-0 text-hoop-bright" aria-hidden>
+                  ●
+                </span>
+                {b}
+              </li>
+            ))}
+          </ul>
+          <h3 className="mt-6 font-display text-lg font-bold text-warm">
+            {matchAfspraken.draaischema.title}
+          </h3>
+          <ul className="mt-3 space-y-2">
+            {matchAfspraken.draaischema.bullets.map((b) => (
+              <li key={b} className="flex gap-3 text-sm leading-relaxed text-cream/90">
+                <span className="shrink-0 text-warm" aria-hidden>
+                  →
+                </span>
+                {b}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={links.attendanceSpreadsheet}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex text-sm font-bold text-hoop-bright hover:underline"
+          >
+            Aanwezigheid & afspraken in de spreadsheet →
+          </a>
+        </div>
       </section>
 
       <section className="mb-12">

@@ -16,8 +16,7 @@ const quickLinks: {
   { to: '/trainingen', label: 'Trainingen', emoji: '⏱️', desc: 'Ma & Do 17:30' },
   { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
   { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
-  { to: '/evenementen', label: 'Evenementen', emoji: '🎉', desc: 'Extra fun' },
-  { to: '/gedragscodes', label: 'Gedragscodes', emoji: '🤝', desc: 'Veilig sporten' },
+  { to: '/info', label: 'Info', emoji: 'ℹ️', desc: 'Evenementen & gedragscodes' },
 ]
 
 function startMs(dateIso: string, timeHHmm: string) {
