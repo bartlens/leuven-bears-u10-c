@@ -45,7 +45,13 @@ export function Info() {
       <SectionHeader
         eyebrow="Praktisch"
         title="Info voor ouders"
-        subtitle={`Alles voor ${team.fullName} — coaches, ploegverantwoordelijke, zaal en clubcontact. Seizoen ${team.season}.`}
+        subtitle={
+          <>
+            Alles voor {team.fullName} — coaches, ploegverantwoordelijke, zaal
+            en clubcontact.{' '}
+            <span className="whitespace-nowrap">Seizoen {team.season}.</span>
+          </>
+        }
       />
 
       {/* Herfststage */}
