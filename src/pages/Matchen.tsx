@@ -23,7 +23,7 @@ export function Matchen() {
       <SectionHeader
         eyebrow="Game day"
         title="Matchen"
-        subtitle={`Seizoen ${team.season}. Kom juichen — scores updaten we na elke speeldag.`}
+        subtitle={`Seizoen ${team.season}. Kom juichen en supporteren.`}
       />
 
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
