@@ -20,7 +20,7 @@ export type StaffMember = {
   stickerSrc?: string
 }
 
-/** Prefer explicit stickerSrc; Els also matches by first name for this preview. */
+/** Prefer explicit stickerSrc; Els still matches by first name as a fallback. */
 export function staffStickerSrc(staff: StaffMember): string | undefined {
   if (staff.stickerSrc) return staff.stickerSrc
   const firstName = staff.name.split(/\s+/)[0] ?? staff.name
@@ -44,6 +44,7 @@ export const staffMembers: StaffMember[] = [
       hairStyle: 'short',
       cheek: '#f08070',
     },
+    stickerSrc: '/stickers/jonathan.webp',
   },
   {
     id: 'rafa',
@@ -60,6 +61,7 @@ export const staffMembers: StaffMember[] = [
       hairStyle: 'side',
       cheek: '#d4785c',
     },
+    stickerSrc: '/stickers/rafa.webp',
   },
   {
     id: 'els',

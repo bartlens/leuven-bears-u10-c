@@ -48,7 +48,7 @@ export type Player = {
   stickerSrc?: string
 }
 
-/** Prefer explicit stickerSrc; Thomas also matches by first name for this preview. */
+/** Prefer explicit stickerSrc; Thomas still matches by first name as a fallback. */
 export function playerStickerSrc(player: Player): string | undefined {
   if (player.stickerSrc) return player.stickerSrc
   if (player.firstName === 'Thomas') return '/stickers/thomas.webp'
@@ -66,6 +66,7 @@ export const players: Player[] = [
     move: 'arm-roll',
     moveLabel: 'Arm-roll',
     look: { hair: '#f0d078', skin: '#f5c7a1', hairStyle: 'short' },
+    stickerSrc: '/stickers/alfred.webp',
   },
   {
     id: 'p2',
@@ -88,6 +89,7 @@ export const players: Player[] = [
     move: 'between-legs',
     moveLabel: 'Tussenbenen',
     look: { hair: '#ffe8a8', skin: '#f8d4b8', hairStyle: 'short' },
+    stickerSrc: '/stickers/elias.webp',
   },
   {
     id: 'p4',
@@ -99,6 +101,7 @@ export const players: Player[] = [
     move: 'behind-back',
     moveLabel: 'Achterlangs',
     look: { hair: '#d4b45a', skin: '#e8b48a', hairStyle: 'short' },
+    stickerSrc: '/stickers/felix.webp',
   },
   {
     id: 'p5',
@@ -122,6 +125,7 @@ export const players: Player[] = [
     move: 'behind-head',
     moveLabel: 'No-look',
     look: { hair: '#c9a84a', skin: '#e0b088', hairStyle: 'curly' },
+    stickerSrc: '/stickers/bas-d.webp',
   },
   {
     id: 'p7',
@@ -133,6 +137,7 @@ export const players: Player[] = [
     move: 'spin-move',
     moveLabel: 'Spin-move',
     look: { hair: '#edd98a', skin: '#f0c4a0', hairStyle: 'spiky' },
+    stickerSrc: '/stickers/jarne.webp',
   },
   {
     id: 'p8',
@@ -162,6 +167,7 @@ export const players: Player[] = [
       cheek: '#e8a090',
       eyeStyle: 'soft',
     },
+    stickerSrc: '/stickers/jia-le.webp',
   },
   {
     id: 'p10',
@@ -173,6 +179,7 @@ export const players: Player[] = [
     move: 'shoulder-roll',
     moveLabel: 'Schouder-roll',
     look: { hair: '#dcc06e', skin: '#ebc09a', hairStyle: 'bowl' },
+    stickerSrc: '/stickers/bas-n.webp',
   },
   {
     id: 'p11',
@@ -184,6 +191,7 @@ export const players: Player[] = [
     move: 'layup',
     moveLabel: 'Lay-up',
     look: { hair: '#d4b45a', skin: '#f6d0b0', hairStyle: 'short' },
+    stickerSrc: '/stickers/jacob.webp',
   },
   {
     id: 'p12',
