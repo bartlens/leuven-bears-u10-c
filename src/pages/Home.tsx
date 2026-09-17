@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
-import { U10cJerseyIcon } from '../components/U10cJerseyIcon'
 import { useSheetData } from '../sheet/SheetProvider'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
@@ -168,7 +167,14 @@ export function Home() {
             >
               <span className="inline-flex h-8 w-8 items-center justify-center text-[32px] leading-none transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
                 {item.icon === 'jersey' ? (
-                  <U10cJerseyIcon />
+                  <img
+                    src="/stickers/u10c-jersey-icon.webp"
+                    alt=""
+                    width={32}
+                    height={32}
+                    decoding="async"
+                    className="h-8 w-8 object-contain"
+                  />
                 ) : (
                   <span className="text-2xl leading-none">{item.emoji}</span>
                 )}
