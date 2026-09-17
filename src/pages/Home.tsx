@@ -63,8 +63,8 @@ export function Home() {
             <img
               src="/stickers/groep-u10c-2026-home.webp"
               alt={`Leuven Bears U10C groepsfoto ${team.season}`}
-              width={1240}
-              height={493}
+              width={1280}
+              height={505}
               className="home-hero-photo__img"
             />
           </div>
