@@ -2,8 +2,6 @@ import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
-const STICKER_ASPECT = '2 / 3'
-
 type StickerAlbumProps = {
   players: Player[]
   staff: StaffMember[]
@@ -82,14 +80,12 @@ function StaffStickerSlot({
   if (stickerSrc) {
     return (
       <article
-        className="sticker-slot sticker-slot--filled animate-in"
+        className="sticker-slot sticker-slot--filled sticker-slot--staff animate-in"
         style={{ animationDelay: `${index * 0.04}s` }}
       >
         <img
           src={stickerSrc}
           alt={`Sticker van ${staffSlotName(member)}, ${member.role}`}
-          width={693}
-          height={1080}
           className="sticker-slot__art"
         />
       </article>
@@ -119,14 +115,12 @@ function PlayerStickerSlot({
   if (stickerSrc) {
     return (
       <article
-        className="sticker-slot sticker-slot--filled animate-in"
+        className="sticker-slot sticker-slot--filled sticker-slot--player animate-in"
         style={{ animationDelay: `${index * 0.04}s` }}
       >
         <img
           src={stickerSrc}
           alt={`Sticker van ${player.firstName}, Leuven Bears U10 C`}
-          width={1024}
-          height={1536}
           className="sticker-slot__art"
         />
       </article>
@@ -159,15 +153,10 @@ function EmptyAlbumSlot({
   ariaLabel,
   index = 0,
 }: EmptyAlbumSlotProps) {
-  const isGroup = variant === 'group'
-
   return (
     <article
       className={`sticker-slot sticker-slot--empty sticker-slot--${variant} animate-in`}
-      style={{
-        animationDelay: `${index * 0.04}s`,
-        ...(isGroup ? {} : { aspectRatio: STICKER_ASPECT }),
-      }}
+      style={{ animationDelay: `${index * 0.04}s` }}
       aria-label={ariaLabel}
     >
       <div className="sticker-slot__chrome">
