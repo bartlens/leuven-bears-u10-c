@@ -2495,7 +2495,7 @@ body {
 }
 
 /* ========== PANINI STICKER ALBUM ========== */
-/* Shared inset so the page header (eyebrow + title) lines up with sticker-grid content. */
+/* Shared inset so the page title lines up with sticker-grid content. */
 .spelers-page {
   --sticker-album-pad: 0.9rem;
 }
@@ -2506,9 +2506,11 @@ body {
   }
 }
 
-.spelers-page__title {
+.spelers-page .spelers-page__title {
   /* Album border (1px) + inner padding — flush with emblem / grid. */
   padding-left: calc(1px + var(--sticker-album-pad));
+  /* Tighter than the default SectionHeader mb-8 now that the eyebrow is gone. */
+  margin-bottom: 1rem;
 }
 
 .sticker-album {
