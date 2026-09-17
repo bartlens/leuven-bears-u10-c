@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom'
-import { Logo } from '../components/Logo'
 import { team } from '../data/team'
 import { getNextTraining } from '../data/trainings'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
-const quickLinks = [
-  { to: '/spelers', label: 'Spelers', emoji: '👕', desc: 'Team & staff' },
+const quickLinks: {
+  to: string
+  label: string
+  desc: string
+  emoji?: string
+  icon?: 'jersey'
+}[] = [
+  { to: '/spelers', label: 'Spelers', icon: 'jersey', desc: 'Team & staff' },
   { to: '/trainingen', label: 'Trainingen', emoji: '⏱️', desc: 'Ma & Do 17:30' },
   { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
   { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
@@ -40,7 +45,7 @@ export function Home() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch lg:pb-8 lg:pt-20">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.2fr)] lg:items-center lg:gap-6 lg:pb-8 lg:pt-20">
           <div className="min-w-0 animate-in">
             <span className="mb-4 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
               Seizoen {team.season}
@@ -52,17 +57,17 @@ export function Home() {
             </p>
           </div>
 
-          <div className="relative flex justify-center lg:justify-end animate-in" style={{ animationDelay: '0.12s' }}>
-            <div className="relative flex h-full w-full max-w-sm flex-col items-center justify-center rounded-3xl border border-white/10 bg-panel/80 px-5 py-6 shadow-2xl shadow-hoop/20 backdrop-blur sm:px-6 sm:py-7">
-              <div
-                className="pointer-events-none absolute inset-x-8 inset-y-8 rounded-full bg-hoop/15 blur-3xl"
-                aria-hidden
-              />
-              <Logo size={220} className="relative mx-auto" />
-              <p className="relative mt-3 text-center text-sm font-semibold tracking-[0.18em] text-hoop-bright">
-                #WEBEARS
-              </p>
-            </div>
+          <div
+            className="home-hero-photo animate-in"
+            style={{ animationDelay: '0.12s' }}
+          >
+            <img
+              src="/stickers/groep-u10c-2026-home.webp"
+              alt={`Leuven Bears U10C groepsfoto ${team.season}`}
+              width={1280}
+              height={505}
+              className="home-hero-photo__img"
+            />
           </div>
         </div>
       </section>
@@ -160,8 +165,19 @@ export function Home() {
               to={item.to}
               className="card-lift group rounded-2xl border border-white/10 bg-panel p-5"
             >
-              <span className="inline-block text-2xl transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
-                {item.emoji}
+              <span className="inline-flex h-8 w-8 items-center justify-center text-[32px] leading-none transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
+                {item.icon === 'jersey' ? (
+                  <img
+                    src="/stickers/u10c-jersey-icon.webp"
+                    alt=""
+                    width={32}
+                    height={32}
+                    decoding="async"
+                    className="h-8 w-8 object-contain"
+                  />
+                ) : (
+                  <span className="text-2xl leading-none">{item.emoji}</span>
+                )}
               </span>
               <p className="mt-3 font-display text-lg font-bold text-cream">
                 {item.label}
