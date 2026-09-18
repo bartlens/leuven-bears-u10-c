@@ -2666,19 +2666,6 @@ vercel-live-feedback,
     --sticker-gap: 1rem;
     --sticker-cols: 3;
     padding: var(--sticker-album-pad, 1.25rem);
-    display: grid;
-    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
-    gap: var(--sticker-gap);
-  }
-
-  /* Hero articles + player <li> all sit on this one grid. */
-  .sticker-album__hero,
-  .sticker-album > .sticker-album__grid {
-    display: contents;
-  }
-
-  .sticker-album__staff {
-    grid-column: 1 / -1;
   }
 }
 
@@ -2740,11 +2727,6 @@ vercel-live-feedback,
 }
 
 @media (min-width: 640px) {
-  .sticker-album__hero,
-  .sticker-album > .sticker-album__grid {
-    display: contents;
-  }
-
   .sticker-album__emblem--hero {
     display: block;
   }
@@ -2753,47 +2735,50 @@ vercel-live-feedback,
     display: none;
   }
 
+  .sticker-album__hero {
+    display: grid;
+    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
+    gap: var(--sticker-gap);
+    align-items: stretch;
+    margin: 0 0 var(--sticker-gap);
+    padding: 0;
+    line-height: 0;
+  }
+
   .sticker-album__emblem,
   .sticker-album__hero .sticker-slot--group {
     display: block;
     position: relative;
     box-sizing: border-box;
-    grid-row: 1;
+    height: var(--sticker-slot-h);
+    min-height: var(--sticker-slot-h);
+    max-height: var(--sticker-slot-h);
     margin: 0;
     padding: 0;
     border: 0;
-    top: auto;
     overflow: hidden;
     line-height: 0;
     min-width: 0;
-    min-height: 0;
   }
 
   .sticker-album__emblem {
     grid-column: 1;
-    width: auto;
+    width: 100%;
     max-width: none;
-    height: auto;
-    aspect-ratio: 2 / 3;
+    aspect-ratio: unset;
   }
 
   .sticker-album__hero .sticker-slot--group {
     grid-column: 2 / -1;
-    width: auto;
-    height: auto;
-    max-height: none;
+    width: 100%;
+    max-height: var(--sticker-slot-h);
     aspect-ratio: unset;
-    align-self: stretch;
   }
 
   .sticker-album__hero .sticker-album__emblem-img,
   .sticker-album__hero .sticker-album__group-img {
     position: absolute;
     inset: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     display: block;
     width: 100%;
     height: 100%;
