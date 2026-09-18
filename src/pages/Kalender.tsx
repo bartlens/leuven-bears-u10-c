@@ -13,6 +13,8 @@ import {
 } from '../lib/calendarEvents'
 
 const WEEKDAYS = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo']
+/** First batch of this-month list items; the rest opens via “Laad meer…”. */
+const INITIAL_MONTH_ITEMS = 4
 
 function dayNum(iso: string) {
   return Number(iso.slice(8, 10))
@@ -32,6 +34,7 @@ export function Kalender() {
   const [y, m] = todayIso.split('-').map(Number)
   const [cursor, setCursor] = useState({ year: y!, month: m! - 1 })
   const [selected, setSelected] = useState<string | null>(todayIso)
+  const [showAllMonth, setShowAllMonth] = useState(false)
 
   const events = useMemo(
     () => buildCalendarEvents(datedTrainings, matches),
@@ -60,7 +63,13 @@ export function Kalender() {
     return events.filter((e) => e.dateIso.startsWith(prefix))
   }, [events, cursor.year, cursor.month])
 
+  const visibleMonthEvents = showAllMonth
+    ? monthEvents
+    : monthEvents.slice(0, INITIAL_MONTH_ITEMS)
+  const hasMoreMonth = !showAllMonth && monthEvents.length > INITIAL_MONTH_ITEMS
+
   const shiftMonth = (delta: number) => {
+    setShowAllMonth(false)
     setCursor((c) => {
       const d = new Date(Date.UTC(c.year, c.month + delta, 1))
       return { year: d.getUTCFullYear(), month: d.getUTCMonth() }
@@ -68,6 +77,7 @@ export function Kalender() {
   }
 
   const goToday = () => {
+    setShowAllMonth(false)
     setCursor({ year: y!, month: m! - 1 })
     setSelected(todayIso)
   }
@@ -255,34 +265,47 @@ export function Kalender() {
         {monthEvents.length === 0 ? (
           <p className="mt-2 text-sm text-muted">Niets gepland in deze maand.</p>
         ) : (
-          <ul className="mt-4 space-y-2">
-            {monthEvents.map((e) => (
-              <li key={e.id}>
+          <div className="mt-4 space-y-2">
+            <ul className="space-y-2">
+              {visibleMonthEvents.map((e) => (
+                <li key={e.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelected(e.dateIso)}
+                    className="ui-card flex min-h-11 w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
+                  >
+                    <span
+                      className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
+                        e.kind === 'match' ? 'bg-hoop' : 'bg-warm'
+                      }`}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span
+                        className={`block font-semibold text-cream ${matchTitleClass}`}
+                        title={e.title}
+                      >
+                        {e.title}
+                      </span>
+                      <span className="text-meta mt-0.5 block">
+                        {formatDayHeading(e.dateIso)} · {e.time} · {e.location}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {hasMoreMonth && (
+              <div className="pt-2">
                 <button
                   type="button"
-                  onClick={() => setSelected(e.dateIso)}
-                  className="ui-card flex min-h-11 w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
+                  onClick={() => setShowAllMonth(true)}
+                  className="btn-outline w-full sm:w-auto"
                 >
-                  <span
-                    className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
-                      e.kind === 'match' ? 'bg-hoop' : 'bg-warm'
-                    }`}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span
-                      className={`block font-semibold text-cream ${matchTitleClass}`}
-                      title={e.title}
-                    >
-                      {e.title}
-                    </span>
-                    <span className="text-meta mt-0.5 block">
-                      {formatDayHeading(e.dateIso)} · {e.time} · {e.location}
-                    </span>
-                  </span>
+                  Laad meer…
                 </button>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+          </div>
         )}
       </section>
       </div>
