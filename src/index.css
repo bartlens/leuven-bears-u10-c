@@ -2641,10 +2641,31 @@ vercel-live-feedback,
   }
 }
 
-.spelers-page .spelers-page__title {
-  /* H1 lines up with the emblem / sticker-grid, not the album chrome. */
+.spelers-page__intro {
+  /* H1 + jump share one left edge with the album content (border + pad). */
   padding-left: calc(1px + var(--sticker-album-pad));
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.spelers-page .spelers-page__title {
+  padding-left: 0;
+  margin-bottom: 0;
+  max-width: none;
+}
+
+.spelers-page__staff-jump {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-hoop-bright);
+}
+
+.spelers-page__staff-jump:hover {
+  text-decoration: underline;
 }
 
 .sticker-album {
@@ -2685,9 +2706,12 @@ vercel-live-feedback,
 .sticker-album__hero {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sticker-gap);
-  margin-bottom: var(--sticker-gap);
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  height: auto;
+  margin: 0 0 var(--sticker-gap);
+  padding: 0;
 }
 
 .sticker-album__emblem--hero {
@@ -2702,10 +2726,17 @@ vercel-live-feedback,
 }
 
 .sticker-album__hero .sticker-slot--group {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
   width: 100%;
+  max-width: none;
   min-width: 0;
   height: auto;
   max-height: none;
+  margin: 0;
+  padding: 0;
   overflow: visible;
 }
 
@@ -2719,9 +2750,11 @@ vercel-live-feedback,
 }
 
 .sticker-album__hero .sticker-album__group-img {
+  position: static;
   display: block;
   width: 100%;
   height: auto;
+  max-width: 100%;
   max-height: none;
   object-fit: contain;
 }

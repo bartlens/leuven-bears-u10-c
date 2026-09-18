@@ -6,15 +6,12 @@ import { staffMembers } from '../data/team'
 export function Spelers() {
   return (
     <div className="spelers-page page-shell">
-      <SectionHeader title="Onze spelers" className="spelers-page__title" />
-      <p className="-mt-3 mb-6">
-        <a
-          href="#staff"
-          className="inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"
-        >
+      <div className="spelers-page__intro">
+        <SectionHeader title="Onze spelers" className="spelers-page__title !mb-0" />
+        <a href="#staff" className="spelers-page__staff-jump">
           Naar staff ↓
         </a>
-      </p>
+      </div>
 
       <StickerAlbum players={players} staff={staffMembers} />
     </div>

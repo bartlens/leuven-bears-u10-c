@@ -176,6 +176,12 @@ function syncDesktopHero(album: HTMLElement) {
     })
     lockGroupX(group, hero, p2, pN)
 
+    const trackGap = r2.left - r1.right
+    const heroAfter = hero.getBoundingClientRect()
+    const groupAfter = group.getBoundingClientRect()
+    const slack = heroAfter.bottom - groupAfter.bottom
+    hero.style.marginBottom = `${Math.max(0, trackGap - slack)}px`
+
     const locked = heroDiffs(
       emblem.getBoundingClientRect(),
       alfredSlotInHero(hero.getBoundingClientRect(), p1.getBoundingClientRect()),
@@ -191,7 +197,10 @@ function clearDesktopHero(album: HTMLElement) {
   const hero = album.querySelector<HTMLElement>('.sticker-album__hero')
   const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
   const group = album.querySelector<HTMLElement>('.sticker-slot--group')
-  if (hero) hero.style.removeProperty('height')
+  if (hero) {
+    hero.style.removeProperty('height')
+    hero.style.removeProperty('margin-bottom')
+  }
   for (const el of [emblem, group]) {
     if (!el) continue
     for (const prop of STYLE_PROPS) el.style.removeProperty(prop)
