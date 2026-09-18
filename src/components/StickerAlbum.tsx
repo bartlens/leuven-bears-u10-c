@@ -16,13 +16,13 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
         className="sticker-album__hero"
         aria-label="Teamstickers bovenaan"
       >
-        <article className="sticker-album__emblem">
+        <article className="sticker-slot sticker-slot--filled sticker-slot--player sticker-album__emblem animate-in">
           <img
-            src="/stickers/embleem-u10c.webp"
+            src="/stickers/embleem-u10c.webp?v=20260918i"
             alt="Embleemsticker van Leuven Bears U10 C"
-            width={800}
-            height={1116}
-            className="sticker-album__emblem-img"
+            width={640}
+            height={960}
+            className="sticker-slot__art sticker-album__emblem-img"
           />
         </article>
 
