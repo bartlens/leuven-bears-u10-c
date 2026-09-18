@@ -2666,6 +2666,16 @@ vercel-live-feedback,
     --sticker-gap: 1rem;
     --sticker-cols: 3;
     padding: var(--sticker-album-pad, 1.25rem);
+    display: grid;
+    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
+    column-gap: var(--sticker-gap);
+    row-gap: 0;
+  }
+
+  .sticker-album__hero,
+  .sticker-album > .sticker-album__grid,
+  .sticker-album__staff {
+    grid-column: 1 / -1;
   }
 }
 
@@ -2740,11 +2750,22 @@ vercel-live-feedback,
     [ emblem = 1 col / 2:3 ][ gap ][ group = 2 / -1, same height ]
     [ p1 ][ gap ][ p2 ][ gap ][ p3 ][ gap ][ p4 ]
   */
+  .sticker-album__hero,
+  .sticker-album__grid {
+    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
+    gap: var(--sticker-gap);
+  }
+
+  @supports (grid-template-columns: subgrid) {
+    .sticker-album__hero,
+    .sticker-album > .sticker-album__grid {
+      grid-template-columns: subgrid;
+    }
+  }
+
   .sticker-album__hero {
     display: grid;
-    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
     grid-template-rows: var(--sticker-slot-h);
-    gap: var(--sticker-gap);
     align-items: stretch;
     margin: 0 0 var(--sticker-gap);
     padding: 0;
