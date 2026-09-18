@@ -74,9 +74,9 @@ export function Info() {
         </Link>
         <Link
           to="/gedragscodes"
-          className="ui-card card-lift border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel transition hover:border-hoop/45"
+          className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
             Onder Info
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-cream">
@@ -86,7 +86,7 @@ export function Info() {
             Afspraken van Basketbal Vlaanderen voor trainers, spelers en
             ouders.
           </p>
-          <p className="mt-5 text-sm font-bold text-hoop-bright">
+          <p className="mt-5 text-sm font-bold text-warm">
             Bekijk de gedragscodes →
           </p>
         </Link>

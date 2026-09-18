@@ -16,7 +16,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
         className="sticker-album__hero"
         aria-label="Teamstickers bovenaan"
       >
-        <article className="sticker-slot sticker-slot--filled sticker-slot--player sticker-album__emblem animate-in">
+        <article className="sticker-slot sticker-slot--player sticker-album__emblem">
           <img
             src="/stickers/embleem-u10c.webp?v=20260918i"
             alt="Embleemsticker van Leuven Bears U10 C"
@@ -26,7 +26,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           />
         </article>
 
-        <article className="sticker-slot sticker-slot--filled sticker-slot--group animate-in">
+        <article className="sticker-slot sticker-slot--group">
           <img
             src="/stickers/groep-u10c-2026.webp?v=20260918h"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
