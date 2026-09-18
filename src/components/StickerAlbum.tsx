@@ -3,37 +3,113 @@ import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
-const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
+const EMBLEM_SRC = '/stickers/embleem-u10c-hero.webp?v=20260918v'
+const EMBLEM_STAFF_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 const DESKTOP_MIN = 640
+const STYLE_PROPS = [
+  'position',
+  'top',
+  'left',
+  'right',
+  'width',
+  'height',
+  'minWidth',
+  'minHeight',
+  'maxWidth',
+  'maxHeight',
+] as const
 
-function lockHeroHeightToPlayer(album: HTMLElement) {
-  const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
-  const group = album.querySelector<HTMLElement>('.sticker-slot--group')
-  const p1 = album.querySelector<HTMLElement>(
-    ':scope > .sticker-album__grid .sticker-slot--player',
-  )
-  if (!emblem || !group || !p1) return
-
-  const height = p1.getBoundingClientRect().height
-  if (!Number.isFinite(height) || height < 1) return
-  const px = `${height}px`
-  emblem.style.height = px
-  emblem.style.minHeight = px
-  emblem.style.maxHeight = px
-  group.style.height = px
-  group.style.minHeight = px
-  group.style.maxHeight = px
+function playerSlots(album: HTMLElement) {
+  return [
+    ...album.querySelectorAll<HTMLElement>(
+      ':scope > .sticker-album__grid .sticker-slot--player',
+    ),
+  ]
 }
 
-function clearHeroHeightLock(album: HTMLElement) {
+function columnCount(album: HTMLElement) {
+  const raw = getComputedStyle(album).getPropertyValue('--sticker-cols').trim()
+  const cols = Number.parseInt(raw, 10)
+  return Number.isFinite(cols) && cols > 1 ? cols : 4
+}
+
+function applyBox(
+  el: HTMLElement,
+  box: { left: number; top: number; width: number; height: number },
+) {
+  el.style.position = 'absolute'
+  el.style.top = `${box.top}px`
+  el.style.left = `${box.left}px`
+  el.style.right = 'auto'
+  el.style.width = `${box.width}px`
+  el.style.height = `${box.height}px`
+  el.style.minWidth = `${box.width}px`
+  el.style.minHeight = `${box.height}px`
+  el.style.maxWidth = `${box.width}px`
+  el.style.maxHeight = `${box.height}px`
+}
+
+function syncDesktopHero(album: HTMLElement) {
+  const hero = album.querySelector<HTMLElement>('.sticker-album__hero')
   const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
   const group = album.querySelector<HTMLElement>('.sticker-slot--group')
+  const slots = playerSlots(album)
+  const cols = columnCount(album)
+  const p1 = slots[0]
+  const p2 = slots[1]
+  const pN = slots[cols - 1]
+  if (!hero || !emblem || !group || !p1 || !p2 || !pN) return
+
+  for (let i = 0; i < 6; i += 1) {
+    const heroRect = hero.getBoundingClientRect()
+    const r1 = p1.getBoundingClientRect()
+    const r2 = p2.getBoundingClientRect()
+    const rN = pN.getBoundingClientRect()
+    if (r1.height < 1 || r2.width < 1) return
+
+    const height = r1.height
+    hero.style.height = `${height}px`
+
+    applyBox(emblem, {
+      left: r1.left - heroRect.left,
+      top: 0,
+      width: r1.width,
+      height,
+    })
+    applyBox(group, {
+      left: r2.left - heroRect.left,
+      top: 0,
+      width: rN.right - r2.left,
+      height,
+    })
+
+    const e = emblem.getBoundingClientRect()
+    const g = group.getBoundingClientRect()
+    const next1 = p1.getBoundingClientRect()
+    const next2 = p2.getBoundingClientRect()
+    const nextN = pN.getBoundingClientRect()
+    const diffs = [
+      Math.abs(e.top - g.top),
+      Math.abs(e.bottom - g.bottom),
+      Math.abs(e.width - next1.width),
+      Math.abs(e.height - next1.height),
+      Math.abs(e.left - next1.left),
+      Math.abs(g.left - next2.left),
+      Math.abs(g.right - nextN.right),
+    ]
+    if (diffs.every((d) => d <= 0.5)) return
+  }
+}
+
+function clearDesktopHero(album: HTMLElement) {
+  const hero = album.querySelector<HTMLElement>('.sticker-album__hero')
+  const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
+  const group = album.querySelector<HTMLElement>('.sticker-slot--group')
+  if (hero) hero.style.removeProperty('height')
   for (const el of [emblem, group]) {
     if (!el) continue
-    el.style.removeProperty('height')
-    el.style.removeProperty('min-height')
-    el.style.removeProperty('max-height')
+    for (const prop of STYLE_PROPS) el.style.removeProperty(prop)
   }
 }
 
@@ -58,10 +134,10 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
       applying = true
       try {
         if (!mq.matches) {
-          clearHeroHeightLock(album)
+          clearDesktopHero(album)
           return
         }
-        lockHeroHeightToPlayer(album)
+        syncDesktopHero(album)
       } finally {
         applying = false
       }
@@ -69,17 +145,19 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
     const ro = new ResizeObserver(apply)
     ro.observe(album)
-    const p1 = album.querySelector<HTMLElement>(
-      ':scope > .sticker-album__grid .sticker-slot--player',
-    )
-    if (p1) ro.observe(p1)
+    const grid = album.querySelector<HTMLElement>(':scope > .sticker-album__grid')
+    if (grid) ro.observe(grid)
     mq.addEventListener('change', apply)
+    window.addEventListener('resize', apply)
+    const fonts = document.fonts
+    if (fonts?.ready) void fonts.ready.then(apply)
     apply()
 
     return () => {
       ro.disconnect()
       mq.removeEventListener('change', apply)
-      clearHeroHeightLock(album)
+      window.removeEventListener('resize', apply)
+      clearDesktopHero(album)
     }
   }, [])
 
@@ -101,7 +179,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
         <article className="sticker-slot sticker-slot--group">
           <img
-            src="/stickers/groep-u10c-2026.webp?v=20260918h"
+            src="/stickers/groep-u10c-2026-hero.webp?v=20260918v"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
             className="sticker-slot__art sticker-album__group-img"
           />
@@ -138,7 +216,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
           <li className="sticker-album__staff-emblem min-w-0">
             <article className="sticker-slot sticker-slot--filled sticker-slot--staff">
               <img
-                src={EMBLEM_SRC}
+                src={EMBLEM_STAFF_SRC}
                 alt={EMBLEM_ALT}
                 width={640}
                 height={960}

@@ -2736,10 +2736,10 @@ vercel-live-feedback,
   }
 
   .sticker-album__hero {
-    display: grid;
-    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
-    gap: var(--sticker-gap);
-    align-items: stretch;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: var(--sticker-slot-h);
     margin: 0 0 var(--sticker-gap);
     padding: 0;
     line-height: 0;
@@ -2748,30 +2748,31 @@ vercel-live-feedback,
   .sticker-album__emblem,
   .sticker-album__hero .sticker-slot--group {
     display: block;
-    position: relative;
+    position: absolute;
     box-sizing: border-box;
-    height: var(--sticker-slot-h);
-    min-height: var(--sticker-slot-h);
-    max-height: var(--sticker-slot-h);
     margin: 0;
     padding: 0;
     border: 0;
     overflow: hidden;
     line-height: 0;
     min-width: 0;
+    top: 0;
   }
 
   .sticker-album__emblem {
-    grid-column: 1;
-    width: 100%;
+    left: 0;
+    width: var(--sticker-col);
+    height: var(--sticker-slot-h);
     max-width: none;
     aspect-ratio: unset;
   }
 
   .sticker-album__hero .sticker-slot--group {
-    grid-column: 2 / -1;
-    width: 100%;
-    max-height: var(--sticker-slot-h);
+    left: calc(var(--sticker-col) + var(--sticker-gap));
+    right: 0;
+    width: auto;
+    height: var(--sticker-slot-h);
+    max-height: none;
     aspect-ratio: unset;
   }
 
