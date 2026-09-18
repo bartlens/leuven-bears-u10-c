@@ -7,6 +7,8 @@ const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_STAFF_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 const DESKTOP_MIN = 640
+/** Same card inset as scripts/normalize-player-stickers.py (640×960 dest). */
+const PLAYER_PAD_Y = 27 / 960
 const STYLE_PROPS = [
   'position',
   'top',
@@ -34,29 +36,25 @@ function columnCount(album: HTMLElement) {
   return Number.isFinite(cols) && cols > 1 ? cols : 4
 }
 
-function roundCssPx(value: number) {
-  const dpr = window.devicePixelRatio || 1
-  return Math.round(value * dpr) / dpr
-}
-
 function applyBox(
   el: HTMLElement,
   box: { left: number; top: number; width: number; height: number },
 ) {
-  const left = roundCssPx(box.left)
-  const top = roundCssPx(box.top)
-  const width = roundCssPx(box.width)
-  const height = roundCssPx(box.height)
   el.style.position = 'absolute'
-  el.style.top = `${top}px`
-  el.style.left = `${left}px`
+  el.style.top = `${box.top}px`
+  el.style.left = `${box.left}px`
   el.style.right = 'auto'
-  el.style.width = `${width}px`
-  el.style.height = `${height}px`
-  el.style.minWidth = `${width}px`
-  el.style.minHeight = `${height}px`
-  el.style.maxWidth = `${width}px`
-  el.style.maxHeight = `${height}px`
+  el.style.width = `${box.width}px`
+  el.style.height = `${box.height}px`
+  el.style.minWidth = `${box.width}px`
+  el.style.minHeight = `${box.height}px`
+  el.style.maxWidth = `${box.width}px`
+  el.style.maxHeight = `${box.height}px`
+}
+
+function paintedEmblemFrame(emblem: DOMRect) {
+  const padY = emblem.height * PLAYER_PAD_Y
+  return new DOMRect(emblem.left, emblem.top + padY, emblem.width, emblem.height - padY * 2)
 }
 
 function heroDiffs(
@@ -66,6 +64,7 @@ function heroDiffs(
   p2: DOMRect,
   pN: DOMRect,
 ) {
+  const emblemPainted = paintedEmblemFrame(emblem)
   return {
     emblemLeft: emblem.left - alfredSlot.left,
     emblemRight: emblem.right - alfredSlot.right,
@@ -73,8 +72,8 @@ function heroDiffs(
     emblemBottom: emblem.bottom - alfredSlot.bottom,
     groupLeft: group.left - p2.left,
     groupRight: group.right - pN.right,
-    groupTop: group.top - emblem.top,
-    groupBottom: group.bottom - emblem.bottom,
+    groupTop: group.top - emblemPainted.top,
+    groupBottom: group.bottom - emblemPainted.bottom,
   }
 }
 
@@ -105,7 +104,7 @@ function syncDesktopHero(album: HTMLElement) {
     const rN = pN.getBoundingClientRect()
     if (r1.height < 1 || r2.width < 1) return
 
-    hero.style.height = `${roundCssPx(r1.height)}px`
+    hero.style.height = `${r1.height}px`
     const heroBox = hero.getBoundingClientRect()
     const alfredBox = alfredSlotInHero(heroBox, r1)
 
@@ -117,11 +116,12 @@ function syncDesktopHero(album: HTMLElement) {
     })
 
     const ePlaced = emblem.getBoundingClientRect()
+    const emblemPainted = paintedEmblemFrame(ePlaced)
     applyBox(group, {
       left: r2.left - heroBox.left,
-      top: ePlaced.top - heroBox.top,
+      top: emblemPainted.top - heroBox.top,
       width: rN.right - r2.left,
-      height: ePlaced.height,
+      height: emblemPainted.height,
     })
 
     const e = emblem.getBoundingClientRect()
@@ -133,18 +133,12 @@ function syncDesktopHero(album: HTMLElement) {
     const diffs = heroDiffs(e, alfredSlotInHero(nextHero, next1), g, next2, nextN)
     if (maxAbsDiff(diffs) === 0) return
 
-    applyBox(emblem, {
-      left: e.left - nextHero.left - diffs.emblemLeft,
-      top: e.top - nextHero.top - diffs.emblemTop,
-      width: e.width - diffs.emblemRight + diffs.emblemLeft,
-      height: e.height - diffs.emblemBottom + diffs.emblemTop,
-    })
-    const eFixed = emblem.getBoundingClientRect()
+    const ePainted = paintedEmblemFrame(e)
     applyBox(group, {
       left: g.left - nextHero.left - diffs.groupLeft,
-      top: eFixed.top - nextHero.top,
-      width: g.width - diffs.groupRight + diffs.groupLeft,
-      height: eFixed.height,
+      top: ePainted.top - nextHero.top,
+      width: Math.min(g.width - diffs.groupRight + diffs.groupLeft, nextN.right - next2.left),
+      height: Math.min(g.height - diffs.groupBottom + diffs.groupTop, ePainted.height),
     })
 
     const locked = heroDiffs(
