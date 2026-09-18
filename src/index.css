@@ -2735,37 +2735,52 @@ vercel-live-feedback,
     display: none;
   }
 
-  /* Group photo sets the row height; emblem stretches to that height. */
+  /* Desktop hero: flex-start tops. Emblem box is set in JS from the group img height. */
   .sticker-album__hero {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     gap: var(--sticker-gap);
     height: auto;
     margin-top: 0;
+    padding: 0;
+    line-height: 0;
+    font-size: 0;
   }
 
   .sticker-album__emblem {
-    height: 100%;
-    width: auto;
-    aspect-ratio: 2 / 3;
+    display: block;
+    position: relative;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    box-sizing: border-box;
+    width: 0;
+    height: 0;
+    aspect-ratio: unset;
     max-width: none;
     margin: 0;
     padding: 0;
+    border: 0;
     overflow: hidden;
-    position: relative;
     line-height: 0;
+    min-width: 0;
+    min-height: 0;
   }
 
   .sticker-album__hero .sticker-slot--group {
+    display: block;
+    flex: 1 1 0;
+    align-self: flex-start;
+    box-sizing: border-box;
     min-width: 0;
-    width: 100%;
+    min-height: 0;
+    width: auto;
     height: auto;
     max-height: none;
-    min-height: 0;
     aspect-ratio: unset;
     margin: 0;
     padding: 0;
+    border: 0;
     overflow: visible;
     position: relative;
     line-height: 0;
@@ -2781,6 +2796,9 @@ vercel-live-feedback,
     inset: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
     object-fit: contain;
     object-position: center;
   }
@@ -2796,9 +2814,12 @@ vercel-live-feedback,
     height: auto;
     max-width: none;
     max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: top;
     object-fit: contain;
     object-position: center;
-    margin: 0;
   }
 }
 
