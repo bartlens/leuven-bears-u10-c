@@ -6,6 +6,9 @@ import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
+/** First batch of upcoming matches; the rest (and Gespeeld) opens via “Laad meer…”. */
+const INITIAL_UPCOMING = 4
+
 function formatDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
     weekday: 'short',
@@ -18,6 +21,13 @@ export function Matchen() {
   const { matches, afspraken: matchAfspraken } = useSheetData()
   const upcoming = matches.filter((m) => m.status === 'upcoming')
   const past = matches.filter((m) => m.status === 'played')
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false)
+  const visibleUpcoming = showAllUpcoming
+    ? upcoming
+    : upcoming.slice(0, INITIAL_UPCOMING)
+  const hasMore =
+    !showAllUpcoming &&
+    (upcoming.length > INITIAL_UPCOMING || past.length > 0)
   const [afsprakenOpen, setAfsprakenOpen] = useState(false)
   const afsprakenPanelId = useId()
 
@@ -128,7 +138,7 @@ export function Matchen() {
           Aankomend ({upcoming.length})
         </h2>
         <div className="space-y-3">
-          {upcoming.map((m, i) => {
+          {visibleUpcoming.map((m, i) => {
             const title = formatMatchTitle(m.venue, m.opponent)
             return (
             <article
@@ -155,9 +165,21 @@ export function Matchen() {
             </article>
             )
           })}
+          {hasMore && (
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setShowAllUpcoming(true)}
+                className="btn-outline w-full sm:w-auto"
+              >
+                Laad meer…
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
+      {showAllUpcoming ? (
       <section>
         <h2 className="mb-4 font-display text-xl font-bold text-cream">
           Gespeeld
@@ -210,6 +232,7 @@ export function Matchen() {
           </div>
         )}
       </section>
+      ) : null}
     </div>
   )
 }
