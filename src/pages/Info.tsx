@@ -65,7 +65,7 @@ export function Info() {
           <p className="mt-3 text-sm leading-relaxed text-muted">
             Tornooien, herfststage en extra teamfun — inschrijvingen en data.
           </p>
-          <p className="mt-5 text-sm font-bold text-warm">
+          <p className="mt-5 text-sm font-bold text-hoop-bright">
             Bekijk evenementen →
           </p>
         </Link>
@@ -80,7 +80,7 @@ export function Info() {
             Afspraken van Basketbal Vlaanderen voor trainers, spelers en
             ouders.
           </p>
-          <p className="mt-5 text-sm font-bold text-warm">
+          <p className="mt-5 text-sm font-bold text-hoop-bright">
             Bekijk de gedragscodes →
           </p>
         </Link>
