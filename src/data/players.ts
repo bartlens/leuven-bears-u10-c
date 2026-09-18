@@ -90,7 +90,7 @@ export const players: Player[] = [
     move: 'step-back',
     moveLabel: 'Step-back',
     look: { hair: '#fff1c2', skin: '#fadcc4', hairStyle: 'side' },
-    stickerSrc: '/stickers/charlie.webp?v=20260918b',
+    stickerSrc: '/stickers/charlie.webp?v=20260918q',
   },
   {
     id: 'p2',
@@ -102,7 +102,7 @@ export const players: Player[] = [
     move: 'finger-spin',
     moveLabel: 'Vingerspin',
     look: { hair: '#1f1410', skin: '#efc09a', hairStyle: 'short' },
-    stickerSrc: '/stickers/ilya.webp?v=20260918b',
+    stickerSrc: '/stickers/ilya.webp?v=20260918r',
   },
   {
     id: 'p7',
