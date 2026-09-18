@@ -159,9 +159,13 @@ function EmptyAlbumSlot({
       style={{ animationDelay: `${index * 0.04}s` }}
       aria-label={ariaLabel}
     >
-      <div className="sticker-slot__chrome">
-        <p className="sticker-slot__name">{title}</p>
-        {subtitle ? <p className="sticker-slot__meta">{subtitle}</p> : null}
+      <div className="sticker-slot__blank">
+        <div className="sticker-slot__blank-face" aria-hidden="true" />
+        <div className="sticker-slot__blank-copy">
+          <p className="sticker-slot__name">{title}</p>
+          {subtitle ? <p className="sticker-slot__meta">{subtitle}</p> : null}
+          <p className="sticker-slot__soon">Binnenkort</p>
+        </div>
       </div>
     </article>
   )

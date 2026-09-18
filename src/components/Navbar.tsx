@@ -78,10 +78,10 @@ export function Navbar() {
                 end={link.end}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `mb-1 block rounded-xl px-4 py-3.5 text-sm font-semibold touch-manipulation ${
+                  `mb-1 block min-h-11 rounded-xl px-4 py-3.5 text-sm touch-manipulation ${
                     isActive
-                      ? 'bg-hoop text-white'
-                      : 'text-muted active:bg-white/5 active:text-cream'
+                      ? 'bg-hoop font-semibold text-white'
+                      : 'font-medium text-muted/70 active:bg-white/5 active:text-muted'
                   }`
                 }
               >

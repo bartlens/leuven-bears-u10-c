@@ -149,7 +149,7 @@ body {
 
 @media (min-width: 1024px) {
   .home-hero-photo {
-    max-width: 36rem;
+    max-width: 34rem;
     justify-self: end;
   }
 }
@@ -2691,7 +2691,6 @@ body {
 
 .sticker-album__staff-copy {
   margin-bottom: 0.85rem;
-  /* Match .sticker-slot--staff inset (~3.4% of a slot) so the title meets the dashed boxes. */
   padding-left: 0.55rem;
 }
 
@@ -2720,7 +2719,7 @@ body {
 
 .sticker-slot--empty.sticker-slot--player,
 .sticker-slot--empty.sticker-slot--staff {
-  padding: 3.4%;
+  padding: 0;
 }
 
 .sticker-slot--group {
@@ -2728,21 +2727,32 @@ body {
   padding: 0;
 }
 
-.sticker-slot__chrome {
-  position: relative;
+.sticker-slot__blank {
   display: flex;
-  flex: 1;
   height: 100%;
   min-height: 100%;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
   overflow: hidden;
   border-radius: 0.95rem;
-  border: 1.5px dashed #5a5a5a;
-  background: transparent;
-  padding: 0.85rem 0.7rem;
+  border: 1px solid rgba(243, 128, 25, 0.22);
+  background:
+    linear-gradient(180deg, #1c2329 0%, #14191d 58%, #101418 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.sticker-slot__blank-face {
+  flex: 1 1 auto;
+  margin: 16% 18% 8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(154, 163, 171, 0.2), transparent 64%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.sticker-slot__blank-copy {
+  flex: 0 0 auto;
+  padding: 0 0.7rem 0.95rem;
   text-align: center;
 }
 
@@ -2756,7 +2766,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #7a7a7a;
+  color: var(--color-muted);
 }
 
 .sticker-slot__name {
@@ -2764,8 +2774,18 @@ body {
 }
 
 .sticker-slot__meta {
+  margin-top: 0.15rem;
   font-size: clamp(0.64rem, 2.1vw, 0.78rem);
-  color: #6a6a6a;
+  color: color-mix(in srgb, var(--color-muted) 78%, transparent);
+}
+
+.sticker-slot__soon {
+  margin: 0.4rem 0 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-muted) 70%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
