@@ -4,15 +4,15 @@ import { team } from '../data/team'
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-white/8 bg-ink-soft">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-5 text-center sm:px-6 sm:py-6">
-        <Logo size={48} />
-        <p className="font-display text-lg font-bold text-cream">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-1 px-4 py-2.5 text-center sm:px-6 sm:py-3">
+        <Logo size={36} />
+        <p className="font-display text-base font-bold leading-tight text-cream">
           {team.fullName}
         </p>
-        <p className="rounded-full border border-hoop/40 bg-hoop/10 px-4 py-1.5 text-sm font-semibold text-hoop-bright">
+        <p className="rounded-full border border-hoop/40 bg-hoop/10 px-3 py-0.5 text-xs font-semibold text-hoop-bright">
           {team.tagline}
         </p>
-        <p className="text-xs text-muted/70">
+        <p className="text-[11px] leading-tight text-muted/70">
           © Blits BV (Bart, papa van Thomas)
         </p>
       </div>

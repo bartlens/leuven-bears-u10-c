@@ -210,7 +210,7 @@ export function HeroTitlePeek({ name, category, enabled = false }: Props) {
   }
 
   const titleClass =
-    'hero-title-peek font-display text-4xl font-black leading-[1.05] tracking-tight text-cream break-words sm:text-5xl lg:text-6xl'
+    'hero-title-peek font-display text-3xl font-black leading-none tracking-tight text-cream sm:text-4xl lg:text-[2.5rem] lg:whitespace-nowrap'
 
   if (!enabled) {
     return (

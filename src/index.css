@@ -134,6 +134,13 @@ body {
   height: auto;
 }
 
+@media (min-width: 1024px) {
+  .home-hero-photo {
+    max-width: 32rem;
+    justify-self: end;
+  }
+}
+
 /* —— Spelers mannetjes —— */
 .player-card {
   perspective: 900px;
