@@ -10,8 +10,23 @@
   --color-ink-soft: #111416;
   --color-panel: #1a2127;
   --color-cream: #fff8f0;
-  --color-muted: #9aa3ab;
+  --color-muted: #b4bcc3;
   --color-warm: #e8c4a0;
+  --page-max: 72rem;
+  --page-gutter: 1rem;
+  --page-pad-top: 2rem;
+  --page-pad-bottom: 2.25rem;
+  --section-gap: 1.5rem;
+  --card-radius: 1.25rem;
+  --card-pad: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-gutter: 1.5rem;
+    --page-pad-top: 2rem;
+    --page-pad-bottom: 2.5rem;
+  }
 }
 
 /* One muted-gray family for secondary/meta copy (footer, cards, captions). */
@@ -22,9 +37,62 @@
 }
 
 .text-meta-caption {
-  color: color-mix(in srgb, var(--color-muted) 68%, transparent);
+  color: color-mix(in srgb, var(--color-muted) 90%, white);
   font-size: 0.75rem;
   line-height: 1.3;
+}
+
+.page-shell {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--page-pad-top) var(--page-gutter) var(--page-pad-bottom);
+  overflow-x: hidden;
+}
+
+.page-shell--hero {
+  padding-top: 2.25rem;
+  padding-bottom: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .page-shell--hero {
+    padding-top: 2.5rem;
+  }
+}
+
+.page-shell--follow {
+  padding-top: 0;
+}
+
+.ui-card {
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-panel);
+  padding: var(--card-pad);
+}
+
+.btn-outline {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-hoop) 55%, transparent);
+  background: transparent;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-hoop-bright);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-outline:hover {
+  background: color-mix(in srgb, var(--color-hoop) 10%, transparent);
+}
+
+.btn-outline:active {
+  background: color-mix(in srgb, var(--color-hoop) 15%, transparent);
 }
 
 html {
@@ -2556,9 +2624,8 @@ body {
 }
 
 .spelers-page .spelers-page__title {
-  /* Album border (1px) + inner padding — flush with emblem / grid. */
+  /* H1 lines up with the emblem / sticker-grid, not the album chrome. */
   padding-left: calc(1px + var(--sticker-album-pad));
-  /* Tighter than the default SectionHeader mb-8 now that the eyebrow is gone. */
   margin-bottom: 1rem;
 }
 
@@ -2587,6 +2654,7 @@ body {
 @media (min-width: 640px) {
   .sticker-album__hero {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* Emblem 2:3 sets the row; group stretches to the same height. */
     align-items: stretch;
     gap: 1rem;
     margin-bottom: 1.25rem;
@@ -2644,15 +2712,42 @@ body {
   align-self: start;
 }
 
-@media (min-width: 640px) {
-  .sticker-album__hero .sticker-slot--group {
-    grid-column: 2 / -1;
-  }
-}
-
 .sticker-album__hero .sticker-album__group-img {
   width: 100%;
   height: auto;
+}
+
+@media (min-width: 640px) {
+  .sticker-album__hero .sticker-slot--group {
+    grid-column: 2 / -1;
+    align-self: stretch;
+    min-height: 0;
+  }
+
+  .sticker-album__hero .sticker-album__group-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* Keep the full framed card on 3-col; tops stay level. */
+    object-fit: contain;
+    object-position: top center;
+    min-width: 0;
+    min-height: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sticker-album__hero .sticker-slot--group {
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .sticker-album__hero .sticker-album__group-img {
+    /* 4-col leftover is ~2:1 vs the 2.24:1 frame — cover, not faces. */
+    object-fit: cover;
+    object-position: center 40%;
+  }
 }
 
 /* Player + staff portrait slots share one 2:3 canvas (empty and filled). */
@@ -2706,7 +2801,7 @@ body {
 
 .sticker-album__staff-copy {
   margin-bottom: 0.85rem;
-  padding-left: 0.55rem;
+  padding-left: 0;
 }
 
 .sticker-album__staff-title {

@@ -22,7 +22,7 @@ export function Matchen() {
   const afsprakenPanelId = useId()
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Game day"
         title="Matchen"
@@ -34,7 +34,7 @@ export function Matchen() {
           href={links.attendanceSpreadsheet}
           target="_blank"
           rel="noreferrer"
-          className="card-lift rounded-2xl border border-hoop/35 bg-hoop/10 px-5 py-4 transition hover:bg-hoop/20"
+          className="ui-card card-lift border-hoop/35 bg-hoop/10 transition hover:bg-hoop/20"
         >
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
             Aanwezigheid
@@ -48,7 +48,7 @@ export function Matchen() {
           href={links.vblCalendarSync}
           target="_blank"
           rel="noreferrer"
-          className="card-lift rounded-2xl border border-warm/30 bg-warm/10 px-5 py-4 transition hover:bg-warm/20"
+          className="ui-card card-lift border-warm/30 bg-warm/10 transition hover:bg-warm/20"
         >
           <p className="text-[11px] font-bold uppercase tracking-wider text-warm">
             VBL
@@ -133,31 +133,21 @@ export function Matchen() {
             return (
             <article
               key={m.id}
-              className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-panel p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
+              className="ui-card card-lift animate-in grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto]"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${
-                      m.venue === 'thuis'
-                        ? 'bg-hoop/20 text-hoop-bright'
-                        : 'bg-bear/50 text-warm'
-                    }`}
-                  >
-                    {m.venue === 'thuis' ? 'Thuis' : 'Uit'}
-                  </span>
-                  <span className="text-sm text-muted">
-                    {formatDate(m.date)} · {m.time}
-                  </span>
-                </div>
                 <h3
-                  className={`mt-2 font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
+                  className={`font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
                   title={title}
                 >
                   {title}
                 </h3>
-                <p className="text-sm text-muted">{m.location}</p>
+                <p className="text-meta mt-1.5">
+                  {formatDate(m.date)} · {m.time} ·{' '}
+                  {m.venue === 'thuis' ? 'Thuis' : 'Uit'}
+                </p>
+                <p className="text-meta-caption mt-0.5">{m.location}</p>
               </div>
               <span className="w-fit self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
                 Nog te spelen
@@ -184,24 +174,26 @@ export function Matchen() {
               return (
               <article
                 key={m.id}
-                className="card-lift animate-in grid grid-cols-1 items-center gap-4 rounded-2xl border border-white/10 bg-ink-soft p-5 sm:grid-cols-[minmax(0,1fr)_auto]"
+                className="ui-card card-lift animate-in grid grid-cols-1 items-center gap-4 bg-ink-soft sm:grid-cols-[minmax(0,1fr)_auto]"
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {m.result && <WinBadge result={m.result} />}
-                    <span className="text-sm text-muted">
-                      {formatDate(m.date)} ·{' '}
-                      {m.venue === 'thuis' ? 'Thuis' : 'Uit'}
-                    </span>
-                  </div>
+                  {m.result && (
+                    <div className="mb-1.5">
+                      <WinBadge result={m.result} />
+                    </div>
+                  )}
                   <h3
-                    className={`mt-2 font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
+                    className={`font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
                     title={title}
                   >
                     {title}
                   </h3>
-                  <p className="text-sm text-muted">{m.location}</p>
+                  <p className="text-meta mt-1.5">
+                    {formatDate(m.date)} · {m.time} ·{' '}
+                    {m.venue === 'thuis' ? 'Thuis' : 'Uit'}
+                  </p>
+                  <p className="text-meta-caption mt-0.5">{m.location}</p>
                 </div>
                 <div className="flex items-baseline gap-2 self-start font-display sm:self-center">
                   <span className="text-3xl font-black text-cream">

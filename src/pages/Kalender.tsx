@@ -73,7 +73,7 @@ export function Kalender() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Overzicht"
         title="Kalender"
@@ -229,8 +229,10 @@ export function Kalender() {
                     {e.time}
                   </p>
                 </div>
-                <p className="mt-1 text-sm text-muted">{e.location}</p>
-                {e.meta && <p className="mt-1 text-sm text-cream/80">{e.meta}</p>}
+                <p className="text-meta mt-1">
+                  {e.time} · {e.location}
+                  {e.meta ? ` · ${e.meta}` : ''}
+                </p>
                 <p className="mt-2">
                   <Link
                     to={e.kind === 'match' ? '/matchen' : '/trainingen'}
@@ -258,7 +260,7 @@ export function Kalender() {
                 <button
                   type="button"
                   onClick={() => setSelected(e.dateIso)}
-                  className="flex w-full items-start gap-3 rounded-2xl border border-white/8 bg-panel/60 px-4 py-3 text-left touch-manipulation transition hover:bg-white/5"
+                  className="ui-card flex w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
                 >
                   <span
                     className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
@@ -266,16 +268,15 @@ export function Kalender() {
                     }`}
                   />
                   <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-bold uppercase tracking-wider text-muted">
-                      {formatDayHeading(e.dateIso)} · {e.time}
-                    </span>
                     <span
-                      className={`mt-0.5 block font-semibold text-cream ${matchTitleClass}`}
+                      className={`block font-semibold text-cream ${matchTitleClass}`}
                       title={e.title}
                     >
                       {e.title}
                     </span>
-                    <span className="block truncate text-sm text-muted">{e.location}</span>
+                    <span className="text-meta mt-0.5 block">
+                      {formatDayHeading(e.dateIso)} · {e.time} · {e.location}
+                    </span>
                   </span>
                 </button>
               </li>

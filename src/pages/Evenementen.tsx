@@ -21,14 +21,14 @@ export function Evenementen() {
   const past = events.filter((e) => e.date < todayIso)
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Off-court"
         title="Evenementen"
         subtitle="Tornooien uit de spreadsheet plus de herfststage. Aanwezigheid via de team-spreadsheet."
       />
 
-      <article className="mb-10 rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 sm:p-8">
+      <article className="ui-card mb-10 border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <span className="text-4xl" aria-hidden>
             🏕️
@@ -57,7 +57,7 @@ export function Evenementen() {
           href={herfststage.formUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-5 inline-flex rounded-full bg-warm px-5 py-2.5 text-sm font-bold text-ink transition hover:brightness-110"
+          className="btn-outline mt-5"
         >
           Inschrijfformulier →
         </a>
@@ -86,7 +86,7 @@ export function Evenementen() {
             {upcoming.map((e, i) => (
               <article
                 key={e.id}
-                className="card-lift animate-in rounded-2xl border border-white/10 bg-panel p-5"
+                className="ui-card card-lift animate-in"
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -125,7 +125,7 @@ export function Evenementen() {
             {past.map((e) => (
               <article
                 key={e.id}
-                className="rounded-2xl border border-white/8 bg-ink-soft px-5 py-4"
+                className="ui-card bg-ink-soft"
               >
                 <h3 className="font-display font-bold text-cream">{e.title}</h3>
                 <p className="text-sm text-muted">

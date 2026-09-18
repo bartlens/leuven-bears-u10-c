@@ -15,7 +15,7 @@ export function GedragscodeDetail() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <Link
         to="/gedragscodes"
         className="mb-6 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"

@@ -16,13 +16,13 @@ export function SectionHeader({
   className,
 }: SectionHeaderProps) {
   return (
-    <div className={['mb-8 max-w-2xl animate-in', className].filter(Boolean).join(' ')}>
+    <div className={['mb-6 max-w-2xl animate-in', className].filter(Boolean).join(' ')}>
       {eyebrow ? (
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-hoop-bright">
           {eyebrow}
         </p>
       ) : null}
-      <h1 className="font-display text-3xl font-bold tracking-tight text-cream sm:text-4xl">
+      <h1 className="font-display text-4xl font-bold tracking-tight text-cream sm:text-[2.5rem]">
         {title}
       </h1>
       {subtitle && (

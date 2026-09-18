@@ -12,9 +12,6 @@ function startMs(dateIso: string, timeHHmm: string) {
   return d.getTime()
 }
 
-const outlineBtn =
-  'inline-flex min-h-11 w-full items-center justify-center rounded-2xl border border-hoop/55 bg-transparent px-5 py-2.5 text-sm font-bold text-hoop-bright transition hover:bg-hoop/10 active:bg-hoop/15 sm:w-auto'
-
 export function Home() {
   const { matches, datedTrainings } = useSheetData()
   const nextMatch = matches.find((m) => m.status === 'upcoming')
@@ -33,7 +30,7 @@ export function Home() {
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-4 pt-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-6 lg:pb-5 lg:pt-12">
+        <div className="page-shell page-shell--hero grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-6">
           <div className="min-w-0 animate-in">
             <span className="mb-2.5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-hoop" aria-hidden />
@@ -62,11 +59,11 @@ export function Home() {
       </section>
 
       {(nextMatch || nextTraining) && (
-        <section className="mx-auto max-w-6xl px-4 pb-3 pt-0 sm:px-6">
+        <section className="page-shell page-shell--follow">
           <div className="grid items-stretch gap-3 lg:grid-cols-2">
             {nextMatch && (
               <article
-                className="card-lift flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft p-3.5 sm:p-4"
+                className="ui-card card-lift flex h-full flex-col overflow-hidden bg-gradient-to-br from-panel to-ink-soft"
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
                 <div className="flex items-center justify-between gap-3">
@@ -90,7 +87,7 @@ export function Home() {
                   {nextMatch.location}
                 </p>
                 <div className="mt-auto pt-3">
-                  <Link to="/matchen" className={outlineBtn}>
+                  <Link to="/matchen" className="btn-outline w-full sm:w-auto">
                     Alle matchen →
                   </Link>
                 </div>
@@ -98,7 +95,7 @@ export function Home() {
             )}
 
             <article
-              className="card-lift flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft p-3.5 sm:p-4"
+              className="ui-card card-lift flex h-full flex-col overflow-hidden bg-gradient-to-br from-panel to-ink-soft"
               style={{ order: trainingFirst ? 1 : 2 }}
             >
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
@@ -117,7 +114,7 @@ export function Home() {
               </p>
               <p className="text-meta mt-1">{nextTraining.training.focus}</p>
               <div className="mt-auto pt-3">
-                <Link to="/trainingen" className={outlineBtn}>
+                <Link to="/trainingen" className="btn-outline w-full sm:w-auto">
                   Alle trainingen →
                 </Link>
               </div>

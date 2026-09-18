@@ -41,7 +41,7 @@ export function Info() {
   )
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Praktisch"
         title="Info voor ouders"
@@ -57,7 +57,7 @@ export function Info() {
       <section className="mb-8 grid gap-4 sm:grid-cols-2">
         <Link
           to="/evenementen"
-          className="card-lift rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 transition hover:border-warm/50"
+          className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
             Onder Info
@@ -74,7 +74,7 @@ export function Info() {
         </Link>
         <Link
           to="/gedragscodes"
-          className="card-lift rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel p-6 transition hover:border-hoop/45"
+          className="ui-card card-lift border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel transition hover:border-hoop/45"
         >
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
             Onder Info
@@ -93,7 +93,7 @@ export function Info() {
       </section>
 
       {/* Herfststage */}
-      <article className="mb-8 rounded-3xl border border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft p-6 sm:p-8">
+      <article className="ui-card mb-8 border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
           Stage
         </p>
@@ -139,14 +139,14 @@ export function Info() {
           href={herfststage.formUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-6 inline-flex rounded-full bg-warm px-5 py-2.5 text-sm font-bold text-ink transition hover:brightness-110"
+          className="btn-outline mt-6"
         >
           Inschrijfformulier openen →
         </a>
       </article>
 
       {/* Aanwezigheid callout */}
-      <article className="mb-8 rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel p-6 sm:p-8">
+      <article className="ui-card mb-8 border-hoop/30 bg-gradient-to-br from-hoop/10 to-panel">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
           Praktisch
         </p>
@@ -160,13 +160,13 @@ export function Info() {
           href={links.attendanceSpreadsheet}
           target="_blank"
           rel="noreferrer"
-          className="mt-5 inline-flex rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2.5 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25"
+          className="btn-outline mt-5"
         >
           Open aanwezigheid spreadsheet →
         </a>
       </article>
 
-      <article className="mb-8 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+      <article className="ui-card mb-8 bg-ink-soft">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
           Wedstrijden
         </p>
@@ -200,14 +200,14 @@ export function Info() {
           href={links.attendanceSpreadsheet}
           target="_blank"
           rel="noreferrer"
-          className="mt-5 inline-flex rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2.5 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25"
+          className="btn-outline mt-5"
         >
           Open aanwezigheid spreadsheet →
         </a>
       </article>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <article className="card-lift rounded-3xl border border-hoop/30 bg-gradient-to-br from-hoop/15 to-panel p-6">
+        <article className="ui-card card-lift border-hoop/30 bg-gradient-to-br from-hoop/15 to-panel">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
             Contact
           </p>
@@ -244,7 +244,7 @@ export function Info() {
           </dl>
         </article>
 
-        <article className="card-lift rounded-3xl border border-white/10 bg-gradient-to-br from-bear/40 to-panel p-6">
+        <article className="ui-card card-lift bg-gradient-to-br from-bear/40 to-panel">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
             Thuiszaal
           </p>
@@ -263,14 +263,14 @@ export function Info() {
             href={`https://maps.google.com/?q=${mapsQuery}`}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex rounded-full border border-hoop/40 bg-hoop/10 px-4 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/20"
+            className="btn-outline mt-5"
           >
             Open in Maps →
           </a>
         </article>
       </div>
 
-      <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+      <section className="ui-card mt-8 bg-ink-soft">
         <h2 className="font-display text-xl font-bold text-cream">
           Handige links
         </h2>
@@ -301,7 +301,7 @@ export function Info() {
         </p>
       </section>
 
-      <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-6 sm:p-8">
+      <section className="ui-card mt-8 bg-ink-soft">
         <h2 className="font-display text-xl font-bold text-cream">
           Tips voor ouders
         </h2>

@@ -17,7 +17,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/8 bg-ink/85 backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6">
+      <nav className="mx-auto flex max-w-[var(--page-max)] items-center justify-between gap-3 px-[var(--page-gutter)] py-3 sm:gap-4">
         <NavLink
           to="/"
           className="flex min-w-0 items-center gap-2.5 sm:gap-3"

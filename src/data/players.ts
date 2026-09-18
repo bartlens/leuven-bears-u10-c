@@ -193,7 +193,7 @@ export const players: Player[] = [
     move: 'crossover',
     moveLabel: 'Crossover',
     look: { hair: '#d4b45a', skin: '#f2c9a8', hairStyle: 'short' },
-    stickerSrc: '/stickers/sam.webp?v=20260918g',
+    stickerSrc: '/stickers/sam.webp?v=20260918j',
   },
   {
     id: 'p11',
