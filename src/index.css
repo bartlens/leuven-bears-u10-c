@@ -2740,6 +2740,11 @@ vercel-live-feedback,
 }
 
 @media (min-width: 640px) {
+  .sticker-album__hero,
+  .sticker-album > .sticker-album__grid {
+    display: contents;
+  }
+
   .sticker-album__emblem--hero {
     display: block;
   }
