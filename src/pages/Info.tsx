@@ -59,10 +59,7 @@ export function Info() {
           to="/evenementen"
           className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
-            Onder Info
-          </p>
-          <h2 className="mt-2 font-display text-2xl font-bold text-cream">
+          <h2 className="font-display text-2xl font-bold text-cream">
             Evenementen
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">
@@ -76,10 +73,7 @@ export function Info() {
           to="/gedragscodes"
           className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
-            Onder Info
-          </p>
-          <h2 className="mt-2 font-display text-2xl font-bold text-cream">
+          <h2 className="font-display text-2xl font-bold text-cream">
             Gedragscodes
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">
