@@ -7,6 +7,9 @@ const EMBLEM_SRC = '/stickers/embleem-u10c-hero.webp?v=20260918v'
 const EMBLEM_STAFF_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 const DESKTOP_MIN = 640
+/** Same card inset as scripts/normalize-player-stickers.py (640×960 dest). */
+const PLAYER_PAD_X = 17 / 640
+const PLAYER_PAD_Y = 27 / 960
 const STYLE_PROPS = [
   'position',
   'top',
@@ -68,19 +71,21 @@ function syncDesktopHero(album: HTMLElement) {
     const rN = pN.getBoundingClientRect()
     if (r1.height < 1 || r2.width < 1) return
 
-    const height = r1.height
-    hero.style.height = `${height}px`
+    const padX = r1.width * PLAYER_PAD_X
+    const padY = r1.height * PLAYER_PAD_Y
+    const height = r1.height - padY * 2
+    hero.style.height = `${r1.height}px`
 
     applyBox(emblem, {
-      left: r1.left - heroRect.left,
-      top: 0,
-      width: r1.width,
+      left: r1.left - heroRect.left + padX,
+      top: padY,
+      width: r1.width - padX * 2,
       height,
     })
     applyBox(group, {
-      left: r2.left - heroRect.left,
-      top: 0,
-      width: rN.right - r2.left,
+      left: r2.left - heroRect.left + padX,
+      top: padY,
+      width: rN.right - padX - (r2.left + padX),
       height,
     })
 
@@ -89,14 +94,21 @@ function syncDesktopHero(album: HTMLElement) {
     const next1 = p1.getBoundingClientRect()
     const next2 = p2.getBoundingClientRect()
     const nextN = pN.getBoundingClientRect()
+    const vis1 = {
+      left: next1.left + padX,
+      top: next1.top + padY,
+      right: next1.right - padX,
+      bottom: next1.bottom - padY,
+    }
+    const vis2 = next2.left + padX
+    const visN = nextN.right - padX
     const diffs = [
       Math.abs(e.top - g.top),
       Math.abs(e.bottom - g.bottom),
-      Math.abs(e.width - next1.width),
-      Math.abs(e.height - next1.height),
-      Math.abs(e.left - next1.left),
-      Math.abs(g.left - next2.left),
-      Math.abs(g.right - nextN.right),
+      Math.abs(e.left - vis1.left),
+      Math.abs(e.right - vis1.right),
+      Math.abs(g.left - vis2),
+      Math.abs(g.right - visN),
     ]
     if (diffs.every((d) => d <= 0.5)) return
   }
