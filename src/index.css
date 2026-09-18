@@ -2630,9 +2630,11 @@ body {
 }
 
 .sticker-album {
+  /* cqi so --sticker-col stays a width even when used in height. */
+  container-type: inline-size;
   --sticker-gap: 0.75rem;
   --sticker-cols: 2;
-  --sticker-col: calc((100% - (var(--sticker-cols) - 1) * var(--sticker-gap)) / var(--sticker-cols));
+  --sticker-col: calc((100cqi - (var(--sticker-cols) - 1) * var(--sticker-gap)) / var(--sticker-cols));
   --sticker-slot-h: calc(var(--sticker-col) * 3 / 2);
   position: relative;
   border-radius: 1.75rem;
@@ -2673,8 +2675,8 @@ body {
 @media (min-width: 640px) {
   .sticker-album__hero {
     flex-direction: row;
-    align-items: stretch;
-    height: var(--sticker-slot-h);
+    align-items: flex-start;
+    height: auto;
     margin-bottom: var(--sticker-gap);
   }
 }
@@ -2687,14 +2689,6 @@ body {
   height: auto;
 }
 
-@media (min-width: 640px) {
-  .sticker-album__emblem {
-    height: 100%;
-    min-height: 0;
-    overflow: hidden;
-  }
-}
-
 .sticker-album__hero .sticker-slot--group {
   flex: 1 1 auto;
   width: 100%;
@@ -2704,8 +2698,11 @@ body {
 
 @media (min-width: 640px) {
   .sticker-album__hero .sticker-slot--group {
-    height: 100%;
-    min-height: 0;
+    flex: 1 1 auto;
+    width: auto;
+    max-width: calc(100cqi - var(--sticker-col) - var(--sticker-gap));
+    height: var(--sticker-slot-h);
+    align-self: flex-start;
     overflow: hidden;
     border-radius: 1rem;
   }
@@ -2726,7 +2723,6 @@ body {
 }
 
 @media (min-width: 640px) {
-  .sticker-album__hero .sticker-album__emblem .sticker-slot__art,
   .sticker-album__hero .sticker-album__group-img {
     position: absolute;
     inset: 0;
@@ -2736,6 +2732,7 @@ body {
     min-height: 0;
     object-fit: cover;
     object-position: center center;
+    filter: none;
   }
 }
 
