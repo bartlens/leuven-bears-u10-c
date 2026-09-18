@@ -136,7 +136,7 @@ body {
 
 @media (min-width: 1024px) {
   .home-hero-photo {
-    max-width: 32rem;
+    max-width: 40rem;
     justify-self: end;
   }
 }
