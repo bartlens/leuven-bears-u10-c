@@ -8,6 +8,7 @@ const EMBLEM_STAFF_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 const DESKTOP_MIN = 640
 /** Same card inset as scripts/normalize-player-stickers.py (640×960 dest). */
+const PLAYER_PAD_X = 17 / 640
 const PLAYER_PAD_Y = 27 / 960
 const STYLE_PROPS = [
   'position',
@@ -20,6 +21,8 @@ const STYLE_PROPS = [
   'minHeight',
   'maxWidth',
   'maxHeight',
+  'marginLeft',
+  'marginRight',
 ] as const
 
 function playerSlots(album: HTMLElement) {
@@ -63,42 +66,9 @@ function viewportToLocalX(ancestor: HTMLElement, viewportX: number) {
   return viewportX - rect.left - borderLeft
 }
 
-function lockGroupX(group: HTMLElement, hero: HTMLElement, p2: HTMLElement, pN: HTMLElement) {
-  const parent =
-    group.offsetParent instanceof HTMLElement ? group.offsetParent : hero
-
-  for (let i = 0; i < 8; i += 1) {
-    const r2 = p2.getBoundingClientRect()
-    const rN = pN.getBoundingClientRect()
-    const width = rN.right - r2.left
-    group.style.position = 'absolute'
-    group.style.left = `${viewportToLocalX(parent, r2.left)}px`
-    group.style.right = 'auto'
-    group.style.width = `${width}px`
-    group.style.minWidth = `${width}px`
-    group.style.maxWidth = `${width}px`
-
-    const leftDiff = group.getBoundingClientRect().left - p2.getBoundingClientRect().left
-    const rightDiff = group.getBoundingClientRect().right - pN.getBoundingClientRect().right
-    if (leftDiff === 0 && rightDiff === 0) return
-
-    const curLeft = Number.parseFloat(group.style.left) || 0
-    const curWidth = Number.parseFloat(group.style.width) || width
-    const nextLeft = curLeft - leftDiff
-    const nextWidth = curWidth - rightDiff + leftDiff
-    group.style.left = `${nextLeft}px`
-    group.style.width = `${nextWidth}px`
-    group.style.minWidth = `${nextWidth}px`
-    group.style.maxWidth = `${nextWidth}px`
-    group.style.right = 'auto'
-
-    if (
-      group.getBoundingClientRect().left - p2.getBoundingClientRect().left === 0 &&
-      group.getBoundingClientRect().right - pN.getBoundingClientRect().right === 0
-    ) {
-      return
-    }
-  }
+function paintedX(slot: DOMRect) {
+  const pad = slot.width * PLAYER_PAD_X
+  return { left: slot.left + pad, right: slot.right - pad }
 }
 
 function paintedEmblemFrame(emblem: DOMRect) {
@@ -106,6 +76,59 @@ function paintedEmblemFrame(emblem: DOMRect) {
   const top = cssSnap(emblem.top + padY)
   const height = cssSnap(emblem.height - padY * 2)
   return new DOMRect(emblem.left, top, emblem.width, height)
+}
+
+function lockGroupPaintedX(
+  group: HTMLElement,
+  ancestor: HTMLElement,
+  leftSlot: HTMLElement,
+  rightSlot: HTMLElement,
+  mode: 'absolute' | 'flow',
+) {
+  for (let i = 0; i < 8; i += 1) {
+    const leftTarget = paintedX(leftSlot.getBoundingClientRect()).left
+    const rightTarget = paintedX(rightSlot.getBoundingClientRect()).right
+    const width = rightTarget - leftTarget
+    if (mode === 'absolute') {
+      const parent =
+        group.offsetParent instanceof HTMLElement ? group.offsetParent : ancestor
+      group.style.position = 'absolute'
+      group.style.marginLeft = '0px'
+      group.style.left = `${viewportToLocalX(parent, leftTarget)}px`
+      group.style.right = 'auto'
+    } else {
+      group.style.position = 'relative'
+      group.style.left = 'auto'
+      group.style.right = 'auto'
+      group.style.marginLeft = `${leftTarget - ancestor.getBoundingClientRect().left}px`
+    }
+    group.style.width = `${width}px`
+    group.style.minWidth = `${width}px`
+    group.style.maxWidth = `${width}px`
+
+    const g = group.getBoundingClientRect()
+    const leftDiff = g.left - paintedX(leftSlot.getBoundingClientRect()).left
+    const rightDiff = g.right - paintedX(rightSlot.getBoundingClientRect()).right
+    if (leftDiff === 0 && rightDiff === 0) return
+
+    if (mode === 'absolute') {
+      const curLeft = Number.parseFloat(group.style.left) || 0
+      const curWidth = Number.parseFloat(group.style.width) || width
+      group.style.left = `${curLeft - leftDiff}px`
+      const nextWidth = curWidth - rightDiff + leftDiff
+      group.style.width = `${nextWidth}px`
+      group.style.minWidth = `${nextWidth}px`
+      group.style.maxWidth = `${nextWidth}px`
+    } else {
+      const curMargin = Number.parseFloat(group.style.marginLeft) || 0
+      const curWidth = Number.parseFloat(group.style.width) || width
+      group.style.marginLeft = `${curMargin - leftDiff}px`
+      const nextWidth = curWidth - rightDiff + leftDiff
+      group.style.width = `${nextWidth}px`
+      group.style.minWidth = `${nextWidth}px`
+      group.style.maxWidth = `${nextWidth}px`
+    }
+  }
 }
 
 function heroDiffs(
@@ -116,13 +139,15 @@ function heroDiffs(
   pN: DOMRect,
 ) {
   const emblemPainted = paintedEmblemFrame(emblem)
+  const p2x = paintedX(p2)
+  const pNx = paintedX(pN)
   return {
     emblemLeft: emblem.left - alfredSlot.left,
     emblemRight: emblem.right - alfredSlot.right,
     emblemTop: emblem.top - alfredSlot.top,
     emblemBottom: emblem.bottom - alfredSlot.bottom,
-    groupLeft: group.left - p2.left,
-    groupRight: group.right - pN.right,
+    groupLeft: group.left - p2x.left,
+    groupRight: group.right - pNx.right,
     groupTop: group.top - emblemPainted.top,
     groupBottom: group.bottom - emblemPainted.bottom,
   }
@@ -168,10 +193,12 @@ function syncDesktopHero(album: HTMLElement) {
 
     const ePlaced = emblem.getBoundingClientRect()
     const emblemPainted = paintedEmblemFrame(ePlaced)
+    const p2x = paintedX(r2)
+    const pNx = paintedX(rN)
     applyBox(group, {
-      left: viewportToLocalX(hero, r2.left),
+      left: viewportToLocalX(hero, p2x.left),
       top: emblemPainted.top - heroBox.top,
-      width: rN.right - r2.left,
+      width: pNx.right - p2x.left,
       height: emblemPainted.height,
     })
 
@@ -181,8 +208,7 @@ function syncDesktopHero(album: HTMLElement) {
     const slack = heroAfter.bottom - groupAfter.bottom
     hero.style.marginBottom = `${Math.max(0, trackGap - slack)}px`
 
-    // Gap margin can shift the grid; lock X last so left/right stay on p2/pN.
-    lockGroupX(group, hero, p2, pN)
+    lockGroupPaintedX(group, hero, p2, pN, 'absolute')
 
     const locked = heroDiffs(
       emblem.getBoundingClientRect(),
@@ -195,7 +221,7 @@ function syncDesktopHero(album: HTMLElement) {
   }
 }
 
-function clearDesktopHero(album: HTMLElement) {
+function clearHeroInline(album: HTMLElement) {
   const hero = album.querySelector<HTMLElement>('.sticker-album__hero')
   const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
   const group = album.querySelector<HTMLElement>('.sticker-slot--group')
@@ -206,6 +232,26 @@ function clearDesktopHero(album: HTMLElement) {
   for (const el of [emblem, group]) {
     if (!el) continue
     for (const prop of STYLE_PROPS) el.style.removeProperty(prop)
+  }
+}
+
+function syncMobileHero(album: HTMLElement) {
+  clearHeroInline(album)
+  const hero = album.querySelector<HTMLElement>('.sticker-album__hero')
+  const group = album.querySelector<HTMLElement>('.sticker-slot--group')
+  const slots = playerSlots(album)
+  const cols = columnCount(album)
+  const p1 = slots[0]
+  const pN = slots[Math.min(cols, slots.length) - 1]
+  if (!hero || !group || !p1 || !pN) return
+
+  for (let i = 0; i < 8; i += 1) {
+    if (p1.getBoundingClientRect().width < 1) return
+    lockGroupPaintedX(group, hero, p1, pN, 'flow')
+    const g = group.getBoundingClientRect()
+    const leftT = paintedX(p1.getBoundingClientRect()).left
+    const rightT = paintedX(pN.getBoundingClientRect()).right
+    if (g.left - leftT === 0 && g.right - rightT === 0) return
   }
 }
 
@@ -230,7 +276,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
       applying = true
       try {
         if (!mq.matches) {
-          clearDesktopHero(album)
+          syncMobileHero(album)
           return
         }
         syncDesktopHero(album)
@@ -253,7 +299,7 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
       ro.disconnect()
       mq.removeEventListener('change', apply)
       window.removeEventListener('resize', apply)
-      clearDesktopHero(album)
+      clearHeroInline(album)
     }
   }, [])
 
