@@ -2668,12 +2668,15 @@ vercel-live-feedback,
     padding: var(--sticker-album-pad, 1.25rem);
     display: grid;
     grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
-    column-gap: var(--sticker-gap);
-    row-gap: 0;
+    gap: var(--sticker-gap);
   }
 
+  /* Hero articles + player <li> all sit on this one grid. */
   .sticker-album__hero,
-  .sticker-album > .sticker-album__grid,
+  .sticker-album > .sticker-album__grid {
+    display: contents;
+  }
+
   .sticker-album__staff {
     grid-column: 1 / -1;
   }
@@ -2745,41 +2748,12 @@ vercel-live-feedback,
     display: none;
   }
 
-  /*
-    Same tracks as .sticker-album__grid:
-    [ emblem = 1 col / 2:3 ][ gap ][ group = 2 / -1, same height ]
-    [ p1 ][ gap ][ p2 ][ gap ][ p3 ][ gap ][ p4 ]
-  */
-  .sticker-album__hero,
-  .sticker-album__grid {
-    grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
-    gap: var(--sticker-gap);
-  }
-
-  @supports (grid-template-columns: subgrid) {
-    .sticker-album__hero,
-    .sticker-album > .sticker-album__grid {
-      grid-template-columns: subgrid;
-    }
-  }
-
-  .sticker-album__hero {
-    display: grid;
-    grid-template-rows: var(--sticker-slot-h);
-    align-items: stretch;
-    margin: 0 0 var(--sticker-gap);
-    padding: 0;
-    line-height: 0;
-  }
-
   .sticker-album__emblem,
   .sticker-album__hero .sticker-slot--group {
     display: block;
     position: relative;
     box-sizing: border-box;
-    height: var(--sticker-slot-h);
-    min-height: var(--sticker-slot-h);
-    max-height: var(--sticker-slot-h);
+    grid-row: 1;
     margin: 0;
     padding: 0;
     border: 0;
@@ -2787,19 +2761,24 @@ vercel-live-feedback,
     overflow: hidden;
     line-height: 0;
     min-width: 0;
+    min-height: 0;
   }
 
   .sticker-album__emblem {
     grid-column: 1;
-    width: 100%;
+    width: auto;
     max-width: none;
-    aspect-ratio: unset;
+    height: auto;
+    aspect-ratio: 2 / 3;
   }
 
   .sticker-album__hero .sticker-slot--group {
     grid-column: 2 / -1;
-    width: 100%;
+    width: auto;
+    height: auto;
+    max-height: none;
     aspect-ratio: unset;
+    align-self: stretch;
   }
 
   .sticker-album__hero .sticker-album__emblem-img,

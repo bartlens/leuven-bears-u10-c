@@ -1,9 +1,41 @@
+import { useLayoutEffect, useRef } from 'react'
 import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
 const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
+const DESKTOP_MIN = 640
+
+function lockHeroHeightToPlayer(album: HTMLElement) {
+  const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
+  const group = album.querySelector<HTMLElement>('.sticker-slot--group')
+  const p1 = album.querySelector<HTMLElement>(
+    ':scope > .sticker-album__grid .sticker-slot--player',
+  )
+  if (!emblem || !group || !p1) return
+
+  const height = p1.getBoundingClientRect().height
+  if (!Number.isFinite(height) || height < 1) return
+  const px = `${height}px`
+  emblem.style.height = px
+  emblem.style.minHeight = px
+  emblem.style.maxHeight = px
+  group.style.height = px
+  group.style.minHeight = px
+  group.style.maxHeight = px
+}
+
+function clearHeroHeightLock(album: HTMLElement) {
+  const emblem = album.querySelector<HTMLElement>('.sticker-album__emblem--hero')
+  const group = album.querySelector<HTMLElement>('.sticker-slot--group')
+  for (const el of [emblem, group]) {
+    if (!el) continue
+    el.style.removeProperty('height')
+    el.style.removeProperty('min-height')
+    el.style.removeProperty('max-height')
+  }
+}
 
 type StickerAlbumProps = {
   players: Player[]
@@ -12,9 +44,47 @@ type StickerAlbumProps = {
 
 export function StickerAlbum({ players, staff }: StickerAlbumProps) {
   const roster = [...players].sort((a, b) => a.number - b.number)
+  const albumRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const album = albumRef.current
+    if (!album) return
+
+    const mq = window.matchMedia(`(min-width: ${DESKTOP_MIN}px)`)
+    let applying = false
+
+    const apply = () => {
+      if (applying) return
+      applying = true
+      try {
+        if (!mq.matches) {
+          clearHeroHeightLock(album)
+          return
+        }
+        lockHeroHeightToPlayer(album)
+      } finally {
+        applying = false
+      }
+    }
+
+    const ro = new ResizeObserver(apply)
+    ro.observe(album)
+    const p1 = album.querySelector<HTMLElement>(
+      ':scope > .sticker-album__grid .sticker-slot--player',
+    )
+    if (p1) ro.observe(p1)
+    mq.addEventListener('change', apply)
+    apply()
+
+    return () => {
+      ro.disconnect()
+      mq.removeEventListener('change', apply)
+      clearHeroHeightLock(album)
+    }
+  }, [])
 
   return (
-    <div className="sticker-album">
+    <div ref={albumRef} className="sticker-album">
       <section
         className="sticker-album__hero"
         aria-label="Teamstickers bovenaan"
