@@ -2663,7 +2663,7 @@ body {
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
 }
 
-/* Stacked on mobile; one flex row with an explicit shared height from sm up. */
+/* Mobile: stack. From sm+: one CSS grid row — both cells share --sticker-slot-h. */
 .sticker-album__hero {
   display: flex;
   flex-direction: column;
@@ -2672,17 +2672,7 @@ body {
   margin-bottom: var(--sticker-gap);
 }
 
-@media (min-width: 640px) {
-  .sticker-album__hero {
-    flex-direction: row;
-    align-items: flex-start;
-    height: auto;
-    margin-bottom: var(--sticker-gap);
-  }
-}
-
 .sticker-album__emblem {
-  flex: 0 0 var(--sticker-col);
   width: var(--sticker-col);
   max-width: none;
   aspect-ratio: 2 / 3;
@@ -2690,22 +2680,8 @@ body {
 }
 
 .sticker-album__hero .sticker-slot--group {
-  flex: 1 1 auto;
   width: 100%;
   min-width: 0;
-  height: auto;
-}
-
-@media (min-width: 640px) {
-  .sticker-album__hero .sticker-slot--group {
-    flex: 1 1 auto;
-    width: auto;
-    max-width: calc(100cqi - var(--sticker-col) - var(--sticker-gap));
-    height: var(--sticker-slot-h);
-    align-self: flex-start;
-    overflow: hidden;
-    border-radius: 1rem;
-  }
 }
 
 .sticker-album__hero .sticker-album__emblem .sticker-slot__art {
@@ -2723,6 +2699,31 @@ body {
 }
 
 @media (min-width: 640px) {
+  .sticker-album__hero {
+    display: grid;
+    grid-template-columns: var(--sticker-col) minmax(0, 1fr);
+    grid-template-rows: var(--sticker-slot-h);
+    align-items: stretch;
+    gap: var(--sticker-gap);
+    height: var(--sticker-slot-h);
+  }
+
+  .sticker-album__emblem,
+  .sticker-album__hero .sticker-slot--group {
+    width: auto;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+    align-self: stretch;
+  }
+
+  .sticker-album__emblem {
+    width: var(--sticker-col);
+  }
+
+  .sticker-album__hero .sticker-album__emblem .sticker-slot__art,
   .sticker-album__hero .sticker-album__group-img {
     position: absolute;
     inset: 0;
@@ -2730,8 +2731,16 @@ body {
     height: 100%;
     min-width: 0;
     min-height: 0;
+  }
+
+  .sticker-album__hero .sticker-album__emblem .sticker-slot__art {
+    object-fit: contain;
+  }
+
+  .sticker-album__hero .sticker-album__group-img {
     object-fit: cover;
     object-position: center center;
+    height: 100% !important;
     filter: none;
   }
 }
@@ -2812,7 +2821,6 @@ body {
 }
 
 .sticker-slot--group {
-  height: 100%;
   padding: 0;
 }
 
