@@ -2769,8 +2769,8 @@ vercel-live-feedback,
 
   .sticker-album__hero .sticker-slot--group {
     left: calc(var(--sticker-col) + var(--sticker-gap));
-    right: 0;
-    width: auto;
+    right: auto;
+    width: calc(100% - (var(--sticker-col) + var(--sticker-gap)));
     height: var(--sticker-slot-h);
     max-height: none;
     aspect-ratio: unset;

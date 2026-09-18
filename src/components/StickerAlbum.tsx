@@ -36,6 +36,10 @@ function columnCount(album: HTMLElement) {
   return Number.isFinite(cols) && cols > 1 ? cols : 4
 }
 
+function cssSnap(value: number) {
+  return Math.round(value * 64) / 64
+}
+
 function applyBox(
   el: HTMLElement,
   box: { left: number; top: number; width: number; height: number },
@@ -52,9 +56,56 @@ function applyBox(
   el.style.maxHeight = `${box.height}px`
 }
 
+/** Viewport X → padding-box X of the positioned ancestor (not offsetLeft). */
+function viewportToLocalX(ancestor: HTMLElement, viewportX: number) {
+  const rect = ancestor.getBoundingClientRect()
+  const borderLeft = Number.parseFloat(getComputedStyle(ancestor).borderLeftWidth) || 0
+  return viewportX - rect.left - borderLeft
+}
+
+function lockGroupX(group: HTMLElement, hero: HTMLElement, p2: HTMLElement, pN: HTMLElement) {
+  const parent =
+    group.offsetParent instanceof HTMLElement ? group.offsetParent : hero
+
+  for (let i = 0; i < 8; i += 1) {
+    const r2 = p2.getBoundingClientRect()
+    const rN = pN.getBoundingClientRect()
+    const width = rN.right - r2.left
+    group.style.position = 'absolute'
+    group.style.left = `${viewportToLocalX(parent, r2.left)}px`
+    group.style.right = 'auto'
+    group.style.width = `${width}px`
+    group.style.minWidth = `${width}px`
+    group.style.maxWidth = `${width}px`
+
+    const leftDiff = group.getBoundingClientRect().left - p2.getBoundingClientRect().left
+    const rightDiff = group.getBoundingClientRect().right - pN.getBoundingClientRect().right
+    if (leftDiff === 0 && rightDiff === 0) return
+
+    const curLeft = Number.parseFloat(group.style.left) || 0
+    const curWidth = Number.parseFloat(group.style.width) || width
+    const nextLeft = curLeft - leftDiff
+    const nextWidth = curWidth - rightDiff + leftDiff
+    group.style.left = `${nextLeft}px`
+    group.style.width = `${nextWidth}px`
+    group.style.minWidth = `${nextWidth}px`
+    group.style.maxWidth = `${nextWidth}px`
+    group.style.right = 'auto'
+
+    if (
+      group.getBoundingClientRect().left - p2.getBoundingClientRect().left === 0 &&
+      group.getBoundingClientRect().right - pN.getBoundingClientRect().right === 0
+    ) {
+      return
+    }
+  }
+}
+
 function paintedEmblemFrame(emblem: DOMRect) {
-  const padY = emblem.height * PLAYER_PAD_Y
-  return new DOMRect(emblem.left, emblem.top + padY, emblem.width, emblem.height - padY * 2)
+  const padY = cssSnap(emblem.height * PLAYER_PAD_Y)
+  const top = cssSnap(emblem.top + padY)
+  const height = cssSnap(emblem.height - padY * 2)
+  return new DOMRect(emblem.left, top, emblem.width, height)
 }
 
 function heroDiffs(
@@ -118,28 +169,12 @@ function syncDesktopHero(album: HTMLElement) {
     const ePlaced = emblem.getBoundingClientRect()
     const emblemPainted = paintedEmblemFrame(ePlaced)
     applyBox(group, {
-      left: r2.left - heroBox.left,
+      left: viewportToLocalX(hero, r2.left),
       top: emblemPainted.top - heroBox.top,
       width: rN.right - r2.left,
       height: emblemPainted.height,
     })
-
-    const e = emblem.getBoundingClientRect()
-    const g = group.getBoundingClientRect()
-    const next1 = p1.getBoundingClientRect()
-    const next2 = p2.getBoundingClientRect()
-    const nextN = pN.getBoundingClientRect()
-    const nextHero = hero.getBoundingClientRect()
-    const diffs = heroDiffs(e, alfredSlotInHero(nextHero, next1), g, next2, nextN)
-    if (maxAbsDiff(diffs) === 0) return
-
-    const ePainted = paintedEmblemFrame(e)
-    applyBox(group, {
-      left: g.left - nextHero.left - diffs.groupLeft,
-      top: ePainted.top - nextHero.top,
-      width: Math.min(g.width - diffs.groupRight + diffs.groupLeft, nextN.right - next2.left),
-      height: Math.min(g.height - diffs.groupBottom + diffs.groupTop, ePainted.height),
-    })
+    lockGroupX(group, hero, p2, pN)
 
     const locked = heroDiffs(
       emblem.getBoundingClientRect(),
