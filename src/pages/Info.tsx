@@ -201,8 +201,8 @@ export function Info() {
       </article>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <article className="ui-card card-lift border-hoop/30 bg-gradient-to-br from-hoop/15 to-panel">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+        <article className="ui-card card-lift bg-ink-soft">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
             Contact
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-cream">
@@ -238,7 +238,7 @@ export function Info() {
           </dl>
         </article>
 
-        <article className="ui-card card-lift bg-gradient-to-br from-bear/40 to-panel">
+        <article className="ui-card card-lift bg-ink-soft">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
             Thuiszaal
           </p>
