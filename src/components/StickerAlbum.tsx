@@ -3,13 +3,10 @@ import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
-const EMBLEM_SRC = '/stickers/embleem-u10c-hero.webp?v=20260918v'
+const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_STAFF_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 const DESKTOP_MIN = 640
-/** Same card inset as scripts/normalize-player-stickers.py (640×960 dest). */
-const PLAYER_PAD_X = 17 / 640
-const PLAYER_PAD_Y = 27 / 960
 const STYLE_PROPS = [
   'position',
   'top',
@@ -37,20 +34,58 @@ function columnCount(album: HTMLElement) {
   return Number.isFinite(cols) && cols > 1 ? cols : 4
 }
 
+function roundCssPx(value: number) {
+  const dpr = window.devicePixelRatio || 1
+  return Math.round(value * dpr) / dpr
+}
+
 function applyBox(
   el: HTMLElement,
   box: { left: number; top: number; width: number; height: number },
 ) {
+  const left = roundCssPx(box.left)
+  const top = roundCssPx(box.top)
+  const width = roundCssPx(box.width)
+  const height = roundCssPx(box.height)
   el.style.position = 'absolute'
-  el.style.top = `${box.top}px`
-  el.style.left = `${box.left}px`
+  el.style.top = `${top}px`
+  el.style.left = `${left}px`
   el.style.right = 'auto'
-  el.style.width = `${box.width}px`
-  el.style.height = `${box.height}px`
-  el.style.minWidth = `${box.width}px`
-  el.style.minHeight = `${box.height}px`
-  el.style.maxWidth = `${box.width}px`
-  el.style.maxHeight = `${box.height}px`
+  el.style.width = `${width}px`
+  el.style.height = `${height}px`
+  el.style.minWidth = `${width}px`
+  el.style.minHeight = `${height}px`
+  el.style.maxWidth = `${width}px`
+  el.style.maxHeight = `${height}px`
+}
+
+function heroDiffs(
+  emblem: DOMRect,
+  alfredSlot: DOMRect,
+  group: DOMRect,
+  p2: DOMRect,
+  pN: DOMRect,
+) {
+  return {
+    emblemLeft: emblem.left - alfredSlot.left,
+    emblemRight: emblem.right - alfredSlot.right,
+    emblemTop: emblem.top - alfredSlot.top,
+    emblemBottom: emblem.bottom - alfredSlot.bottom,
+    groupLeft: group.left - p2.left,
+    groupRight: group.right - pN.right,
+    groupTop: group.top - emblem.top,
+    groupBottom: group.bottom - emblem.bottom,
+  }
+}
+
+function alfredSlotInHero(hero: DOMRect, alfred: DOMRect): DOMRect {
+  const top = hero.top
+  const height = alfred.height
+  return new DOMRect(alfred.left, top, alfred.width, height)
+}
+
+function maxAbsDiff(diffs: ReturnType<typeof heroDiffs>) {
+  return Math.max(...Object.values(diffs).map((d) => Math.abs(d)))
 }
 
 function syncDesktopHero(album: HTMLElement) {
@@ -64,29 +99,29 @@ function syncDesktopHero(album: HTMLElement) {
   const pN = slots[cols - 1]
   if (!hero || !emblem || !group || !p1 || !p2 || !pN) return
 
-  for (let i = 0; i < 6; i += 1) {
-    const heroRect = hero.getBoundingClientRect()
+  for (let i = 0; i < 8; i += 1) {
     const r1 = p1.getBoundingClientRect()
     const r2 = p2.getBoundingClientRect()
     const rN = pN.getBoundingClientRect()
     if (r1.height < 1 || r2.width < 1) return
 
-    const padX = r1.width * PLAYER_PAD_X
-    const padY = r1.height * PLAYER_PAD_Y
-    const height = r1.height - padY * 2
-    hero.style.height = `${r1.height}px`
+    hero.style.height = `${roundCssPx(r1.height)}px`
+    const heroBox = hero.getBoundingClientRect()
+    const alfredBox = alfredSlotInHero(heroBox, r1)
 
     applyBox(emblem, {
-      left: r1.left - heroRect.left + padX,
-      top: padY,
-      width: r1.width - padX * 2,
-      height,
+      left: alfredBox.left - heroBox.left,
+      top: alfredBox.top - heroBox.top,
+      width: alfredBox.width,
+      height: alfredBox.height,
     })
+
+    const ePlaced = emblem.getBoundingClientRect()
     applyBox(group, {
-      left: r2.left - heroRect.left + padX,
-      top: padY,
-      width: rN.right - padX - (r2.left + padX),
-      height,
+      left: r2.left - heroBox.left,
+      top: ePlaced.top - heroBox.top,
+      width: rN.right - r2.left,
+      height: ePlaced.height,
     })
 
     const e = emblem.getBoundingClientRect()
@@ -94,23 +129,32 @@ function syncDesktopHero(album: HTMLElement) {
     const next1 = p1.getBoundingClientRect()
     const next2 = p2.getBoundingClientRect()
     const nextN = pN.getBoundingClientRect()
-    const vis1 = {
-      left: next1.left + padX,
-      top: next1.top + padY,
-      right: next1.right - padX,
-      bottom: next1.bottom - padY,
-    }
-    const vis2 = next2.left + padX
-    const visN = nextN.right - padX
-    const diffs = [
-      Math.abs(e.top - g.top),
-      Math.abs(e.bottom - g.bottom),
-      Math.abs(e.left - vis1.left),
-      Math.abs(e.right - vis1.right),
-      Math.abs(g.left - vis2),
-      Math.abs(g.right - visN),
-    ]
-    if (diffs.every((d) => d <= 0.5)) return
+    const nextHero = hero.getBoundingClientRect()
+    const diffs = heroDiffs(e, alfredSlotInHero(nextHero, next1), g, next2, nextN)
+    if (maxAbsDiff(diffs) === 0) return
+
+    applyBox(emblem, {
+      left: e.left - nextHero.left - diffs.emblemLeft,
+      top: e.top - nextHero.top - diffs.emblemTop,
+      width: e.width - diffs.emblemRight + diffs.emblemLeft,
+      height: e.height - diffs.emblemBottom + diffs.emblemTop,
+    })
+    const eFixed = emblem.getBoundingClientRect()
+    applyBox(group, {
+      left: g.left - nextHero.left - diffs.groupLeft,
+      top: eFixed.top - nextHero.top,
+      width: g.width - diffs.groupRight + diffs.groupLeft,
+      height: eFixed.height,
+    })
+
+    const locked = heroDiffs(
+      emblem.getBoundingClientRect(),
+      alfredSlotInHero(hero.getBoundingClientRect(), p1.getBoundingClientRect()),
+      group.getBoundingClientRect(),
+      p2.getBoundingClientRect(),
+      pN.getBoundingClientRect(),
+    )
+    if (maxAbsDiff(locked) === 0) return
   }
 }
 
