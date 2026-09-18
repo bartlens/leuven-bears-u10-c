@@ -174,13 +174,15 @@ function syncDesktopHero(album: HTMLElement) {
       width: rN.right - r2.left,
       height: emblemPainted.height,
     })
-    lockGroupX(group, hero, p2, pN)
 
     const trackGap = r2.left - r1.right
     const heroAfter = hero.getBoundingClientRect()
     const groupAfter = group.getBoundingClientRect()
     const slack = heroAfter.bottom - groupAfter.bottom
     hero.style.marginBottom = `${Math.max(0, trackGap - slack)}px`
+
+    // Gap margin can shift the grid; lock X last so left/right stay on p2/pN.
+    lockGroupX(group, hero, p2, pN)
 
     const locked = heroDiffs(
       emblem.getBoundingClientRect(),
