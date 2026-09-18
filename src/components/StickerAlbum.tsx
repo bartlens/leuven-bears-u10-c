@@ -67,8 +67,8 @@ function viewportToLocalX(ancestor: HTMLElement, viewportX: number) {
 }
 
 function paintedX(slot: DOMRect) {
-  const pad = slot.width * PLAYER_PAD_X
-  return { left: slot.left + pad, right: slot.right - pad }
+  const pad = cssSnap(slot.width * PLAYER_PAD_X)
+  return { left: cssSnap(slot.left + pad), right: cssSnap(slot.right - pad) }
 }
 
 function paintedEmblemFrame(emblem: DOMRect) {
