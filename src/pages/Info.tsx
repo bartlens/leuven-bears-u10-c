@@ -88,7 +88,7 @@ export function Info() {
 
       {/* Herfststage */}
       <article className="ui-card mb-8 border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
           Stage
         </p>
         <h2 className="mt-2 font-display text-2xl font-bold text-cream">
@@ -202,7 +202,7 @@ export function Info() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <article className="ui-card card-lift bg-ink-soft">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
             Contact
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-cream">
@@ -239,7 +239,7 @@ export function Info() {
         </article>
 
         <article className="ui-card card-lift bg-ink-soft">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-warm">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
             Thuiszaal
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-cream">

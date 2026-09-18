@@ -34,7 +34,7 @@ export function Matchen() {
           href={links.attendanceSpreadsheet}
           target="_blank"
           rel="noreferrer"
-          className="ui-card card-lift border-hoop/35 bg-hoop/10 transition hover:bg-hoop/20"
+          className="ui-card card-lift bg-ink-soft"
         >
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
             Aanwezigheid
@@ -48,9 +48,9 @@ export function Matchen() {
           href={links.vblCalendarSync}
           target="_blank"
           rel="noreferrer"
-          className="ui-card card-lift border-warm/30 bg-warm/10 transition hover:bg-warm/20"
+          className="ui-card card-lift bg-ink-soft"
         >
-          <p className="text-[11px] font-bold uppercase tracking-wider text-warm">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
             VBL
           </p>
           <p className="mt-1 font-display text-lg font-bold text-cream">
