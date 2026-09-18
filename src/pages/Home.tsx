@@ -23,22 +23,23 @@ export function Home() {
   const matchAt = nextMatch
     ? startMs(nextMatch.date, nextMatch.time.slice(0, 5))
     : Number.POSITIVE_INFINITY
-  const trainingStart = nextTraining.training.time.slice(0, 5) // "17:30"
+  const trainingStart = nextTraining.training.time.slice(0, 5)
   const trainingAt = startMs(nextTraining.dateIso, trainingStart)
   const trainingFirst = trainingAt <= matchAt
 
   return (
     <div className="overflow-x-hidden">
       <section className="relative overflow-x-hidden grain mesh-grid">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-6 pt-14 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.2fr)] lg:items-center lg:gap-6 lg:pb-8 lg:pt-20">
+        <div className="page-shell page-shell--hero grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-6">
           <div className="min-w-0 animate-in">
-            <span className="mb-4 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-hoop/40 bg-hoop/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-hoop-bright">
-              Seizoen {team.season}
+            <span className="mb-2.5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-hoop" aria-hidden />
+              Seizoen 2026-2027
             </span>
             <HeroTitlePeek name={team.name} category={team.category} enabled={false} />
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+            <p className="mt-3.5 max-w-xl text-base leading-relaxed text-muted">
               Jeugdbasket van de Leuven Bears: dribbels, dunk-dromen en
-              high-fives. #WEBEARS — ouders juichen, kids scoren (of bijna).
+              high-fives.
             </p>
           </div>
 
@@ -47,10 +48,10 @@ export function Home() {
             style={{ animationDelay: '0.12s' }}
           >
             <img
-              src="/stickers/groep-u10c-2026-home.webp?v=20260918"
+              src="/stickers/groep-u10c-2026-home.webp?v=20260918d"
               alt={`Leuven Bears U10C groepsfoto ${team.season}`}
               width={1280}
-              height={457}
+              height={456}
               className="home-hero-photo__img"
             />
           </div>
@@ -58,83 +59,67 @@ export function Home() {
       </section>
 
       {(nextMatch || nextTraining) && (
-        <section className="mx-auto max-w-6xl px-4 pb-8 pt-0 sm:px-6">
-          <div className="grid gap-3 lg:grid-cols-2">
+        <section className="page-shell page-shell--follow">
+          <div className="grid items-stretch gap-3 lg:grid-cols-2">
             {nextMatch && (
-              <div
-                className="card-lift overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-panel to-ink-soft"
+              <article
+                className="ui-card card-lift flex h-full flex-col overflow-hidden bg-gradient-to-br from-panel to-ink-soft"
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
-                <div className="flex h-full flex-col p-4 sm:p-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
                     Volgende match
                   </p>
-                  <div className="mt-2 grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6">
-                    <div className="min-w-0">
-                      <h2
-                        className={`font-display text-xl font-bold tracking-tight text-cream sm:text-2xl ${matchTitleClass}`}
-                        title={nextMatchTitle ?? undefined}
-                      >
-                        {nextMatchTitle}
-                      </h2>
-                      <p className="mt-2 text-muted">
-                        {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
-                        <span className="font-semibold text-warm">
-                          {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
-                        </span>
-                      </p>
-                      <p className="mt-1 text-sm text-muted break-words">
-                        {nextMatch.location}
-                      </p>
-                    </div>
-                    <Link
-                      to="/matchen"
-                      className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl border border-hoop/40 bg-hoop/20 px-5 py-3 text-sm font-bold text-hoop-bright transition hover:bg-hoop/30 active:bg-hoop/30 sm:self-center"
-                    >
-                      Alle matchen →
-                    </Link>
-                  </div>
+                  <span className="rounded-full border border-white/12 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-muted">
+                    {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
+                  </span>
                 </div>
-              </div>
-            )}
-
-            <div
-              className="card-lift overflow-hidden rounded-3xl border border-hoop/25 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft"
-              style={{ order: trainingFirst ? 1 : 2 }}
-            >
-              <div className="flex h-full flex-col p-4 sm:p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
-                  {nextTraining.isOngoing
-                    ? 'Nu aan de gang'
-                    : 'Volgende training'}
+                <h2
+                  className={`mt-1.5 font-display text-xl font-bold tracking-tight text-cream sm:text-2xl ${matchTitleClass}`}
+                  title={nextMatchTitle ?? undefined}
+                >
+                  {nextMatchTitle}
+                </h2>
+                <p className="text-meta mt-1.5">
+                  {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
+                  {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
                 </p>
-                <div className="mt-2 grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-6">
-                  <div className="min-w-0">
-                    <h2 className="font-display text-2xl font-bold text-cream sm:text-3xl">
-                      {nextTraining.training.day}
-                    </h2>
-                    <p className="mt-2 text-muted">
-                      {nextTraining.whenLabel} ·{' '}
-                      <span className="font-semibold text-warm">
-                        {nextTraining.training.time}
-                      </span>
-                    </p>
-                    <p className="mt-1 text-sm text-muted break-words">
-                      {nextTraining.training.location}
-                    </p>
-                    <p className="mt-2 text-sm text-cream/80">
-                      {nextTraining.training.focus}
-                    </p>
-                  </div>
-                  <Link
-                    to="/trainingen"
-                    className="inline-flex min-h-11 w-fit shrink-0 items-center justify-center self-start rounded-2xl border border-hoop/40 bg-hoop/20 px-5 py-3 text-sm font-bold text-hoop-bright transition hover:bg-hoop/30 active:bg-hoop/30 sm:self-center"
-                  >
-                    Alle trainingen →
+                <p className="text-meta-caption mt-0.5 break-words">
+                  {nextMatch.location}
+                </p>
+                <div className="mt-auto pt-3">
+                  <Link to="/matchen" className="btn-outline w-full sm:w-auto">
+                    Alle matchen →
                   </Link>
                 </div>
+              </article>
+            )}
+
+            <article
+              className="ui-card card-lift flex h-full flex-col overflow-hidden bg-gradient-to-br from-panel to-ink-soft"
+              style={{ order: trainingFirst ? 1 : 2 }}
+            >
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
+                {nextTraining.isOngoing
+                  ? 'Nu aan de gang'
+                  : 'Volgende training'}
+              </p>
+              <h2 className="mt-1.5 font-display text-xl font-bold text-cream sm:text-2xl">
+                {nextTraining.training.day}
+              </h2>
+              <p className="text-meta mt-1.5">
+                {nextTraining.whenLabel} · {nextTraining.training.time}
+              </p>
+              <p className="text-meta-caption mt-0.5 break-words">
+                {nextTraining.training.location}
+              </p>
+              <p className="text-meta mt-1">{nextTraining.training.focus}</p>
+              <div className="mt-auto pt-3">
+                <Link to="/trainingen" className="btn-outline w-full sm:w-auto">
+                  Alle trainingen →
+                </Link>
               </div>
-            </div>
+            </article>
           </div>
         </section>
       )}
@@ -144,8 +129,8 @@ export function Home() {
 
 function formatDate(iso: string) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('nl-BE', {
-    weekday: 'long',
+    weekday: 'short',
     day: 'numeric',
-    month: 'long',
+    month: 'short',
   })
 }

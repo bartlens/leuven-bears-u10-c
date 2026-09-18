@@ -8,7 +8,7 @@ import {
 
 export function Gedragscodes() {
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Veilig sporten"
         title="Gedragscodes"
@@ -19,7 +19,7 @@ export function Gedragscodes() {
         href={gedragscodeSource.url}
         target="_blank"
         rel="noreferrer"
-        className="mb-10 flex flex-col gap-3 rounded-3xl border border-hoop/35 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft p-5 transition hover:border-hoop/55 hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+        className="ui-card mb-10 flex flex-col gap-3 border-hoop/35 bg-gradient-to-br from-hoop/15 via-panel to-ink-soft transition hover:border-hoop/55 hover:bg-hoop/20 sm:flex-row sm:items-center sm:justify-between"
       >
         <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
@@ -33,7 +33,7 @@ export function Gedragscodes() {
             Clubs mogen ze zo gebruiken.
           </p>
         </div>
-        <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25">
+        <span className="btn-outline shrink-0">
           {gedragscodeSource.cta} →
         </span>
       </a>
@@ -42,7 +42,7 @@ export function Gedragscodes() {
         {gedragscodes.map((code) => (
           <article
             key={code.slug}
-            className="card-lift grid gap-5 rounded-3xl border border-white/10 bg-panel p-4 sm:p-6 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-start lg:gap-8"
+            className="ui-card card-lift grid gap-5 lg:grid-cols-[minmax(0,28rem)_1fr] lg:items-start lg:gap-8"
           >
             <GedragscodePoster
               src={code.poster}
@@ -66,7 +66,7 @@ export function Gedragscodes() {
               </p>
               <Link
                 to={`/gedragscodes/${code.slug}`}
-                className="mt-5 inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25"
+                className="btn-outline mt-5"
               >
                 Ontdek →
               </Link>

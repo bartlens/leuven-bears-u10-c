@@ -51,7 +51,7 @@ export type Player = {
 /** Prefer explicit stickerSrc; Thomas still matches by first name as a fallback. */
 export function playerStickerSrc(player: Player): string | undefined {
   if (player.stickerSrc) return player.stickerSrc
-  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=pad'
+  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=20260918t'
   return undefined
 }
 
@@ -66,7 +66,7 @@ export const players: Player[] = [
     move: 'arm-roll',
     moveLabel: 'Arm-roll',
     look: { hair: '#f0d078', skin: '#f5c7a1', hairStyle: 'short' },
-    stickerSrc: '/stickers/alfred.webp?v=pad',
+    stickerSrc: '/stickers/alfred.webp?v=20260918t',
   },
   {
     id: 'p10',
@@ -78,7 +78,7 @@ export const players: Player[] = [
     move: 'shoulder-roll',
     moveLabel: 'Schouder-roll',
     look: { hair: '#dcc06e', skin: '#ebc09a', hairStyle: 'bowl' },
-    stickerSrc: '/stickers/bas-n.webp?v=pad',
+    stickerSrc: '/stickers/bas-n.webp?v=20260918t',
   },
   {
     id: 'p8',
@@ -90,6 +90,7 @@ export const players: Player[] = [
     move: 'step-back',
     moveLabel: 'Step-back',
     look: { hair: '#fff1c2', skin: '#fadcc4', hairStyle: 'side' },
+    stickerSrc: '/stickers/charlie.webp?v=20260918t',
   },
   {
     id: 'p2',
@@ -101,6 +102,7 @@ export const players: Player[] = [
     move: 'finger-spin',
     moveLabel: 'Vingerspin',
     look: { hair: '#1f1410', skin: '#efc09a', hairStyle: 'short' },
+    stickerSrc: '/stickers/ilya.webp?v=20260918t',
   },
   {
     id: 'p7',
@@ -112,7 +114,7 @@ export const players: Player[] = [
     move: 'spin-move',
     moveLabel: 'Spin-move',
     look: { hair: '#edd98a', skin: '#f0c4a0', hairStyle: 'spiky' },
-    stickerSrc: '/stickers/jarne.webp?v=pad',
+    stickerSrc: '/stickers/jarne.webp?v=20260918t',
   },
   {
     id: 'p12',
@@ -124,7 +126,7 @@ export const players: Player[] = [
     move: 'dunk',
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
-    stickerSrc: '/stickers/thomas.webp?v=pad',
+    stickerSrc: '/stickers/thomas.webp?v=20260918t',
   },
   {
     id: 'p9',
@@ -143,7 +145,7 @@ export const players: Player[] = [
       cheek: '#e8a090',
       eyeStyle: 'soft',
     },
-    stickerSrc: '/stickers/jia-le.webp?v=pad',
+    stickerSrc: '/stickers/jia-le.webp?v=20260918t',
   },
   {
     id: 'p6',
@@ -155,7 +157,7 @@ export const players: Player[] = [
     move: 'behind-head',
     moveLabel: 'No-look',
     look: { hair: '#c9a84a', skin: '#e0b088', hairStyle: 'curly' },
-    stickerSrc: '/stickers/bas-d.webp?v=pad',
+    stickerSrc: '/stickers/bas-d.webp?v=20260918t',
   },
   {
     id: 'p3',
@@ -167,7 +169,7 @@ export const players: Player[] = [
     move: 'between-legs',
     moveLabel: 'Tussenbenen',
     look: { hair: '#ffe8a8', skin: '#f8d4b8', hairStyle: 'short' },
-    stickerSrc: '/stickers/elias.webp?v=pad',
+    stickerSrc: '/stickers/elias.webp?v=20260918t',
   },
   {
     id: 'p4',
@@ -179,7 +181,7 @@ export const players: Player[] = [
     move: 'behind-back',
     moveLabel: 'Achterlangs',
     look: { hair: '#d4b45a', skin: '#e8b48a', hairStyle: 'short' },
-    stickerSrc: '/stickers/felix.webp?v=pad',
+    stickerSrc: '/stickers/felix.webp?v=20260918t',
   },
   {
     id: 'p5',
@@ -191,7 +193,7 @@ export const players: Player[] = [
     move: 'crossover',
     moveLabel: 'Crossover',
     look: { hair: '#d4b45a', skin: '#f2c9a8', hairStyle: 'short' },
-    stickerSrc: '/stickers/sam.webp?v=pad',
+    stickerSrc: '/stickers/sam.webp?v=20260918t',
   },
   {
     id: 'p11',
@@ -203,6 +205,6 @@ export const players: Player[] = [
     move: 'layup',
     moveLabel: 'Lay-up',
     look: { hair: '#d4b45a', skin: '#f6d0b0', hairStyle: 'short' },
-    stickerSrc: '/stickers/jacob.webp?v=pad',
+    stickerSrc: '/stickers/jacob.webp?v=20260918t',
   },
 ]

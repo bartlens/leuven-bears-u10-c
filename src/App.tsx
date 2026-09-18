@@ -21,7 +21,7 @@ export default function App() {
         <AudioUnlock />
         <div className="flex min-h-screen flex-col">
           <Navbar />
-          <main className="flex-1">
+          <main>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/spelers" element={<Spelers />} />

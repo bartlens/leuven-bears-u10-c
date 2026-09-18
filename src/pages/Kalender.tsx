@@ -13,6 +13,8 @@ import {
 } from '../lib/calendarEvents'
 
 const WEEKDAYS = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo']
+/** First batch of this-month list items; the rest opens via “Laad meer…”. */
+const INITIAL_MONTH_ITEMS = 4
 
 function dayNum(iso: string) {
   return Number(iso.slice(8, 10))
@@ -32,6 +34,7 @@ export function Kalender() {
   const [y, m] = todayIso.split('-').map(Number)
   const [cursor, setCursor] = useState({ year: y!, month: m! - 1 })
   const [selected, setSelected] = useState<string | null>(todayIso)
+  const [showAllMonth, setShowAllMonth] = useState(false)
 
   const events = useMemo(
     () => buildCalendarEvents(datedTrainings, matches),
@@ -60,7 +63,13 @@ export function Kalender() {
     return events.filter((e) => e.dateIso.startsWith(prefix))
   }, [events, cursor.year, cursor.month])
 
+  const visibleMonthEvents = showAllMonth
+    ? monthEvents
+    : monthEvents.slice(0, INITIAL_MONTH_ITEMS)
+  const hasMoreMonth = !showAllMonth && monthEvents.length > INITIAL_MONTH_ITEMS
+
   const shiftMonth = (delta: number) => {
+    setShowAllMonth(false)
     setCursor((c) => {
       const d = new Date(Date.UTC(c.year, c.month + delta, 1))
       return { year: d.getUTCFullYear(), month: d.getUTCMonth() }
@@ -68,12 +77,13 @@ export function Kalender() {
   }
 
   const goToday = () => {
+    setShowAllMonth(false)
     setCursor({ year: y!, month: m! - 1 })
     setSelected(todayIso)
   }
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Overzicht"
         title="Kalender"
@@ -85,18 +95,18 @@ export function Kalender() {
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
             aria-label="Vorige maand"
           >
             ‹
           </button>
-          <h2 className="min-w-[10rem] text-center font-display text-xl font-bold capitalize text-cream sm:min-w-[12rem] sm:text-2xl">
+          <h2 className="min-w-0 flex-1 text-center font-display text-xl font-bold capitalize text-cream sm:min-w-[12rem] sm:flex-none sm:text-2xl">
             {monthLabel(cursor.year, cursor.month)}
           </h2>
           <button
             type="button"
             onClick={() => shiftMonth(1)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
             aria-label="Volgende maand"
           >
             ›
@@ -105,7 +115,7 @@ export function Kalender() {
         <button
           type="button"
           onClick={goToday}
-          className="rounded-full border border-hoop/40 bg-hoop/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
+          className="inline-flex min-h-11 items-center rounded-full border border-hoop/40 bg-hoop/15 px-4 text-sm font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
         >
           Vandaag
         </button>
@@ -121,7 +131,8 @@ export function Kalender() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-soft">
+      <div className="flex flex-col">
+      <div className="hidden overflow-hidden rounded-3xl border border-white/10 bg-ink-soft sm:block">
         <div className="grid grid-cols-7 border-b border-white/8 bg-ink/60">
           {WEEKDAYS.map((d) => (
             <div
@@ -197,7 +208,7 @@ export function Kalender() {
         </div>
       </div>
 
-      <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-5 sm:p-6">
+      <section className="order-2 mt-8 rounded-3xl border border-white/10 bg-ink-soft p-5 sm:p-6">
         <h3 className="font-display text-lg font-bold capitalize text-cream">
           {selected ? formatDayHeading(selected) : 'Kies een dag'}
         </h3>
@@ -229,12 +240,14 @@ export function Kalender() {
                     {e.time}
                   </p>
                 </div>
-                <p className="mt-1 text-sm text-muted">{e.location}</p>
-                {e.meta && <p className="mt-1 text-sm text-cream/80">{e.meta}</p>}
+                <p className="text-meta mt-1">
+                  {e.time} · {e.location}
+                  {e.meta ? ` · ${e.meta}` : ''}
+                </p>
                 <p className="mt-2">
                   <Link
                     to={e.kind === 'match' ? '/matchen' : '/trainingen'}
-                    className="text-xs font-bold uppercase tracking-wider text-hoop-bright hover:underline"
+                    className="inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"
                   >
                     Meer op {e.kind === 'match' ? 'Matchen' : 'Trainingen'} →
                   </Link>
@@ -245,44 +258,57 @@ export function Kalender() {
         )}
       </section>
 
-      <section className="mt-8">
+      <section className="order-1 mt-4 sm:order-3 sm:mt-8">
         <h3 className="font-display text-lg font-bold text-cream">
           Deze maand · {monthEvents.length} items
         </h3>
         {monthEvents.length === 0 ? (
           <p className="mt-2 text-sm text-muted">Niets gepland in deze maand.</p>
         ) : (
-          <ul className="mt-4 space-y-2">
-            {monthEvents.map((e) => (
-              <li key={e.id}>
+          <div className="mt-4 space-y-2">
+            <ul className="space-y-2">
+              {visibleMonthEvents.map((e) => (
+                <li key={e.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelected(e.dateIso)}
+                    className="ui-card flex min-h-11 w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
+                  >
+                    <span
+                      className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
+                        e.kind === 'match' ? 'bg-hoop' : 'bg-warm'
+                      }`}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span
+                        className={`block font-semibold text-cream ${matchTitleClass}`}
+                        title={e.title}
+                      >
+                        {e.title}
+                      </span>
+                      <span className="text-meta mt-0.5 block">
+                        {formatDayHeading(e.dateIso)} · {e.time} · {e.location}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {hasMoreMonth && (
+              <div className="pt-2">
                 <button
                   type="button"
-                  onClick={() => setSelected(e.dateIso)}
-                  className="flex w-full items-start gap-3 rounded-2xl border border-white/8 bg-panel/60 px-4 py-3 text-left touch-manipulation transition hover:bg-white/5"
+                  onClick={() => setShowAllMonth(true)}
+                  className="btn-outline w-full sm:w-auto"
                 >
-                  <span
-                    className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
-                      e.kind === 'match' ? 'bg-hoop' : 'bg-warm'
-                    }`}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-bold uppercase tracking-wider text-muted">
-                      {formatDayHeading(e.dateIso)} · {e.time}
-                    </span>
-                    <span
-                      className={`mt-0.5 block font-semibold text-cream ${matchTitleClass}`}
-                      title={e.title}
-                    >
-                      {e.title}
-                    </span>
-                    <span className="block truncate text-sm text-muted">{e.location}</span>
-                  </span>
+                  Laad meer…
                 </button>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+          </div>
         )}
       </section>
+      </div>
     </div>
   )
 }

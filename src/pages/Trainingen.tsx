@@ -74,12 +74,12 @@ export function Trainingen() {
     }
   }
 
-  const card = 'border border-white/10 bg-panel'
-  const cardPad = 'card-lift animate-in rounded-2xl px-5 py-4'
-  const cardLg = 'card-lift animate-in rounded-3xl p-6'
+  const card = 'ui-card'
+  const cardPad = 'ui-card card-lift animate-in'
+  const cardLg = 'ui-card card-lift animate-in'
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-hidden px-4 py-12 sm:px-6">
+    <div className="page-shell">
       <SectionHeader
         eyebrow="Schedule"
         title="Trainingen"
@@ -91,11 +91,11 @@ export function Trainingen() {
         }
       />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+      <div className="mb-8 grid items-stretch gap-4 sm:grid-cols-2">
         {trainings.map((t, i) => (
           <article
             key={t.id}
-            className={`${cardLg} ${card}`}
+            className={`${cardLg} ${card} h-full`}
             style={{ animationDelay: `${i * 0.06}s` }}
           >
             <div className="flex items-center justify-between gap-3">
@@ -106,8 +106,9 @@ export function Trainingen() {
                 Wekelijks
               </span>
             </div>
-            <p className="mt-3 text-lg font-semibold text-hoop-bright">{t.time}</p>
-            <p className="mt-1 text-muted">{t.location}</p>
+            <p className="text-meta mt-3">
+              {t.time} · {t.location}
+            </p>
             <p className="mt-4 rounded-xl bg-ink/50 px-4 py-3 text-sm text-cream/90">
               Focus: {t.focus}
             </p>
@@ -132,7 +133,7 @@ export function Trainingen() {
             {attendanceCopy.blurb}
           </p>
         </div>
-        <span className="inline-flex shrink-0 self-start items-center justify-center rounded-full border border-hoop/50 bg-hoop/10 px-4 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/20 sm:self-center">
+        <span className="btn-outline shrink-0 self-start sm:self-center">
           Openen →
         </span>
       </a>
@@ -163,7 +164,7 @@ export function Trainingen() {
                     }
                     onClick={COACH_WAVE_EASTER_EGG ? triggerCoachWave : undefined}
                     onKeyDown={COACH_WAVE_EASTER_EGG ? onNextKeyDown : undefined}
-                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden sm:flex-row sm:items-center sm:justify-between ${
+                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden border-l-[3px] border-l-hoop sm:flex-row sm:items-center sm:justify-between ${
                       COACH_WAVE_EASTER_EGG
                         ? 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
                         : ''
@@ -192,13 +193,13 @@ export function Trainingen() {
                       </div>
                     )}
                     <div className="relative z-10">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
                         Eerstvolgende
                       </p>
                       <p className="mt-0.5 font-display text-lg font-bold text-cream">
                         {formatTrainingDate(t.dateIso)}
                       </p>
-                      <p className="text-sm text-muted">
+                      <p className="text-meta">
                         {t.time} · {t.location}
                       </p>
                     </div>
@@ -218,7 +219,7 @@ export function Trainingen() {
                     <p className="font-display text-lg font-bold text-cream">
                       {formatTrainingDate(t.dateIso)}
                     </p>
-                    <p className="text-sm text-muted">
+                    <p className="text-meta">
                       {t.time} · {t.location}
                     </p>
                   </div>
@@ -233,7 +234,7 @@ export function Trainingen() {
                 <button
                   type="button"
                   onClick={() => setShowAllUpcoming(true)}
-                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-hoop/40 bg-hoop/15 px-5 py-2 text-sm font-bold text-hoop-bright transition hover:bg-hoop/25 active:bg-hoop/25 sm:w-auto"
+                  className="btn-outline w-full sm:w-auto"
                 >
                   Laad meer…
                 </button>
@@ -244,7 +245,7 @@ export function Trainingen() {
       </section>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <section className={`${card} rounded-3xl p-6`}>
+        <section className={card}>
           <h3 className="font-display text-lg font-bold text-cream">
             Wat meebrengen?
           </h3>
@@ -260,7 +261,7 @@ export function Trainingen() {
           </ul>
         </section>
 
-        <section className={`${card} rounded-3xl p-6`}>
+        <section className={card}>
           <h3 className="font-display text-lg font-bold text-cream">
             Coach notes
           </h3>

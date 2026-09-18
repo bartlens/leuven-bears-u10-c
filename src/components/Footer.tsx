@@ -1,47 +1,23 @@
-import { Link } from 'react-router-dom'
 import { Logo } from './Logo'
-import { UpdatedHint } from './UpdatedHint'
 import { team } from '../data/team'
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-white/8 bg-ink-soft">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-5 text-center sm:px-6 sm:py-6">
-        <Logo size={48} />
-        <div>
-          <p className="font-display text-lg font-bold text-cream">
+    <footer className="border-t border-white/8 bg-ink-soft">
+      <div className="mx-auto flex max-w-[var(--page-max)] flex-col items-center gap-1.5 px-[var(--page-gutter)] py-3.5 text-center">
+        <Logo size={36} />
+        <div className="flex flex-col items-center gap-0.5">
+          <p className="text-[15px] font-medium leading-snug text-muted sm:text-base">
             {team.fullName}
           </p>
-          <p className="mt-0.5 text-sm text-muted">
-            {team.club} ·{' '}
-            <span className="whitespace-nowrap">Seizoen {team.season}</span>
-          </p>
+          <p className="text-meta-caption">seizoen 2026-2027</p>
         </div>
-        <p className="rounded-full border border-hoop/40 bg-hoop/10 px-4 py-1.5 text-sm font-semibold text-hoop-bright">
+        <p className="rounded-full border border-hoop/40 bg-hoop/10 px-3 py-0.5 text-xs font-semibold text-hoop-bright">
           {team.tagline}
         </p>
-        <nav
-          aria-label="Secundaire links"
-          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-semibold text-muted"
-        >
-          <Link to="/info" className="hover:text-hoop-bright">
-            Info
-          </Link>
-          <Link to="/evenementen" className="hover:text-hoop-bright">
-            Evenementen
-          </Link>
-          <Link to="/gedragscodes" className="hover:text-hoop-bright">
-            Gedragscodes
-          </Link>
-        </nav>
-        <p className="text-xs text-muted/70">
-          Leuven Bears · Jeugdteam U10 C ·{' '}
-          <span className="whitespace-nowrap">Seizoen {team.season}</span>
-        </p>
-        <p className="text-xs text-muted/70">
+        <p className="text-meta-caption">
           © Blits BV (Bart, papa van Thomas)
         </p>
-        <UpdatedHint variant="footer" />
       </div>
     </footer>
   )

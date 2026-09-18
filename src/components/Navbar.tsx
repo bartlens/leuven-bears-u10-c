@@ -17,7 +17,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/8 bg-ink/85 backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6">
+      <nav className="mx-auto flex max-w-[var(--page-max)] items-center justify-between gap-3 px-[var(--page-gutter)] py-3 sm:gap-4">
         <NavLink
           to="/"
           className="flex min-w-0 items-center gap-2.5 sm:gap-3"
@@ -41,10 +41,10 @@ export function Navbar() {
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-full px-3.5 py-2 text-sm font-semibold transition-all ${
+                  `inline-flex min-h-11 items-center rounded-full px-3.5 text-sm transition-all ${
                     isActive
-                      ? 'bg-hoop text-white shadow-lg shadow-hoop/30'
-                      : 'text-muted hover:bg-white/5 hover:text-cream'
+                      ? 'bg-hoop font-semibold text-white shadow-lg shadow-hoop/30'
+                      : 'font-medium text-muted hover:bg-white/5 hover:text-cream'
                   }`
                 }
               >
@@ -78,10 +78,10 @@ export function Navbar() {
                 end={link.end}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `mb-1 block rounded-xl px-4 py-3.5 text-sm font-semibold touch-manipulation ${
+                  `mb-1 block min-h-11 rounded-xl px-4 py-3.5 text-base touch-manipulation ${
                     isActive
-                      ? 'bg-hoop text-white'
-                      : 'text-muted active:bg-white/5 active:text-cream'
+                      ? 'bg-hoop font-semibold text-white'
+                      : 'font-medium text-muted active:bg-white/5 active:text-cream'
                   }`
                 }
               >

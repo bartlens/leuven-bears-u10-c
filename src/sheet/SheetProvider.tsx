@@ -67,6 +67,13 @@ function writeCache(data: TeamDataResponse) {
   }
 }
 
+function sanitizeMatches(matches: Match[]): Match[] {
+  return matches.map((m) => ({
+    ...m,
+    location: m.location.replace(/Stedeijke/gi, 'Stedelijke'),
+  }))
+}
+
 function isValidPayload(data: unknown): data is TeamDataResponse {
   if (!data || typeof data !== 'object') return false
   const d = data as TeamDataResponse
@@ -81,7 +88,7 @@ function isValidPayload(data: unknown): data is TeamDataResponse {
 }
 
 const snapshot: SheetData = {
-  matches: snapshotMatches,
+  matches: sanitizeMatches(snapshotMatches),
   datedTrainings: snapshotTrainings,
   events: snapshotEvents,
   afspraken: snapshotAfspraken,
@@ -95,7 +102,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
     const cached = readCache()
     if (cached) {
       return {
-        matches: cached.matches,
+        matches: sanitizeMatches(cached.matches),
         datedTrainings: cached.trainings,
         events: cached.events,
         afspraken: cached.afspraken,
@@ -110,7 +117,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
   const applyLive = useCallback((payload: TeamDataResponse, from: 'live' | 'cache') => {
     writeCache(payload)
     setData({
-      matches: payload.matches,
+      matches: sanitizeMatches(payload.matches),
       datedTrainings: payload.trainings,
       events: payload.events,
       afspraken: payload.afspraken,
