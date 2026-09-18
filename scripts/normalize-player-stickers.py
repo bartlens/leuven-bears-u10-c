@@ -28,6 +28,8 @@ PLAYERS = [
     "jacob",
     "jarne",
     "jia-le",
+    "ilya",
+    "charlie",
     "sam",
     "thomas",
 ]

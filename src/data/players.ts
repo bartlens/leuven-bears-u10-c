@@ -51,7 +51,7 @@ export type Player = {
 /** Prefer explicit stickerSrc; Thomas still matches by first name as a fallback. */
 export function playerStickerSrc(player: Player): string | undefined {
   if (player.stickerSrc) return player.stickerSrc
-  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=pad'
+  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=20260918b'
   return undefined
 }
 
@@ -90,6 +90,7 @@ export const players: Player[] = [
     move: 'step-back',
     moveLabel: 'Step-back',
     look: { hair: '#fff1c2', skin: '#fadcc4', hairStyle: 'side' },
+    stickerSrc: '/stickers/charlie.webp?v=20260918b',
   },
   {
     id: 'p2',
@@ -101,6 +102,7 @@ export const players: Player[] = [
     move: 'finger-spin',
     moveLabel: 'Vingerspin',
     look: { hair: '#1f1410', skin: '#efc09a', hairStyle: 'short' },
+    stickerSrc: '/stickers/ilya.webp?v=20260918b',
   },
   {
     id: 'p7',
@@ -124,7 +126,7 @@ export const players: Player[] = [
     move: 'dunk',
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
-    stickerSrc: '/stickers/thomas.webp?v=pad',
+    stickerSrc: '/stickers/thomas.webp?v=20260918b',
   },
   {
     id: 'p9',
@@ -191,7 +193,7 @@ export const players: Player[] = [
     move: 'crossover',
     moveLabel: 'Crossover',
     look: { hair: '#d4b45a', skin: '#f2c9a8', hairStyle: 'short' },
-    stickerSrc: '/stickers/sam.webp?v=pad',
+    stickerSrc: '/stickers/sam.webp?v=20260918b',
   },
   {
     id: 'p11',

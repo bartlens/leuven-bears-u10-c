@@ -12,8 +12,8 @@ function startMs(dateIso: string, timeHHmm: string) {
   return d.getTime()
 }
 
-const primaryBtn =
-  'inline-flex min-h-11 w-full items-center justify-center rounded-2xl bg-hoop px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-hoop/25 transition hover:bg-hoop-bright active:bg-hoop sm:w-auto'
+const outlineBtn =
+  'inline-flex min-h-11 w-full items-center justify-center rounded-2xl border border-hoop/55 bg-transparent px-5 py-2.5 text-sm font-bold text-hoop-bright transition hover:bg-hoop/10 active:bg-hoop/15 sm:w-auto'
 
 export function Home() {
   const { matches, datedTrainings } = useSheetData()
@@ -51,10 +51,10 @@ export function Home() {
             style={{ animationDelay: '0.12s' }}
           >
             <img
-              src="/stickers/groep-u10c-2026-home.webp?v=20260918"
+              src="/stickers/groep-u10c-2026-home.webp?v=20260918b"
               alt={`Leuven Bears U10C groepsfoto ${team.season}`}
-              width={1280}
-              height={457}
+              width={1400}
+              height={626}
               className="home-hero-photo__img"
             />
           </div>
@@ -90,7 +90,7 @@ export function Home() {
                   {nextMatch.location}
                 </p>
                 <div className="mt-auto pt-3">
-                  <Link to="/matchen" className={primaryBtn}>
+                  <Link to="/matchen" className={outlineBtn}>
                     Alle matchen →
                   </Link>
                 </div>
@@ -117,7 +117,7 @@ export function Home() {
               </p>
               <p className="text-meta mt-1">{nextTraining.training.focus}</p>
               <div className="mt-auto pt-3">
-                <Link to="/trainingen" className={primaryBtn}>
+                <Link to="/trainingen" className={outlineBtn}>
                   Alle trainingen →
                 </Link>
               </div>
