@@ -2735,41 +2735,39 @@ vercel-live-feedback,
     display: none;
   }
 
+  /* Group photo sets the row height; emblem stretches to that height. */
   .sticker-album__hero {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: stretch;
     gap: var(--sticker-gap);
-    height: var(--sticker-slot-h);
+    height: auto;
     margin-top: 0;
   }
 
   .sticker-album__emblem {
-    flex: 0 0 var(--sticker-col);
-    width: var(--sticker-col);
-    height: var(--sticker-slot-h);
+    height: 100%;
+    width: auto;
     aspect-ratio: 2 / 3;
+    max-width: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     position: relative;
-    align-self: flex-start;
     line-height: 0;
   }
 
   .sticker-album__hero .sticker-slot--group {
-    flex: 1 1 auto;
     min-width: 0;
-    width: auto;
-    height: var(--sticker-slot-h);
-    max-height: var(--sticker-slot-h);
-    min-height: var(--sticker-slot-h);
+    width: 100%;
+    height: auto;
+    max-height: none;
+    min-height: 0;
     aspect-ratio: unset;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
-    align-self: flex-start;
     line-height: 0;
   }
 
@@ -2788,16 +2786,17 @@ vercel-live-feedback,
   }
 
   .sticker-album__hero .sticker-album__group-img {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    width: auto;
+    position: static;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+    display: block;
+    width: 100%;
+    height: auto;
     max-width: none;
     max-height: none;
-    transform: translateX(-50%);
-    object-fit: fill;
+    object-fit: contain;
     object-position: center;
     margin: 0;
   }
