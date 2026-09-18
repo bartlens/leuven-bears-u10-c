@@ -51,7 +51,7 @@ export type Player = {
 /** Prefer explicit stickerSrc; Thomas still matches by first name as a fallback. */
 export function playerStickerSrc(player: Player): string | undefined {
   if (player.stickerSrc) return player.stickerSrc
-  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=20260918k'
+  if (player.firstName === 'Thomas') return '/stickers/thomas.webp?v=20260918m'
   return undefined
 }
 
@@ -126,7 +126,7 @@ export const players: Player[] = [
     move: 'dunk',
     moveLabel: 'Dunk',
     look: { hair: '#e6c870', skin: '#eec4a2', hairStyle: 'short' },
-    stickerSrc: '/stickers/thomas.webp?v=20260918k',
+    stickerSrc: '/stickers/thomas.webp?v=20260918m',
   },
   {
     id: 'p9',
@@ -193,7 +193,7 @@ export const players: Player[] = [
     move: 'crossover',
     moveLabel: 'Crossover',
     look: { hair: '#d4b45a', skin: '#f2c9a8', hairStyle: 'short' },
-    stickerSrc: '/stickers/sam.webp?v=20260918j',
+    stickerSrc: '/stickers/sam.webp?v=20260918m',
   },
   {
     id: 'p11',
