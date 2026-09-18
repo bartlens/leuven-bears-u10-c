@@ -88,10 +88,10 @@ export function Info() {
         </a>
       </nav>
 
-      <section className="mb-8 grid gap-4 sm:grid-cols-2">
+      <section className="mb-8 grid items-stretch gap-4 sm:grid-cols-2">
         <Link
           to="/evenementen"
-          className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
+          className="ui-card card-lift flex h-full flex-col border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
           <h2 className="font-display text-2xl font-bold text-cream">
             Evenementen
@@ -99,13 +99,13 @@ export function Info() {
           <p className="mt-3 text-sm leading-relaxed text-muted">
             Tornooien, herfststage en extra teamfun — inschrijvingen en data.
           </p>
-          <p className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
+          <p className="mt-auto pt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
             Bekijk evenementen →
           </p>
         </Link>
         <Link
           to="/gedragscodes"
-          className="ui-card card-lift border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
+          className="ui-card card-lift flex h-full flex-col border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft transition hover:border-warm/50"
         >
           <h2 className="font-display text-2xl font-bold text-cream">
             Gedragscodes
@@ -114,7 +114,7 @@ export function Info() {
             Afspraken van Basketbal Vlaanderen voor trainers, spelers en
             ouders.
           </p>
-          <p className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
+          <p className="mt-auto pt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
             Bekijk de gedragscodes →
           </p>
         </Link>

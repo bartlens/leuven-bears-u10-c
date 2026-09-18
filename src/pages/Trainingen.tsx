@@ -91,11 +91,11 @@ export function Trainingen() {
         }
       />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
+      <div className="mb-8 grid items-stretch gap-4 sm:grid-cols-2">
         {trainings.map((t, i) => (
           <article
             key={t.id}
-            className={`${cardLg} ${card}`}
+            className={`${cardLg} ${card} h-full`}
             style={{ animationDelay: `${i * 0.06}s` }}
           >
             <div className="flex items-center justify-between gap-3">
@@ -164,7 +164,7 @@ export function Trainingen() {
                     }
                     onClick={COACH_WAVE_EASTER_EGG ? triggerCoachWave : undefined}
                     onKeyDown={COACH_WAVE_EASTER_EGG ? onNextKeyDown : undefined}
-                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden sm:flex-row sm:items-center sm:justify-between ${
+                    className={`${cardPad} ${card} relative flex flex-col gap-2 overflow-hidden border-l-[3px] border-l-hoop sm:flex-row sm:items-center sm:justify-between ${
                       COACH_WAVE_EASTER_EGG
                         ? 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-hoop focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
                         : ''

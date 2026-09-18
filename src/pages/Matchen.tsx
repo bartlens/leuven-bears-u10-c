@@ -39,12 +39,12 @@ export function Matchen() {
         subtitle={`Seizoen ${team.season}. Kom juichen en supporteren.`}
       />
 
-      <div className="mb-8 grid gap-3 sm:grid-cols-2">
+      <div className="mb-8 grid items-stretch gap-3 sm:grid-cols-2">
         <a
           href={links.attendanceSpreadsheet}
           target="_blank"
           rel="noreferrer"
-          className="ui-card card-lift bg-ink-soft"
+          className="ui-card card-lift flex h-full flex-col bg-ink-soft"
         >
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
             Aanwezigheid
@@ -58,7 +58,7 @@ export function Matchen() {
           href={links.vblCalendarSync}
           target="_blank"
           rel="noreferrer"
-          className="ui-card card-lift bg-ink-soft"
+          className="ui-card card-lift flex h-full flex-col bg-ink-soft"
         >
           <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
             VBL

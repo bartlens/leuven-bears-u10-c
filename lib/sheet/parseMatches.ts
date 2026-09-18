@@ -21,9 +21,14 @@ function venueFromLocation(location: string): 'thuis' | 'uit' {
   return /redingenhof/i.test(location) ? 'thuis' : 'uit'
 }
 
+/** Sheet/snapshot typo seen as “Stedeijke Sporthal”. */
+export function fixStedelijkeTypo(location: string): string {
+  return location.replace(/Stedeijke/gi, 'Stedelijke')
+}
+
 function normalizeLocation(location: string, venue: 'thuis' | 'uit'): string {
   if (venue === 'thuis') return HOME
-  return location.replace(/\s+/g, ' ').trim()
+  return fixStedelijkeTypo(location.replace(/\s+/g, ' ').trim())
 }
 
 /**

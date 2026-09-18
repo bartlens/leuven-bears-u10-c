@@ -112,9 +112,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+#root {
+  min-height: 100%;
+  background: #0a0a0a;
+}
+
 #stage,
 #staff {
   scroll-margin-top: 5.5rem;
+}
+
+/* Vercel preview toolbar — circular chip, useless for parents, covers cards. */
+vercel-live-feedback,
+#vercel-live-feedback {
+  display: none !important;
 }
 
 ::selection {

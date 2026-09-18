@@ -81,7 +81,8 @@ export function Home() {
                   {nextMatchTitle}
                 </h2>
                 <p className="text-meta mt-1.5">
-                  {formatDate(nextMatch.date)} · {nextMatch.time}
+                  {formatDate(nextMatch.date)} · {nextMatch.time} ·{' '}
+                  {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
                 </p>
                 <p className="text-meta-caption mt-0.5 break-words">
                   {nextMatch.location}
