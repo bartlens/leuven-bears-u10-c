@@ -14,6 +14,19 @@
   --color-warm: #e8c4a0;
 }
 
+/* One muted-gray family for secondary/meta copy (footer, cards, captions). */
+.text-meta {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.text-meta-caption {
+  color: color-mix(in srgb, var(--color-muted) 68%, transparent);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -136,7 +149,7 @@ body {
 
 @media (min-width: 1024px) {
   .home-hero-photo {
-    max-width: 40rem;
+    max-width: 36rem;
     justify-self: end;
   }
 }

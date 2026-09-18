@@ -41,10 +41,10 @@ export function Navbar() {
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-full px-3.5 py-2 text-sm font-semibold transition-all ${
+                  `rounded-full px-3.5 py-2 text-sm transition-all ${
                     isActive
-                      ? 'bg-hoop text-white shadow-lg shadow-hoop/30'
-                      : 'text-muted hover:bg-white/5 hover:text-cream'
+                      ? 'bg-hoop font-semibold text-white shadow-lg shadow-hoop/30'
+                      : 'font-medium text-muted/70 hover:bg-white/5 hover:text-muted'
                   }`
                 }
               >
