@@ -41,10 +41,10 @@ export function Navbar() {
                 to={link.to}
                 end={link.end}
                 className={({ isActive }) =>
-                  `rounded-full px-3.5 py-2 text-sm transition-all ${
+                  `inline-flex min-h-11 items-center rounded-full px-3.5 text-sm transition-all ${
                     isActive
                       ? 'bg-hoop font-semibold text-white shadow-lg shadow-hoop/30'
-                      : 'font-medium text-muted/70 hover:bg-white/5 hover:text-muted'
+                      : 'font-medium text-muted hover:bg-white/5 hover:text-cream'
                   }`
                 }
               >
@@ -78,10 +78,10 @@ export function Navbar() {
                 end={link.end}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `mb-1 block min-h-11 rounded-xl px-4 py-3.5 text-sm touch-manipulation ${
+                  `mb-1 block min-h-11 rounded-xl px-4 py-3.5 text-base touch-manipulation ${
                     isActive
                       ? 'bg-hoop font-semibold text-white'
-                      : 'font-medium text-muted/70 active:bg-white/5 active:text-muted'
+                      : 'font-medium text-muted active:bg-white/5 active:text-cream'
                   }`
                 }
               >

@@ -32,7 +32,7 @@ export function Home() {
       <section className="relative overflow-x-hidden grain mesh-grid">
         <div className="page-shell page-shell--hero grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-6">
           <div className="min-w-0 animate-in">
-            <span className="mb-2.5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+            <span className="mb-2.5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-hoop" aria-hidden />
               Seizoen 2026-2027
             </span>
@@ -67,10 +67,10 @@ export function Home() {
                 style={{ order: trainingFirst ? 2 : 1 }}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
                     Volgende match
                   </p>
-                  <span className="rounded-full border border-white/12 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted">
+                  <span className="rounded-full border border-white/12 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-muted">
                     {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
                   </span>
                 </div>
@@ -98,7 +98,7 @@ export function Home() {
               className="ui-card card-lift flex h-full flex-col overflow-hidden bg-gradient-to-br from-panel to-ink-soft"
               style={{ order: trainingFirst ? 1 : 2 }}
             >
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
                 {nextTraining.isOngoing
                   ? 'Nu aan de gang'
                   : 'Volgende training'}

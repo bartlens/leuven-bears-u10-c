@@ -85,18 +85,18 @@ export function Kalender() {
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
             aria-label="Vorige maand"
           >
             ‹
           </button>
-          <h2 className="min-w-[10rem] text-center font-display text-xl font-bold capitalize text-cream sm:min-w-[12rem] sm:text-2xl">
+          <h2 className="min-w-0 flex-1 text-center font-display text-xl font-bold capitalize text-cream sm:min-w-[12rem] sm:flex-none sm:text-2xl">
             {monthLabel(cursor.year, cursor.month)}
           </h2>
           <button
             type="button"
             onClick={() => shiftMonth(1)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-panel text-cream touch-manipulation hover:bg-white/5"
             aria-label="Volgende maand"
           >
             ›
@@ -105,7 +105,7 @@ export function Kalender() {
         <button
           type="button"
           onClick={goToday}
-          className="rounded-full border border-hoop/40 bg-hoop/15 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
+          className="inline-flex min-h-11 items-center rounded-full border border-hoop/40 bg-hoop/15 px-4 text-sm font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
         >
           Vandaag
         </button>
@@ -121,7 +121,8 @@ export function Kalender() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-soft">
+      <div className="flex flex-col">
+      <div className="hidden overflow-hidden rounded-3xl border border-white/10 bg-ink-soft sm:block">
         <div className="grid grid-cols-7 border-b border-white/8 bg-ink/60">
           {WEEKDAYS.map((d) => (
             <div
@@ -197,7 +198,7 @@ export function Kalender() {
         </div>
       </div>
 
-      <section className="mt-8 rounded-3xl border border-white/10 bg-ink-soft p-5 sm:p-6">
+      <section className="order-2 mt-8 rounded-3xl border border-white/10 bg-ink-soft p-5 sm:p-6">
         <h3 className="font-display text-lg font-bold capitalize text-cream">
           {selected ? formatDayHeading(selected) : 'Kies een dag'}
         </h3>
@@ -236,7 +237,7 @@ export function Kalender() {
                 <p className="mt-2">
                   <Link
                     to={e.kind === 'match' ? '/matchen' : '/trainingen'}
-                    className="text-xs font-bold uppercase tracking-wider text-hoop-bright hover:underline"
+                    className="inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"
                   >
                     Meer op {e.kind === 'match' ? 'Matchen' : 'Trainingen'} →
                   </Link>
@@ -247,7 +248,7 @@ export function Kalender() {
         )}
       </section>
 
-      <section className="mt-8">
+      <section className="order-1 mt-4 sm:order-3 sm:mt-8">
         <h3 className="font-display text-lg font-bold text-cream">
           Deze maand · {monthEvents.length} items
         </h3>
@@ -260,7 +261,7 @@ export function Kalender() {
                 <button
                   type="button"
                   onClick={() => setSelected(e.dateIso)}
-                  className="ui-card flex w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
+                  className="ui-card flex min-h-11 w-full items-start gap-3 bg-panel/60 text-left touch-manipulation transition hover:bg-white/5"
                 >
                   <span
                     className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
@@ -284,6 +285,7 @@ export function Kalender() {
           </ul>
         )}
       </section>
+      </div>
     </div>
   )
 }

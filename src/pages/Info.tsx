@@ -54,6 +54,40 @@ export function Info() {
         }
       />
 
+      <nav
+        aria-label="Snelle acties"
+        className="mb-8 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
+      >
+        <a
+          href={links.attendanceSpreadsheet}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-outline h-auto min-h-11 w-full whitespace-normal px-3 text-center leading-tight sm:w-auto"
+        >
+          Aanwezigheid
+        </a>
+        <a
+          href={`https://maps.google.com/?q=${mapsQuery}`}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-outline h-auto min-h-11 w-full whitespace-normal px-3 text-center leading-tight sm:w-auto"
+        >
+          Open in Maps
+        </a>
+        <a
+          href={`mailto:${team.contact.clubEmail}`}
+          className="btn-outline h-auto min-h-11 w-full whitespace-normal px-3 text-center leading-tight sm:w-auto"
+        >
+          Mail secretariaat
+        </a>
+        <a
+          href="#stage"
+          className="btn-outline h-auto min-h-11 w-full whitespace-normal px-3 text-center leading-tight sm:w-auto"
+        >
+          Naar stage
+        </a>
+      </nav>
+
       <section className="mb-8 grid gap-4 sm:grid-cols-2">
         <Link
           to="/evenementen"
@@ -65,7 +99,7 @@ export function Info() {
           <p className="mt-3 text-sm leading-relaxed text-muted">
             Tornooien, herfststage en extra teamfun — inschrijvingen en data.
           </p>
-          <p className="mt-5 text-sm font-bold text-hoop-bright">
+          <p className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
             Bekijk evenementen →
           </p>
         </Link>
@@ -80,14 +114,17 @@ export function Info() {
             Afspraken van Basketbal Vlaanderen voor trainers, spelers en
             ouders.
           </p>
-          <p className="mt-5 text-sm font-bold text-hoop-bright">
+          <p className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright">
             Bekijk de gedragscodes →
           </p>
         </Link>
       </section>
 
       {/* Herfststage */}
-      <article className="ui-card mb-8 border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft">
+      <article
+        id="stage"
+        className="ui-card mb-8 border-warm/35 bg-gradient-to-br from-warm/15 via-panel to-ink-soft"
+      >
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-hoop-bright">
           Stage
         </p>
@@ -215,7 +252,7 @@ export function Info() {
               <dd>
                 <a
                   href={`mailto:${team.contact.clubEmail}`}
-                  className="break-all font-semibold text-cream hover:text-hoop-bright"
+                  className="inline-flex min-h-11 items-center break-all font-semibold text-cream hover:text-hoop-bright"
                 >
                   {team.contact.clubEmail}
                 </a>
@@ -223,7 +260,14 @@ export function Info() {
             </div>
             <div>
               <dt className="text-muted">Telefoon</dt>
-              <dd className="font-semibold text-cream">{team.contact.phone}</dd>
+              <dd>
+                <a
+                  href={`tel:+32${team.contact.phone.replace(/\s+/g, '').replace(/^0/, '')}`}
+                  className="inline-flex min-h-11 items-center font-semibold text-cream hover:text-hoop-bright"
+                >
+                  {team.contact.phone}
+                </a>
+              </dd>
             </div>
             <div>
               <dt className="text-muted">Adres club</dt>
@@ -275,7 +319,7 @@ export function Info() {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex rounded-full border border-white/15 bg-panel px-4 py-2 font-semibold text-cream hover:border-hoop/40 hover:text-hoop-bright"
+                className="inline-flex min-h-11 items-center rounded-full border border-white/15 bg-panel px-4 py-2 font-semibold text-cream hover:border-hoop/40 hover:text-hoop-bright"
               >
                 {item.label}
               </a>

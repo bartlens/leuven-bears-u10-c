@@ -79,14 +79,14 @@ export function Matchen() {
             aria-expanded={afsprakenOpen}
             aria-controls={afsprakenPanelId}
             onClick={() => setAfsprakenOpen((open) => !open)}
-            className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left touch-manipulation transition hover:bg-white/4 sm:px-6 sm:py-5"
+            className="flex w-full min-h-11 items-center justify-between gap-4 px-5 py-4 text-left touch-manipulation transition hover:bg-white/4 sm:px-6 sm:py-5"
           >
             <span className="font-display text-xl font-bold text-cream">
               {matchAfspraken.title}
             </span>
             <span
               aria-hidden
-              className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-panel text-hoop-bright transition-transform duration-200 ${
+              className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-panel text-hoop-bright transition-transform duration-200 ${
                 afsprakenOpen ? 'rotate-180' : ''
               }`}
             >
@@ -126,7 +126,7 @@ export function Matchen() {
             href={links.attendanceSpreadsheet}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex text-sm font-bold text-hoop-bright hover:underline"
+            className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"
           >
             Aanwezigheid & afspraken in de spreadsheet →
           </a>
@@ -135,18 +135,30 @@ export function Matchen() {
 
       <section className="mb-12">
         <h2 className="mb-4 font-display text-xl font-bold text-cream">
-          Aankomend ({upcoming.length})
+          Aankomend (
+          {showAllUpcoming
+            ? upcoming.length
+            : `${visibleUpcoming.length} van ${upcoming.length}`}
+          )
         </h2>
         <div className="space-y-3">
           {visibleUpcoming.map((m, i) => {
             const title = formatMatchTitle(m.venue, m.opponent)
+            const isNext = i === 0
             return (
             <article
               key={m.id}
-              className="ui-card card-lift animate-in grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto]"
+              className={`ui-card card-lift animate-in grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] ${
+                isNext ? 'border-l-[3px] border-l-hoop' : ''
+              }`}
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className="min-w-0">
+                {isNext ? (
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
+                    Volgende
+                  </p>
+                ) : null}
                 <h3
                   className={`font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
                   title={title}

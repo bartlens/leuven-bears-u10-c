@@ -193,7 +193,7 @@ export function Trainingen() {
                       </div>
                     )}
                     <div className="relative z-10">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-hoop-bright">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
                         Eerstvolgende
                       </p>
                       <p className="mt-0.5 font-display text-lg font-bold text-cream">

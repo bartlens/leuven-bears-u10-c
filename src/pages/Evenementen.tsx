@@ -72,7 +72,7 @@ export function Evenementen() {
             href={links.attendanceSpreadsheet}
             target="_blank"
             rel="noreferrer"
-            className="text-sm font-bold text-hoop-bright hover:underline"
+            className="inline-flex min-h-11 items-center text-sm font-bold text-hoop-bright hover:underline"
           >
             Aanwezigheid spreadsheet →
           </a>
