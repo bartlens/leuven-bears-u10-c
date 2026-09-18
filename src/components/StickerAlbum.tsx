@@ -1,26 +1,9 @@
-import { useLayoutEffect, useRef } from 'react'
 import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
 const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
-const DESKTOP_MIN = 640
-
-function syncDesktopHeroEmblem(
-  groupImg: HTMLImageElement,
-  emblem: HTMLElement,
-) {
-  const height = groupImg.getBoundingClientRect().height
-  if (!Number.isFinite(height) || height < 1) return
-  emblem.style.height = `${height}px`
-  emblem.style.removeProperty('width')
-}
-
-function clearDesktopHeroEmblem(emblem: HTMLElement) {
-  emblem.style.removeProperty('width')
-  emblem.style.removeProperty('height')
-}
 
 type StickerAlbumProps = {
   players: Player[]
@@ -29,58 +12,14 @@ type StickerAlbumProps = {
 
 export function StickerAlbum({ players, staff }: StickerAlbumProps) {
   const roster = [...players].sort((a, b) => a.number - b.number)
-  const emblemRef = useRef<HTMLElement>(null)
-  const groupImgRef = useRef<HTMLImageElement>(null)
-  const albumRef = useRef<HTMLDivElement>(null)
-
-  useLayoutEffect(() => {
-    const groupImg = groupImgRef.current
-    const emblem = emblemRef.current
-    const album = albumRef.current
-    if (!groupImg || !emblem) return
-
-    const mq = window.matchMedia(`(min-width: ${DESKTOP_MIN}px)`)
-    let applying = false
-
-    const apply = () => {
-      if (applying) return
-      applying = true
-      try {
-        if (!mq.matches) {
-          clearDesktopHeroEmblem(emblem)
-          return
-        }
-        syncDesktopHeroEmblem(groupImg, emblem)
-      } finally {
-        applying = false
-      }
-    }
-
-    const ro = new ResizeObserver(apply)
-    ro.observe(groupImg)
-    if (album) ro.observe(album)
-    mq.addEventListener('change', apply)
-    groupImg.addEventListener('load', apply)
-    apply()
-
-    return () => {
-      ro.disconnect()
-      mq.removeEventListener('change', apply)
-      groupImg.removeEventListener('load', apply)
-      clearDesktopHeroEmblem(emblem)
-    }
-  }, [])
 
   return (
-    <div ref={albumRef} className="sticker-album">
+    <div className="sticker-album">
       <section
         className="sticker-album__hero"
         aria-label="Teamstickers bovenaan"
       >
-        <article
-          ref={emblemRef}
-          className="sticker-album__emblem sticker-album__emblem--hero"
-        >
+        <article className="sticker-album__emblem sticker-album__emblem--hero">
           <img
             src={EMBLEM_SRC}
             alt={EMBLEM_ALT}
@@ -92,7 +31,6 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
         <article className="sticker-slot sticker-slot--group">
           <img
-            ref={groupImgRef}
             src="/stickers/groep-u10c-2026.webp?v=20260918h"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
             width={1400}
