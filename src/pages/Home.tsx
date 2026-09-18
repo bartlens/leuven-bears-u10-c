@@ -5,20 +5,6 @@ import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
 
-const quickLinks: {
-  to: string
-  label: string
-  desc: string
-  emoji?: string
-  icon?: 'jersey'
-}[] = [
-  { to: '/spelers', label: 'Spelers', icon: 'jersey', desc: 'Team & staff' },
-  { to: '/trainingen', label: 'Trainingen', emoji: '⏱️', desc: 'Ma & Do 17:30' },
-  { to: '/kalender', label: 'Kalender', emoji: '📅', desc: 'Trainingen & matchen' },
-  { to: '/matchen', label: 'Matchen', emoji: '🏀', desc: 'Uitslagen & agenda' },
-  { to: '/info', label: 'Info', emoji: 'ℹ️', desc: 'Evenementen & gedragscodes' },
-]
-
 function startMs(dateIso: string, timeHHmm: string) {
   const [hh, mm] = timeHHmm.split(':').map((n) => Number(n) || 0)
   const d = new Date(`${dateIso}T00:00:00`)
@@ -152,40 +138,6 @@ export function Home() {
           </div>
         </section>
       )}
-
-      <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <h2 className="mb-6 font-display text-xl font-bold text-cream">
-          Snel naar…
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {quickLinks.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="card-lift group rounded-2xl border border-white/10 bg-panel p-5"
-            >
-              <span className="inline-flex h-8 w-8 items-center justify-center text-[32px] leading-none transition-transform group-hover:scale-125 group-active:scale-125 group-focus-within:scale-125">
-                {item.icon === 'jersey' ? (
-                  <img
-                    src="/stickers/u10c-jersey-icon.webp"
-                    alt=""
-                    width={32}
-                    height={32}
-                    decoding="async"
-                    className="h-8 w-8 object-contain"
-                  />
-                ) : (
-                  <span className="text-2xl leading-none">{item.emoji}</span>
-                )}
-              </span>
-              <p className="mt-3 font-display text-lg font-bold text-cream">
-                {item.label}
-              </p>
-              <p className="text-sm text-muted">{item.desc}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
     </div>
   )
 }
