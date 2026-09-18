@@ -2,7 +2,7 @@ import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
-const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918i'
+const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918t'
 const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
 
 type StickerAlbumProps = {
@@ -106,6 +106,8 @@ function StaffStickerSlot({
         <img
           src={stickerSrc}
           alt={`Sticker van ${staffSlotName(member)}, ${member.role}`}
+          width={640}
+          height={960}
           className="sticker-slot__art"
         />
       </article>
@@ -141,6 +143,8 @@ function PlayerStickerSlot({
         <img
           src={stickerSrc}
           alt={`Sticker van ${player.firstName}, Leuven Bears U10 C`}
+          width={640}
+          height={960}
           className="sticker-slot__art"
         />
       </article>

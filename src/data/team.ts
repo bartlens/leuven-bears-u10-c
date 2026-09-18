@@ -24,7 +24,7 @@ export type StaffMember = {
 export function staffStickerSrc(staff: StaffMember): string | undefined {
   if (staff.stickerSrc) return staff.stickerSrc
   const firstName = staff.name.split(/\s+/)[0] ?? staff.name
-  if (firstName === 'Els') return '/stickers/els.webp?v=20260918s'
+  if (firstName === 'Els') return '/stickers/els.webp?v=20260918t'
   return undefined
 }
 
@@ -44,7 +44,7 @@ export const staffMembers: StaffMember[] = [
       hairStyle: 'short',
       cheek: '#f08070',
     },
-    stickerSrc: '/stickers/jonathan.webp?v=20260918s',
+    stickerSrc: '/stickers/jonathan.webp?v=20260918t',
   },
   {
     id: 'rafa',
@@ -61,14 +61,14 @@ export const staffMembers: StaffMember[] = [
       hairStyle: 'side',
       cheek: '#d4785c',
     },
-    stickerSrc: '/stickers/rafa.webp?v=20260918s',
+    stickerSrc: '/stickers/rafa.webp?v=20260918t',
   },
   {
     id: 'els',
     name: 'Els',
     role: 'Ploegverantwoordelijke',
     note: 'mama van Sam',
-    stickerSrc: '/stickers/els.webp?v=20260918s',
+    stickerSrc: '/stickers/els.webp?v=20260918t',
     emoji: '🙌',
     outfit: 'volunteer',
     move: 'cheer',
