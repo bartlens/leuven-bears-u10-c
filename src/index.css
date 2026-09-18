@@ -2711,6 +2711,7 @@ body {
     align-items: flex-start;
     gap: var(--sticker-gap);
     height: auto;
+    margin-top: 0;
   }
 
   .sticker-album__emblem {
@@ -2718,9 +2719,12 @@ body {
     width: var(--sticker-col);
     height: var(--sticker-slot-h);
     aspect-ratio: 2 / 3;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
     position: relative;
     align-self: flex-start;
+    line-height: 0;
   }
 
   .sticker-album__hero .sticker-slot--group {
@@ -2731,9 +2735,14 @@ body {
     max-height: none;
     min-height: 0;
     aspect-ratio: unset;
+    /* Emblem WebP has ~6% transparent top; group frame starts at the file edge.
+       Drop the group by that same inset so visible tops share one Y. */
+    margin: calc(var(--sticker-slot-h) * 0.06) 0 0 0;
+    padding: 0;
     overflow: visible;
     position: relative;
     align-self: flex-start;
+    line-height: 0;
   }
 
   .sticker-album__hero .sticker-album__emblem-img,
@@ -2747,9 +2756,10 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: center top;
   }
 
-  /* In-flow: width fills leftover space, height follows the sticker aspect. */
+  /* In-flow: leftover width, intrinsic height — full white/orange frame stays visible. */
   .sticker-album__hero .sticker-album__group-img {
     position: static;
     inset: auto;
@@ -2758,6 +2768,8 @@ body {
     height: auto;
     max-height: none;
     object-fit: contain;
+    /* Transparent top is 1.3% of image height; margin-% is vs width. */
+    margin: calc(-0.013 * 626 / 1400 * 100%) 0 0 0;
   }
 }
 
