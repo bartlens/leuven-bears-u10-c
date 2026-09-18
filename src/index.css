@@ -2743,72 +2743,63 @@ vercel-live-feedback,
   .sticker-album__hero {
     display: grid;
     grid-template-columns: repeat(var(--sticker-cols), minmax(0, 1fr));
+    grid-template-rows: var(--sticker-slot-h);
     gap: var(--sticker-gap);
-    align-items: start;
+    align-items: stretch;
     margin: 0 0 var(--sticker-gap);
     padding: 0;
     line-height: 0;
   }
 
-  .sticker-album__emblem {
-    grid-column: 1;
+  .sticker-album__emblem,
+  .sticker-album__hero .sticker-slot--group {
     display: block;
     position: relative;
     box-sizing: border-box;
-    width: 100%;
-    max-width: none;
     height: var(--sticker-slot-h);
-    aspect-ratio: 2 / 3;
+    min-height: var(--sticker-slot-h);
+    max-height: var(--sticker-slot-h);
     margin: 0;
     padding: 0;
     border: 0;
+    top: auto;
     overflow: hidden;
     line-height: 0;
     min-width: 0;
-    min-height: 0;
+  }
+
+  .sticker-album__emblem {
+    grid-column: 1;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: unset;
   }
 
   .sticker-album__hero .sticker-slot--group {
     grid-column: 2 / -1;
-    display: block;
-    position: relative;
-    box-sizing: border-box;
     width: 100%;
-    height: var(--sticker-slot-h);
-    max-height: none;
     aspect-ratio: unset;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    line-height: 0;
-    min-width: 0;
-    min-height: 0;
-  }
-
-  .sticker-album__hero .sticker-album__emblem-img,
-  .sticker-album__hero .sticker-album__group-img {
-    filter: none;
   }
 
   .sticker-album__hero .sticker-album__emblem-img,
   .sticker-album__hero .sticker-album__group-img {
     position: absolute;
     inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
     width: 100%;
     height: 100%;
+    max-width: none;
+    max-height: none;
     margin: 0;
     padding: 0;
     border: 0;
-    object-position: center;
-  }
-
-  .sticker-album__hero .sticker-album__emblem-img {
-    object-fit: contain;
-  }
-
-  .sticker-album__hero .sticker-album__group-img {
+    filter: none;
     object-fit: fill;
+    object-position: center;
   }
 }
 
