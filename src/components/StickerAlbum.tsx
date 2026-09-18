@@ -8,6 +8,8 @@ type StickerAlbumProps = {
 }
 
 export function StickerAlbum({ players, staff }: StickerAlbumProps) {
+  const roster = [...players].sort((a, b) => a.number - b.number)
+
   return (
     <div className="sticker-album">
       <section
@@ -26,17 +28,17 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
         <article className="sticker-slot sticker-slot--filled sticker-slot--group animate-in">
           <img
-            src="/stickers/groep-u10c-2026.webp?v=20260918c"
+            src="/stickers/groep-u10c-2026.webp?v=20260918g"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
-            width={1280}
-            height={572}
+            width={1400}
+            height={552}
             className="sticker-slot__art sticker-album__group-img"
           />
         </article>
       </section>
 
       <ul className="sticker-album__grid">
-        {players.map((player, index) => (
+        {roster.map((player, index) => (
           <li key={player.id} className="min-w-0">
             <PlayerStickerSlot player={player} index={index} />
           </li>
