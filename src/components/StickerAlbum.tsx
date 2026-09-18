@@ -28,10 +28,10 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
 
         <article className="sticker-slot sticker-slot--filled sticker-slot--group animate-in">
           <img
-            src="/stickers/groep-u10c-2026.webp?v=20260918g"
+            src="/stickers/groep-u10c-2026.webp?v=20260918h"
             alt={`Leuven Bears U10C groepsfoto ${team.season}`}
             width={1400}
-            height={552}
+            height={626}
             className="sticker-slot__art sticker-album__group-img"
           />
         </article>
