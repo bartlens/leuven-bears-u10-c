@@ -2,6 +2,9 @@ import type { Player } from '../data/players'
 import { playerStickerSrc } from '../data/players'
 import { staffStickerSrc, team, type StaffMember } from '../data/team'
 
+const EMBLEM_SRC = '/stickers/embleem-u10c.webp?v=20260918i'
+const EMBLEM_ALT = 'Embleemsticker van Leuven Bears U10 C'
+
 type StickerAlbumProps = {
   players: Player[]
   staff: StaffMember[]
@@ -16,10 +19,10 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
         className="sticker-album__hero"
         aria-label="Teamstickers bovenaan"
       >
-        <article className="sticker-slot sticker-slot--player sticker-album__emblem">
+        <article className="sticker-slot sticker-slot--player sticker-album__emblem sticker-album__emblem--hero">
           <img
-            src="/stickers/embleem-u10c.webp?v=20260918i"
-            alt="Embleemsticker van Leuven Bears U10 C"
+            src={EMBLEM_SRC}
+            alt={EMBLEM_ALT}
             width={640}
             height={960}
             className="sticker-slot__art sticker-album__emblem-img"
@@ -64,6 +67,17 @@ export function StickerAlbum({ players, staff }: StickerAlbumProps) {
               <StaffStickerSlot member={member} index={index} />
             </li>
           ))}
+          <li className="sticker-album__staff-emblem min-w-0">
+            <article className="sticker-slot sticker-slot--filled sticker-slot--staff">
+              <img
+                src={EMBLEM_SRC}
+                alt={EMBLEM_ALT}
+                width={640}
+                height={960}
+                className="sticker-slot__art"
+              />
+            </article>
+          </li>
         </ul>
       </section>
     </div>
