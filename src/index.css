@@ -2740,7 +2740,7 @@ vercel-live-feedback,
     flex-direction: row;
     align-items: flex-start;
     gap: var(--sticker-gap);
-    height: auto;
+    height: var(--sticker-slot-h);
     margin-top: 0;
   }
 
@@ -2789,12 +2789,15 @@ vercel-live-feedback,
 
   .sticker-album__hero .sticker-album__group-img {
     position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
+    left: 50%;
+    top: 0;
+    bottom: 0;
     height: 100%;
+    width: auto;
+    max-width: none;
     max-height: none;
-    object-fit: contain;
+    transform: translateX(-50%);
+    object-fit: fill;
     object-position: center;
     margin: 0;
   }
