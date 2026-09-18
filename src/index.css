@@ -2627,7 +2627,7 @@ body {
   min-height: 0;
 }
 
-.sticker-album__hero .sticker-slot--filled .sticker-slot__art {
+.sticker-album__hero .sticker-album__emblem.sticker-slot--filled .sticker-slot__art {
   position: absolute;
   inset: 0;
   width: 100%;
