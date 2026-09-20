@@ -2737,6 +2737,9 @@ vercel-live-feedback,
   max-height: none;
   margin: 0;
   padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
   overflow: visible;
 }
 
@@ -2756,6 +2759,10 @@ vercel-live-feedback,
   height: auto;
   max-width: 100%;
   max-height: none;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
   object-fit: contain;
 }
 
@@ -2786,6 +2793,9 @@ vercel-live-feedback,
     margin: 0;
     padding: 0;
     border: 0;
+    background: transparent;
+    box-shadow: none;
+    /* Clip leftover fringe only — the framed photo itself stays inside the box. */
     overflow: hidden;
     line-height: 0;
     min-width: 0;
@@ -2821,6 +2831,8 @@ vercel-live-feedback,
     margin: 0;
     padding: 0;
     border: 0;
+    background: transparent;
+    box-shadow: none;
     filter: none;
     object-fit: fill;
     object-position: center;

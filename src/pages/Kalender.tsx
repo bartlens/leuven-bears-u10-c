@@ -76,12 +76,6 @@ export function Kalender() {
     })
   }
 
-  const goToday = () => {
-    setShowAllMonth(false)
-    setCursor({ year: y!, month: m! - 1 })
-    setSelected(todayIso)
-  }
-
   return (
     <div className="page-shell">
       <SectionHeader
@@ -90,8 +84,8 @@ export function Kalender() {
         subtitle={`Alle trainingen en matchen van seizoen ${team.season} op één plek.`}
       />
 
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2">
+      <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="flex w-full items-center gap-2 sm:w-auto">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
@@ -112,14 +106,7 @@ export function Kalender() {
             ›
           </button>
         </div>
-        <button
-          type="button"
-          onClick={goToday}
-          className="inline-flex min-h-11 items-center rounded-full border border-hoop/40 bg-hoop/15 px-4 text-sm font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
-        >
-          Vandaag
-        </button>
-        <div className="ml-auto flex flex-wrap gap-3 text-xs font-semibold text-muted">
+        <div className="flex flex-wrap gap-3 text-xs font-semibold text-muted sm:ml-auto">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-warm" aria-hidden />
             Training
