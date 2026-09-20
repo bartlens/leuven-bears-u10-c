@@ -76,14 +76,6 @@ export function Kalender() {
     })
   }
 
-  const goToday = () => {
-    setShowAllMonth(false)
-    setCursor({ year: y!, month: m! - 1 })
-    setSelected(todayIso)
-  }
-
-  const viewingCurrentMonth = cursor.year === y && cursor.month === m! - 1
-
   return (
     <div className="page-shell">
       <SectionHeader
@@ -114,15 +106,6 @@ export function Kalender() {
             ›
           </button>
         </div>
-        {!viewingCurrentMonth ? (
-          <button
-            type="button"
-            onClick={goToday}
-            className="inline-flex min-h-11 items-center rounded-full border border-hoop/40 bg-hoop/15 px-4 text-sm font-bold uppercase tracking-wider text-hoop-bright touch-manipulation hover:bg-hoop/25"
-          >
-            Vandaag
-          </button>
-        ) : null}
         <div className="flex flex-wrap gap-3 text-xs font-semibold text-muted sm:ml-auto">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-warm" aria-hidden />
