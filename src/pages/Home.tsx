@@ -4,28 +4,29 @@ import { getNextTraining } from '../data/trainings'
 import { HeroTitlePeek } from '../components/HeroTitlePeek'
 import { useSheetData } from '../sheet/SheetProvider'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
-
-function startMs(dateIso: string, timeHHmm: string) {
-  const [hh, mm] = timeHHmm.split(':').map((n) => Number(n) || 0)
-  const d = new Date(`${dateIso}T00:00:00`)
-  d.setHours(hh, mm, 0, 0)
-  return d.getTime()
-}
+import {
+  brusselsWallClockMs,
+  clockNow,
+  getMatchPhase,
+  getNextMatch,
+} from '../lib/matchPhase'
 
 export function Home() {
   const { matches, datedTrainings } = useSheetData()
-  const nextMatch = matches.find((m) => m.status === 'upcoming')
+  const now = clockNow()
+  const nextMatch = getNextMatch(matches, now)
+  const matchPhase = nextMatch ? getMatchPhase(nextMatch, now) : null
   const nextMatchTitle = nextMatch
     ? formatMatchTitle(nextMatch.venue, nextMatch.opponent)
     : null
-  const nextTraining = getNextTraining(new Date(), datedTrainings)
+  const nextTraining = getNextTraining(now, datedTrainings)
 
   const matchAt = nextMatch
-    ? startMs(nextMatch.date, nextMatch.time.slice(0, 5))
+    ? brusselsWallClockMs(nextMatch.date, nextMatch.time)
     : Number.POSITIVE_INFINITY
   const trainingStart = nextTraining.training.time.slice(0, 5)
-  const trainingAt = startMs(nextTraining.dateIso, trainingStart)
-  const trainingFirst = trainingAt <= matchAt
+  const trainingAt = brusselsWallClockMs(nextTraining.dateIso, trainingStart)
+  const trainingFirst = Number.isFinite(trainingAt) && trainingAt <= matchAt
 
   return (
     <div className="overflow-x-hidden">
@@ -68,7 +69,7 @@ export function Home() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
-                    Volgende match
+                    {matchPhase === 'ongoing' ? 'Nu bezig' : 'Volgende match'}
                   </p>
                   <span className="rounded-full border border-white/12 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-muted">
                     {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}

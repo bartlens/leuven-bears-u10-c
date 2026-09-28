@@ -2,6 +2,12 @@ import type { Match } from '../data/matches'
 import type { DatedTraining } from '../data/trainings'
 import { trainings } from '../data/trainings'
 import { formatMatchTitle } from './formatMatchTitle'
+import {
+  getMatchPhase,
+  getNextMatch,
+  matchHasScore,
+  type MatchPhase,
+} from './matchPhase'
 
 export type CalKind = 'training' | 'match'
 
@@ -13,6 +19,9 @@ export type CalEvent = {
   title: string
   location: string
   meta?: string
+  /** Hoop badge for the current or next match (“Nu bezig” / “Volgende”). */
+  badge?: string
+  phase?: MatchPhase
 }
 
 function pad2(n: number) {
@@ -63,15 +72,27 @@ export function expandTrainingsThrough(
   return [...byDate.values()].sort((a, b) => a.dateIso.localeCompare(b.dateIso))
 }
 
+function matchEventMeta(match: Match, phase: MatchPhase): string {
+  if (matchHasScore(match)) {
+    return `Score ${match.scoreUs}–${match.scoreThem}${match.result ? ` (${match.result})` : ''}`
+  }
+  const venue = match.venue === 'thuis' ? 'Thuiswedstrijd' : 'Uitwedstrijd'
+  if (phase === 'ongoing') return `Nu bezig · ${venue}`
+  if (phase === 'done') return `Afgelopen · ${venue}`
+  return venue
+}
+
 export function buildCalendarEvents(
   dated: DatedTraining[],
   matches: Match[],
+  now = new Date(),
 ): CalEvent[] {
   const lastMatch =
     matches.length > 0
       ? matches.reduce((a, b) => (a.date > b.date ? a : b)).date
       : dated.at(-1)?.dateIso ?? '2026-12-31'
   const trainingsAll = expandTrainingsThrough(dated, lastMatch)
+  const focusId = getNextMatch(matches, now)?.id
 
   const trainingEvents: CalEvent[] = trainingsAll.map((t) => ({
     id: t.id,
@@ -83,20 +104,22 @@ export function buildCalendarEvents(
     meta: t.focus,
   }))
 
-  const matchEvents: CalEvent[] = matches.map((m) => ({
-    id: m.id,
-    kind: 'match',
-    dateIso: m.date,
-    time: m.time,
-    title: formatMatchTitle(m.venue, m.opponent),
-    location: m.location,
-    meta:
-      m.status === 'played' && m.scoreUs != null && m.scoreThem != null
-        ? `Score ${m.scoreUs}–${m.scoreThem}${m.result ? ` (${m.result})` : ''}`
-        : m.venue === 'thuis'
-          ? 'Thuiswedstrijd'
-          : 'Uitwedstrijd',
-  }))
+  const matchEvents: CalEvent[] = matches.map((m) => {
+    const phase = getMatchPhase(m, now)
+    const badge =
+      phase === 'ongoing' ? 'Nu bezig' : m.id === focusId ? 'Volgende' : undefined
+    return {
+      id: m.id,
+      kind: 'match',
+      dateIso: m.date,
+      time: m.time,
+      title: formatMatchTitle(m.venue, m.opponent),
+      location: m.location,
+      meta: matchEventMeta(m, phase),
+      badge,
+      phase,
+    }
+  })
 
   return [...trainingEvents, ...matchEvents].sort((a, b) => {
     const d = a.dateIso.localeCompare(b.dateIso)
