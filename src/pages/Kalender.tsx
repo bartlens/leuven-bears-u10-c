@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SectionHeader } from '../components/SectionHeader'
-import { matchTitleClass } from '../lib/formatMatchTitle'
+import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
+import { clockNow, getMatchPhase, getNextMatch } from '../lib/matchPhase'
 import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import {
@@ -30,16 +31,26 @@ function formatDayHeading(iso: string) {
 
 export function Kalender() {
   const { matches, datedTrainings } = useSheetData()
-  const todayIso = brusselsTodayIso()
+  const now = clockNow()
+  const todayIso = brusselsTodayIso(now)
   const [y, m] = todayIso.split('-').map(Number)
   const [cursor, setCursor] = useState({ year: y!, month: m! - 1 })
   const [selected, setSelected] = useState<string | null>(todayIso)
   const [showAllMonth, setShowAllMonth] = useState(false)
 
   const events = useMemo(
-    () => buildCalendarEvents(datedTrainings, matches),
-    [datedTrainings, matches],
+    () => buildCalendarEvents(datedTrainings, matches, now),
+    [datedTrainings, matches, now],
   )
+  const nextMatch = getNextMatch(matches, now)
+  const nextPhase = nextMatch ? getMatchPhase(nextMatch, now) : null
+
+  const showMatchDay = (dateIso: string) => {
+    const [yy, mm] = dateIso.split('-').map(Number)
+    setShowAllMonth(false)
+    setCursor({ year: yy!, month: mm! - 1 })
+    setSelected(dateIso)
+  }
 
   const byDate = useMemo(() => {
     const map = new Map<string, CalEvent[]>()
@@ -83,6 +94,33 @@ export function Kalender() {
         title="Kalender"
         subtitle={`Alle trainingen en matchen van seizoen ${team.season} op één plek.`}
       />
+
+      {nextMatch && nextPhase && (
+        <button
+          type="button"
+          onClick={() => showMatchDay(nextMatch.date)}
+          className="mb-4 flex w-full items-center justify-between gap-3 rounded-3xl border border-hoop/35 bg-hoop/10 px-4 py-3 text-left touch-manipulation transition hover:bg-hoop/15 sm:px-5"
+        >
+          <span className="min-w-0">
+            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-hoop-bright">
+              {nextPhase === 'ongoing' ? 'Nu bezig' : 'Volgende match'}
+            </span>
+            <span
+              className={`mt-1 block font-display text-base font-bold text-cream sm:text-lg ${matchTitleClass}`}
+              title={formatMatchTitle(nextMatch.venue, nextMatch.opponent)}
+            >
+              {formatMatchTitle(nextMatch.venue, nextMatch.opponent)}
+            </span>
+            <span className="text-meta mt-1 block">
+              {formatDayHeading(nextMatch.date)} · {nextMatch.time} ·{' '}
+              {nextMatch.venue === 'thuis' ? 'Thuis' : 'Uit'}
+            </span>
+          </span>
+          <span className="shrink-0 text-sm font-bold text-hoop-bright">
+            Naar deze dag →
+          </span>
+        </button>
+      )}
 
       <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -219,13 +257,20 @@ export function Kalender() {
                   >
                     {e.title}
                   </p>
-                  <p
-                    className={`text-sm font-bold ${
-                      e.kind === 'match' ? 'text-hoop-bright' : 'text-warm'
-                    }`}
-                  >
-                    {e.time}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {e.badge ? (
+                      <span className="rounded-full bg-hoop/25 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-hoop-bright">
+                        {e.badge}
+                      </span>
+                    ) : null}
+                    <p
+                      className={`text-sm font-bold ${
+                        e.kind === 'match' ? 'text-hoop-bright' : 'text-warm'
+                      }`}
+                    >
+                      {e.time}
+                    </p>
+                  </div>
                 </div>
                 <p className="text-meta mt-1">
                   {e.time} · {e.location}
@@ -272,6 +317,11 @@ export function Kalender() {
                         title={e.title}
                       >
                         {e.title}
+                        {e.badge ? (
+                          <span className="ml-2 inline-flex align-middle rounded-full bg-hoop/25 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-hoop-bright">
+                            {e.badge}
+                          </span>
+                        ) : null}
                       </span>
                       <span className="text-meta mt-0.5 block">
                         {formatDayHeading(e.dateIso)} · {e.time} · {e.location}

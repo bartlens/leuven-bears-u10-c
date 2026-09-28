@@ -5,6 +5,12 @@ import { useSheetData } from '../sheet/SheetProvider'
 import { team } from '../data/team'
 import { attendanceCopy, links } from '../data/links'
 import { formatMatchTitle, matchTitleClass } from '../lib/formatMatchTitle'
+import {
+  clockNow,
+  getMatchPhase,
+  matchHasScore,
+  partitionMatches,
+} from '../lib/matchPhase'
 
 /** First batch of upcoming matches; the rest (and Gespeeld) opens via “Laad meer…”. */
 const INITIAL_UPCOMING = 4
@@ -19,8 +25,8 @@ function formatDate(iso: string) {
 
 export function Matchen() {
   const { matches, afspraken: matchAfspraken } = useSheetData()
-  const upcoming = matches.filter((m) => m.status === 'upcoming')
-  const past = matches.filter((m) => m.status === 'played')
+  const now = clockNow()
+  const { active: upcoming, finished: past } = partitionMatches(matches, now)
   const [showAllUpcoming, setShowAllUpcoming] = useState(false)
   const visibleUpcoming = showAllUpcoming
     ? upcoming
@@ -136,27 +142,37 @@ export function Matchen() {
       <section className="mb-12">
         <h2 className="mb-4 font-display text-xl font-bold text-cream">
           Aankomend (
-          {showAllUpcoming
-            ? upcoming.length
-            : `${visibleUpcoming.length} van ${upcoming.length}`}
+          {upcoming.length === 0
+            ? '0'
+            : showAllUpcoming
+              ? upcoming.length
+              : `${visibleUpcoming.length} van ${upcoming.length}`}
           )
         </h2>
         <div className="space-y-3">
+          {upcoming.length === 0 ? (
+            <p className="rounded-2xl border border-dashed border-white/15 bg-ink-soft px-5 py-8 text-sm text-muted">
+              {past.length > 0
+                ? 'Alle gekende matchen zijn afgelopen.'
+                : 'Geen matchen in de kalender.'}
+            </p>
+          ) : null}
           {visibleUpcoming.map((m, i) => {
             const title = formatMatchTitle(m.venue, m.opponent)
-            const isNext = i === 0
+            const phase = getMatchPhase(m, now)
+            const isFocus = i === 0
             return (
             <article
               key={m.id}
               className={`ui-card card-lift animate-in grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(0,1fr)_auto] ${
-                isNext ? 'border-l-[3px] border-l-hoop' : ''
+                isFocus ? 'border-l-[3px] border-l-hoop' : ''
               }`}
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className="min-w-0">
-                {isNext ? (
+                {isFocus ? (
                   <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-hoop-bright">
-                    Volgende
+                    {phase === 'ongoing' ? 'Nu bezig' : 'Volgende'}
                   </p>
                 ) : null}
                 <h3
@@ -171,9 +187,15 @@ export function Matchen() {
                 </p>
                 <p className="text-meta-caption mt-0.5">{m.location}</p>
               </div>
-              <span className="w-fit self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
-                Nog te spelen
-              </span>
+              {phase === 'ongoing' ? (
+                <span className="w-fit self-start rounded-full bg-hoop/25 px-3 py-1 text-xs font-bold uppercase tracking-wide text-hoop-bright sm:self-center">
+                  Nu bezig
+                </span>
+              ) : (
+                <span className="w-fit self-start rounded-xl border border-dashed border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
+                  Nog te spelen
+                </span>
+              )}
             </article>
             )
           })}
@@ -229,15 +251,21 @@ export function Matchen() {
                   </p>
                   <p className="text-meta-caption mt-0.5">{m.location}</p>
                 </div>
-                <div className="flex items-baseline gap-2 self-start font-display sm:self-center">
-                  <span className="text-3xl font-black text-cream">
-                    {m.scoreUs}
+                {matchHasScore(m) ? (
+                  <div className="flex items-baseline gap-2 self-start font-display sm:self-center">
+                    <span className="text-3xl font-black text-cream">
+                      {m.scoreUs}
+                    </span>
+                    <span className="text-muted">–</span>
+                    <span className="text-3xl font-black text-muted">
+                      {m.scoreThem}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="w-fit self-start rounded-xl border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted sm:self-center">
+                    Afgelopen
                   </span>
-                  <span className="text-muted">–</span>
-                  <span className="text-3xl font-black text-muted">
-                    {m.scoreThem}
-                  </span>
-                </div>
+                )}
               </article>
               )
             })}
